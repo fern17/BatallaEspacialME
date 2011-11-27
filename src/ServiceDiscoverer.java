@@ -1,7 +1,6 @@
 
 
 import javax.bluetooth.RemoteDevice;
-import javax.bluetooth.DataElement;
 import javax.bluetooth.DeviceClass;
 
 import javax.bluetooth.DiscoveryListener;
@@ -25,7 +24,8 @@ public class ServiceDiscoverer implements DiscoveryListener{
 		{}
 	
 	 public void servicesDiscovered(int transId,ServiceRecord[] services) {
-		 System.out.println(services.length);
+		 service = services[0];
+	/*
 	     for(int j=0; j < services.length; j++) {
 		     DataElement dataElementName = services[j].getAttributeValue(0x0100);
 			 String serviceName = (String)dataElementName.getValue();
@@ -41,7 +41,7 @@ public class ServiceDiscoverer implements DiscoveryListener{
 				 break;
 			 }
 			 //break;
-		 }
+		 }*/
 	 }
 	
 	 public void serviceSearchCompleted(int transId,int respCode) {	
@@ -64,7 +64,7 @@ public class ServiceDiscoverer implements DiscoveryListener{
 				       message = "SERVICE_SEARCH_DEVICE_NOT_REACHABLE";
 			           break;
 		 }
-		 
+		 System.out.println(message);
 		 bc.serviceSearchFinished(service);//calling a method from Broadcaster class
 	     bc = null;
 	     service = null;

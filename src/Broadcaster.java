@@ -61,9 +61,9 @@ public class Broadcaster implements CommandListener{
 	//TODO cambiar
 	public static final String SERVICE_NAME = "BatallaEspacialME";
 	public static final String SERVICE_UUID = "112233445566778899AABBCCDDEEFF";
-	public static final int ATTRSET[] 		= {0x0100}; //returns service name attribute
+	public static final int ATTRSET[] 		= null;
 	public static final UUID[] UUIDSET 		= {new UUID(SERVICE_UUID,false)};
-	public static final String SERVICE_URL 	= "btspp://localhost:" + SERVICE_UUID + ";name=" + SERVICE_NAME;
+	public static final String SERVICE_URL 	= "btspp://localhost:" + SERVICE_UUID + ";name=" + SERVICE_NAME + ";authorize=false";
 
 	private int ultimoID = 0;
 	public int cantidadJugadores = -1;
@@ -201,10 +201,9 @@ public class Broadcaster implements CommandListener{
 	         
 	         //busca el servicio de interes
 	         ServiceDiscoverer sDiscoverer = new ServiceDiscoverer(Broadcaster.this); 
-			 int attrset[] = {0x0100}; //returns service name attribute
-			 UUID[] uuidset = {new UUID(SERVICE_UUID,false)};
+			 
 			 try {
-				agent.searchServices(attrset, uuidset, rDevices[index], sDiscoverer);
+				agent.searchServices(ATTRSET, UUIDSET, rDevices[index], sDiscoverer);
 			 } catch (BluetoothStateException e) {
 			 }
 		 }
@@ -218,7 +217,7 @@ public class Broadcaster implements CommandListener{
 	     clients = new Vector();
 	     try {//busca clientes
 			local.setDiscoverable(DiscoveryAgent.GIAC);
-			notifier = (StreamConnectionNotifier) Connector.open(SERVICE_URL);
+			//notifier = (StreamConnectionNotifier) Connector.open(SERVICE_URL);
 			//ServiceRecord record = local.getRecord(notifier);
 		   // String conURL = record.getConnectionURL(ServiceRecord.NOAUTHENTICATE_NOENCRYPT,false);
 		    new Thread() {
@@ -228,11 +227,11 @@ public class Broadcaster implements CommandListener{
 	         }.start();
 			 
 			 while(cantidadJugadores != jugadoresListos){
+				 notifier = (StreamConnectionNotifier) Connector.open(SERVICE_URL);
 				 StreamConnection sc = notifier.acceptAndOpen();
 				 dataOutput.addElement(sc.openDataOutputStream());
 				 dataInput.addElement(sc.openDataInputStream());
 				 clients.addElement(sc);
-				 
 				 notifier.close();
 		         try {
 		              Thread.sleep(50);
@@ -492,15 +491,12 @@ public class Broadcaster implements CommandListener{
 	 public void serviceSearchFinished(ServiceRecord _s){
 		 this.service = _s;
 		 String uerel = "";
-		 
 		 try {
 			 uerel = service.getConnectionURL(ServiceRecord.NOAUTHENTICATE_NOENCRYPT,false);
-			 
 		 } catch (IllegalArgumentException iae1) {
 			 iae1.printStackTrace();
 		 }
 		 try {
-			 
 			 server = (StreamConnection) Connector.open(uerel);
 			 dataOutput.addElement(server.openDataOutputStream()); //se guarda input y output del server
 			 dataInput.addElement(server.openDataInputStream());
