@@ -43,12 +43,12 @@ public class Player {
 	
 	public DisparoJugador disparo = null;
 	public int velocidad;
-	private int escudo;
-	private int potencia;
-	private int cristales;
+	public int escudo;
+	public int potencia;
+	public int cristales;
 	
-	private int vidas 		= 3;
-	private int puntos 		= 0;
+	public int vidas 		= 3;
+	public int puntos 		= 0;
 	
 	
 	private boolean estaVivo = false;

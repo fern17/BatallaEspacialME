@@ -21,9 +21,6 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.TextField;
 
-
-
-
 public class Broadcaster implements CommandListener{
 	//TODO cambiar
 	public static final int[] xiniciales = {10,200,10,50};
@@ -58,8 +55,8 @@ public class Broadcaster implements CommandListener{
 	private Vector clients = null;
 	private Vector dataInput = new Vector();
 	private Vector dataOutput = new Vector();
-	//TODO cambiar
-	public static final String SERVICE_NAME = "BatallaEspacialME";
+	
+	public static final String SERVICE_NAME = "Jueguito";
 	public static final String SERVICE_UUID = "112233445566778899AABBCCDDEEFF";
 	public static final int ATTRSET[] 		= null;
 	public static final UUID[] UUIDSET 		= {new UUID(SERVICE_UUID,false)};

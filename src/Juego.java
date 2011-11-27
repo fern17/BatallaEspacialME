@@ -1,8 +1,11 @@
 import java.util.Random;
 import java.util.Vector;
+
+import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 import javax.microedition.lcdui.game.LayerManager;
+import javax.microedition.lcdui.game.Sprite;
 
 //TODO agregar punto cada vez que mato uno
 public class Juego extends GameCanvas implements Runnable {
@@ -17,6 +20,7 @@ public class Juego extends GameCanvas implements Runnable {
 	public ImageManager im;
 	public Mapa mapa;
 	public String nombreJugador = "";
+	public Sprite s_mascara = null;
 	
 	public Player jugador = null;
 	private Vector naves = new Vector(); //guarda la info de las 4 naves
@@ -27,7 +31,7 @@ public class Juego extends GameCanvas implements Runnable {
 	//TODO pasar a 30000 y 25
 	public int tiempoMonedas = 100; //cuanto tiempo tardan en generarse las monedas
 	private static final int  MAX_MONEDAS = 0; 
-	
+	private Font fuente = null;
 	public Juego(BEMIDlet _m, Broadcaster _bc){
 		super(true);
 		this.midlet = _m;
@@ -41,11 +45,13 @@ public class Juego extends GameCanvas implements Runnable {
 			naves.addElement(e);
 		}
 		mapa = new Mapa(this);
-		
+		fuente = Font.getFont (Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_MEDIUM);
 	}
 	
 	public void run(){
 		lm = new LayerManager();
+		
+		
 		lm.append(jugador.disparo.s_disparo);
 		if(esServidor == false){
 			for(int i = 0; i < broadcaster.cantidadJugadores; i++){
@@ -57,7 +63,7 @@ public class Juego extends GameCanvas implements Runnable {
 		
 		lm.append(jugador.s_player);
 		lm.append(mapa.background);
-		
+		cambiarMascara();
 		
 		Graphics g = getGraphics();
 		long start,end;
@@ -178,8 +184,32 @@ public class Juego extends GameCanvas implements Runnable {
 		lm.setViewWindow(jugador.x-l_w/2,jugador.y-l_h/2,l_w,l_h);
 		lm.paint(g,0,0);
 		
+		g.setFont(fuente);
+		g.setColor(0xFA0000);
+		g.drawString ("Potencia:" + jugador.potencia, 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
+		g.drawString ("Velocidad:" + jugador.velocidad, 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+		g.drawString ("Puntos:" + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
+		g.drawString ("Escudo:" + jugador.escudo, l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
+		g.drawString ("Cristales:" + jugador.cristales, l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
+		g.drawString ("Vidas:" + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
+		
+
+		/*
+		Sprite spr = new Sprite(im.crearRectangulo(0,0,l_w,l_h));
+		spr.setPosition(jugador.x,jugador.y);
+		spr.paint(g);*/
+		
 		flushGraphics();
 	}
+	public void cambiarMascara(){
+		im.generarMascara(0, 0, getWidth(), getHeight(), jugador.x, jugador.y, jugador.cristales);
+		if(s_mascara != null)
+			lm.remove(s_mascara);
+		s_mascara = new Sprite(im.getImgMascara());
+		s_mascara.setPosition(jugador.x - getWidth()/2, jugador.y-getHeight()/2);
+		lm.insert(s_mascara,0);
+	}
+	
 	
 	public void actualizarEstado(String msg){
 		if (msg.length() <= 0) return;
