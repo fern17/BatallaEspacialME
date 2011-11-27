@@ -23,8 +23,8 @@ import javax.microedition.lcdui.TextField;
 
 public class Broadcaster implements CommandListener{
 	//TODO cambiar
-	public static final int[] xiniciales = {10,200,10,50};
-	public static final int[] yiniciales = {10,100,50,50};
+	public static final int[] xiniciales = {300,200,10,50};
+	public static final int[] yiniciales = {300,100,50,50};
 	//Datos sobre cadenas del servidor
 	public static final int dataPosFrameRate = 43;
 	public static final int idx = 3; //indice donde empieza la data de jugadores
@@ -258,7 +258,7 @@ public class Broadcaster implements CommandListener{
 					return; 
 				}
 			}
-			MessageFromServer mfs = new MessageFromServer(mensajeAJugadores, midlet.juego.monedas, midlet.juego.frameRate);
+			MessageFromServer mfs = new MessageFromServer(mensajeAJugadores, midlet.juego.monedas, (int) 1000/midlet.juego.fpsDesdeServer);
 			this.estado = mfs.getMsg(); //tambien me guardo el mensaje para mi
        	 	message = mfs.getMsg();
 		}
@@ -297,17 +297,17 @@ public class Broadcaster implements CommandListener{
 	}
 	
 	public String generarMensaje(){
-		MessageFromServer mfs = new MessageFromServer(mensajeAJugadores, midlet.juego.monedas, midlet.juego.frameRate);
+		MessageFromServer mfs = new MessageFromServer(mensajeAJugadores, midlet.juego.monedas, (int) 1000/midlet.juego.milisegundosEnDibujar);
 		return mfs.getMsg();
 	}
 	
 	public int recalcularFrameRate(){
-		int i_fr = midlet.juego.currentFrameRate;
+		int i_fps = (int) 1000/midlet.juego.milisegundosEnDibujar;
 		for(int i = 0; i < mensajeAJugadores.size(); i++){
 			String maj = (String) mensajeAJugadores.elementAt(i);
-			i_fr = Math.max(i_fr, Integer.parseInt(maj.substring(Broadcaster.dataPosFrameRate).trim())); //recalcula framerate
+			i_fps = Math.max(i_fps, Integer.parseInt(maj.substring(Broadcaster.dataPosFrameRate).trim())); //recalcula framerate
 		}
-		return i_fr;
+		return i_fps;
 	}
 	
 	//envia un mensaje desde un cliente

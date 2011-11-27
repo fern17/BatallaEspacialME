@@ -1,4 +1,6 @@
 import java.io.IOException;
+
+import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 
@@ -42,39 +44,20 @@ public class ImageManager {
 		return Image.createRGBImage(data, source.getWidth(), source.getHeight(), true);
 	}
 	
-	public Image crearCirculo(int x, int y, int r, int w, int h){
-		int [] data = new int[w*h];
-		for(int i = 0; i < w; i++){
-			for(int j = 0; j < h; j++){
-				if(dist(x, y, i, j) <= r){
-					data[i*w+j] = 1;
-				} else {
-					data[i*w+j] = 0;
-				}
-			}
-		}
-		return Image.createRGBImage(data, w, h, true);
-	}
-	
-	public Image crearRectangulo(int x, int y, int w, int h){
-		int [] data = new int[w*h];
-		for(int i = 0; i < data.length; i++)
-			data[i] = 255;
-		/*for(int i = 0; i < w; i++){
-			for(int j = 0; j < h; j++){
-				data[i*w+j] = 1;
-			}
-		}*/
-		return Image.createRGBImage(data, w, h, true);
-	}
-	
 	public static double dist(int x0, int y0, int x1, int y1){
 		return Math.sqrt( (x1-x0)*(x1-x0) + (y1-y0)*(y1-y0));
 	}
 	
 	public void generarMascara(int x0, int y0, int w, int h, int xc, int yc, int r){
-		Image rect = crearRectangulo(x0, y0, w, h);
-		Image circle = crearCirculo(xc, yc, r, w, h);
+		Image rect = Image.createImage(w, h);
+		Graphics g = rect.getGraphics();
+		g.setColor(0x000000);
+		g.fillRect(0, 0, w, h);
+
+		Image circle = Image.createImage(w, h);
+		g = circle.getGraphics();
+		g.setColor(0);
+		g.fillArc(w/2 - r, h/2 - r, 2*r, 2*r, 0, 360);
 		img_mascara = maskImage(rect, circle);
 	}
 	

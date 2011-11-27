@@ -9,14 +9,17 @@ import javax.microedition.lcdui.game.Sprite;
 
 //TODO agregar punto cada vez que mato uno
 public class Juego extends GameCanvas implements Runnable {
-	public int frameRate = 0;
-	public int currentFrameRate = 0;
+	public int fpsDesdeServer = 30;
+	public int milisegundosEnDibujar = 33;
+	public static final int FRAMESAT30 = 33;
+	public static final int FPSLIMITE = 30;
 	
 	private BEMIDlet midlet;
 	public Broadcaster broadcaster;
 	private int gameState = GameState.DEFAULT;
 	
 	public LayerManager lm;
+	public LayerManager lm2;
 	public ImageManager im;
 	public Mapa mapa;
 	public String nombreJugador = "";
@@ -30,7 +33,7 @@ public class Juego extends GameCanvas implements Runnable {
 	public int idMonedaNueva = 0; // identificador de las monedas
 	//TODO pasar a 30000 y 25
 	public int tiempoMonedas = 100; //cuanto tiempo tardan en generarse las monedas
-	private static final int  MAX_MONEDAS = 0; 
+	private static final int  MAX_MONEDAS = 3; 
 	private Font fuente = null;
 	public Juego(BEMIDlet _m, Broadcaster _bc){
 		super(true);
@@ -51,7 +54,6 @@ public class Juego extends GameCanvas implements Runnable {
 	public void run(){
 		lm = new LayerManager();
 		
-		
 		lm.append(jugador.disparo.s_disparo);
 		if(esServidor == false){
 			for(int i = 0; i < broadcaster.cantidadJugadores; i++){
@@ -63,7 +65,9 @@ public class Juego extends GameCanvas implements Runnable {
 		
 		lm.append(jugador.s_player);
 		lm.append(mapa.background);
-		cambiarMascara();
+		
+		lm2 = new LayerManager();
+		actualizarCristales();
 		
 		Graphics g = getGraphics();
 		long start,end;
@@ -151,21 +155,31 @@ public class Juego extends GameCanvas implements Runnable {
 					generarMoneda(l_x,l_y,Moneda.NORMAL);
 					t_monedas = 0;
 				} else {
-					t_monedas = t_monedas + frameRate;
+					//TODO fix
+					t_monedas = t_monedas + fpsDesdeServer;
 				}
 			}
 			//sync
 			end = System.currentTimeMillis();
 
-			currentFrameRate = (int)(end - start);			
+			milisegundosEnDibujar = (int)(end - start);			
 			
 			if(esServidor == true){//recalcular fr
-				frameRate = broadcaster.recalcularFrameRate();
+				fpsDesdeServer = broadcaster.recalcularFrameRate();
 			}
 			
-			if (currentFrameRate < frameRate) { //si demoro menos de lo que me pidio el server
+			int fpsActual = (int) 1000/milisegundosEnDibujar;
+			
+			if(fpsActual > FPSLIMITE){ //si soy mas rapido que el limite, espero hasta el limite
 				try {
-					Thread.sleep(frameRate - currentFrameRate);
+					Thread.sleep(FRAMESAT30 - milisegundosEnDibujar);
+				} 
+				catch (InterruptedException ie) {break;}
+			}
+			else if (fpsActual > fpsDesdeServer) { //si demoro menos de lo que me pidio el server
+				try {
+					int milisegundosDelServer = 1000 / fpsDesdeServer;
+					Thread.sleep(milisegundosDelServer - milisegundosEnDibujar);
 				} 
 				catch (InterruptedException ie) {break;}
 			}
@@ -184,8 +198,13 @@ public class Juego extends GameCanvas implements Runnable {
 		lm.setViewWindow(jugador.x-l_w/2,jugador.y-l_h/2,l_w,l_h);
 		lm.paint(g,0,0);
 		
+		lm2.setViewWindow(jugador.x-l_w/2,jugador.y-l_h/2,l_w,l_h);
+		s_mascara.setPosition(jugador.x - l_w/2, jugador.y - l_h/2);
+		lm2.paint(g,0,0);
+		
 		g.setFont(fuente);
 		g.setColor(0xFA0000);
+		g.drawString ("$:" + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
 		g.drawString ("Potencia:" + jugador.potencia, 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
 		g.drawString ("Velocidad:" + jugador.velocidad, 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
 		g.drawString ("Puntos:" + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
@@ -193,27 +212,20 @@ public class Juego extends GameCanvas implements Runnable {
 		g.drawString ("Cristales:" + jugador.cristales, l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
 		g.drawString ("Vidas:" + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
 		
-
-		/*
-		Sprite spr = new Sprite(im.crearRectangulo(0,0,l_w,l_h));
-		spr.setPosition(jugador.x,jugador.y);
-		spr.paint(g);*/
-		
 		flushGraphics();
 	}
-	public void cambiarMascara(){
+	public void actualizarCristales(){
 		im.generarMascara(0, 0, getWidth(), getHeight(), jugador.x, jugador.y, jugador.cristales);
-		if(s_mascara != null)
-			lm.remove(s_mascara);
 		s_mascara = new Sprite(im.getImgMascara());
-		s_mascara.setPosition(jugador.x - getWidth()/2, jugador.y-getHeight()/2);
-		lm.insert(s_mascara,0);
+		if(s_mascara != null) 
+			lm2.remove(s_mascara);
+		lm2.append(s_mascara);
 	}
 	
 	
 	public void actualizarEstado(String msg){
 		if (msg.length() <= 0) return;
-		frameRate = Integer.parseInt(msg.substring(0,3).trim()); //actualiza framerate que le paso el server
+		fpsDesdeServer = Integer.parseInt(msg.substring(0,3).trim()); //actualiza framerate que le paso el server
 		
 		for(int i = 0; i < naves.size(); i++){
 			if(i != jugador.identificador)
@@ -225,6 +237,10 @@ public class Juego extends GameCanvas implements Runnable {
 		int end 	= 0;
 		
 		//busqueda de disparos
+		for(int i = 0; i < disparos.size() ; i++){
+			DisparoEnemigo de = (DisparoEnemigo) disparos.elementAt(i);
+			lm.remove(de.s_disparoenemigo);
+		}
 		disparos.removeAllElements();
 		for(int i = 0; i < broadcaster.cantidadJugadores & end < msg.length(); i++){ 		//recorro los 4 jugadores
 			start		= idx + i*step; 		//indice donde empieza la cadena para el jugador i
@@ -248,6 +264,10 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 		
 		if(esServidor == false){
+			for(int i = 0; i < monedas.size(); i++){
+				Moneda m = (Moneda) monedas.elementAt(i);
+				lm.remove(m.s_moneda);
+			}
 			monedas.removeAllElements();
 			String l_monedas = msg.substring(end);
 			
@@ -263,10 +283,11 @@ public class Juego extends GameCanvas implements Runnable {
 				
 				if(l_monval == Moneda.valorMonedaNormal) l_monval = Moneda.NORMAL;
 				else l_monval = Moneda.ESPECIAL;
+				
 				Moneda m = new Moneda(this, l_idM,l_monx,l_mony,l_monval);
 				monedas.addElement(m);
-				//TODO revisar
 				lm.insert(m.s_moneda,0);
+				
 				l_start = l_end;
 			}
 		}
@@ -337,6 +358,7 @@ public class Juego extends GameCanvas implements Runnable {
 				Enemy e = (Enemy) naves.elementAt(j);
 				if(e.colisionar(m)){
 					monedas.removeElement(m);
+					lm.remove(m.s_moneda);
 				}
 			}
 		}

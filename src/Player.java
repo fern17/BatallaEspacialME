@@ -50,7 +50,6 @@ public class Player {
 	public int vidas 		= 3;
 	public int puntos 		= 0;
 	
-	
 	private boolean estaVivo = false;
 	public boolean puedeDisparar = true;
 	//cuanto sale cada mejora
@@ -76,12 +75,10 @@ public class Player {
 		s_player.setRefPixelPosition(24, 24); //centra las coordenadas
 		cambiarFrame();
 		estaVivo = true;
-		
 	}
 	
 	
 	public void dibujar(Graphics g){
-		
 		this.s_player.paint(g);
 		this.disparo.dibujar(g);
 	}
@@ -93,7 +90,7 @@ public class Player {
 		
 		MessageFromPlayer mfp = 
 			new MessageFromPlayer(identificador, nombre, escudo, x, y, dir,
-								  life, disparo.potencia, disparo.x, disparo.y, idmoneda, juego.currentFrameRate);
+								  life, disparo.potencia, disparo.x, disparo.y, idmoneda, (int) 1000/juego.milisegundosEnDibujar);
 		return mfp.getMsg();
 	}
 	
@@ -185,7 +182,7 @@ public class Player {
 				juego.borrarJugador(this);
 				//estaVivo = false;
 			}
-			setInicio(false);
+			setInicio(true);
 			return -1; 	//escudo destruido 
 		}
 		return escudo;	//escudo restante
@@ -195,7 +192,7 @@ public class Player {
 	public void mover(int _direccion){
 		dir = _direccion;
 		//TODO revisar
-		//step = velocidad/juego.frameRate;
+		step = velocidad;
 		switch(dir){
 			case Player.DIRN:{
 				this.y = this.y - step;
@@ -301,6 +298,7 @@ public class Player {
 			dinero 		= dinero - costoCristales();
 			cristales	= (int) ( (double) cristales * 1.2); //agrega 20%
 			inicio_c	= cristales;
+			juego.actualizarCristales();
 			return true;
 		} else {
 			return false;
