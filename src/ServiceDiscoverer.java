@@ -25,23 +25,6 @@ public class ServiceDiscoverer implements DiscoveryListener{
 	
 	 public void servicesDiscovered(int transId,ServiceRecord[] services) {
 		 service = services[0];
-	/*
-	     for(int j=0; j < services.length; j++) {
-		     DataElement dataElementName = services[j].getAttributeValue(0x0100);
-			 String serviceName = (String)dataElementName.getValue();
-			 System.out.println(serviceName);
-			 System.out.println(Broadcaster.SERVICE_NAME);
-			 //what?
-			// service = services[j];
-			 
-			 
-			 if(serviceName.equals(Broadcaster.SERVICE_NAME)){
-				 service = services[j];
-				 //TODO check
-				 break;
-			 }
-			 //break;
-		 }*/
 	 }
 	
 	 public void serviceSearchCompleted(int transId,int respCode) {	
@@ -64,7 +47,6 @@ public class ServiceDiscoverer implements DiscoveryListener{
 				       message = "SERVICE_SEARCH_DEVICE_NOT_REACHABLE";
 			           break;
 		 }
-		 System.out.println(message);
 		 bc.serviceSearchFinished(service);//calling a method from Broadcaster class
 	     bc = null;
 	     service = null;
