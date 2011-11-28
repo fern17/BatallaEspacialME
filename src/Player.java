@@ -53,7 +53,7 @@ public class Player {
 	public int vidas 		= 3;
 	public int puntos 		= 0;
 	
-	private boolean estaVivo = false;
+	public boolean estaVivo = false;
 	public boolean puedeDisparar = true;
 	//cuanto sale cada mejora
 	private int mejoraVelocidad 	= 10;
@@ -94,6 +94,8 @@ public class Player {
 		MessageFromPlayer mfp = 
 			new MessageFromPlayer(identificador, nombre, escudo, x, y, dir,
 								  life, disparo.potencia, disparo.x, disparo.y, idmoneda, idAsesino, (int) 1000/juego.milisegundosEnDibujar);
+		
+		estaVivo = true; //lo revivo DESPUES de mandar el mensaje
 		return mfp.getMsg();
 	}
 	
@@ -160,6 +162,7 @@ public class Player {
 		this.x 			= this.xinicio;
 		this.y 			= this.yinicio;
 		this.dir	    = Player.DIRN;
+		//estaVivo		= true;
 		if(inicialesTodo == true){
 			this.escudo 	= this.inicio_e;
 			this.velocidad 	= this.inicio_v;
@@ -185,6 +188,7 @@ public class Player {
 			juego.generarMoneda(this.x,this.y,Moneda.ESPECIAL);
 			//TODO pasar id moneda nueva
 			idAsesino = _de.id;
+			estaVivo = false;
 		
 			decrementarVida();
 			if(vidas == 0){

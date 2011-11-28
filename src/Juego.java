@@ -246,9 +246,9 @@ public class Juego extends GameCanvas implements Runnable {
 			end 		= start + step; 		//indice donde termina la cadena para el jugador i
 			if(end > msg.length()) return; //no sigo buscando porque me voy del rango
 			String t 	= msg.substring(start, end); //discrimino el mensaje del jugador i
-			System.out.println("0");
 			int t_id 	= Integer.parseInt(t.substring(0,Broadcaster.dataPosNombre).trim());	//obtengo el id
 			char t_asesino = t.charAt(t.length()-1); //es el ultimo caracter
+			System.out.println("asesino" + t_asesino);
 			if(t_asesino != 'V'){ //si no esta vivo
 				int t_as = Integer.parseInt("" + t_asesino);
 				if(t_as == this.jugador.identificador) //si mate a alguien en el turno anterior
