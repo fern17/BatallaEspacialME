@@ -7,7 +7,6 @@ import javax.microedition.lcdui.game.GameCanvas;
 import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.Sprite;
 
-//TODO agregar punto cada vez que mato uno
 public class Juego extends GameCanvas implements Runnable {
 	public int fpsDesdeServer = 30;
 	public int milisegundosEnDibujar = 33;
@@ -140,7 +139,7 @@ public class Juego extends GameCanvas implements Runnable {
 			else 						broadcaster.sendMessageFromClient(mensaje); //jugador envia su info
 			
 			//recibe el estado de todos
-			//actualizarEstado(broadcaster.estado);
+			actualizarEstado(broadcaster.estado);
 			
 			//dibujar
 			render(g);
@@ -181,6 +180,7 @@ public class Juego extends GameCanvas implements Runnable {
 				} 
 				catch (InterruptedException ie) {break;}
 			}
+			if(esServidor) broadcaster.enviarServer();
 			
 		}
 	}
@@ -328,7 +328,8 @@ public class Juego extends GameCanvas implements Runnable {
 		int t_y 	= Integer.parseInt(t.substring(Broadcaster.dataPosY,Broadcaster.dataPosDir).trim());
 		String t_asesino = t.substring(Broadcaster.dataPosVM,Broadcaster.dataPosVM+1);
 		if(!t_asesino.equals("V")){ //si no esta vivo
-			generarMoneda(t_x,t_y,Moneda.ESPECIAL);
+			//TODO
+			//generarMoneda(t_x,t_y,Moneda.ESPECIAL);
 		}
 	}
 	

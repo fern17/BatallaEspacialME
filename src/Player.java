@@ -75,8 +75,9 @@ public class Player {
 		_nombre.getChars(0, _nombre.length(), this.nombre, 0);
 		setInicio(); //setea valores por defecto
 		s_player = new Sprite(juego.im.getImgNavePlayer(),48,48);
-		s_player.setPosition(this.x, this.y);
+		
 		s_player.setRefPixelPosition(24, 24); //centra las coordenadas
+		s_player.setPosition(this.x, this.y);
 		cambiarFrame();
 		estaVivo = true;
 	}

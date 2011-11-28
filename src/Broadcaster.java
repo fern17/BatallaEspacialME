@@ -274,9 +274,9 @@ public class Broadcaster implements CommandListener{
 	 }//fin sendMessageFromServer
 
 	public void enviarServer(){
-		new Thread() {
-       	 public void run() {
-       		while(true){
+		//new Thread() {
+       	 //public void run() {
+       		//while(true){
 	   			if(midlet.getState() == GameState.RUNNING){
 	   				for(int i = 0; i < mensajeAJugadores.size(); i++){ //evita mandar el mensaje
 	   					if( ((String) mensajeAJugadores.elementAt(i)).length() == 0){
@@ -286,16 +286,15 @@ public class Broadcaster implements CommandListener{
 	   				estado = generarMensaje(); //tambien me guardo el mensaje para mi
 	   				Broadcast(-1, estado); //envia el mensaje a todos
 	   			}
-	   			try {
+	   			/*try {
 	   				//TODO
-	   				Thread.sleep(0);
-					//Thread.sleep(midlet.juego.frameRate);
+					Thread.sleep((1000/midlet.juego.fpsDesdeServer)/3);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
-    		}
-       	 }
-        }.start();
+				}*/
+    		//}
+       	// }
+        //}.start();
 	}
 	
 	public String generarMensaje(){
@@ -351,103 +350,107 @@ public class Broadcaster implements CommandListener{
 							try {
 			                	//recibe mensaje
 			    				DataInputStream in = (DataInputStream) dataInput.elementAt(i);
-			    				if(in.available() != 0){
-			    					String message = in.readUTF();
-				                    int gs = midlet.getState();
-				                    
-				                    if(message.length() <= BEMIDlet.MAX_NAME_LENGTH 
-				                    	& message.length() >= BEMIDlet.MIN_NAME_LENGTH){ //el mensaje contiene solo el nombre del jugador
-				                    	
-				                    	//alguien se quiere unir a la partida
-				                    	ultimoID++;
-				                    	int i_id = ultimoID; //le genero un id
-				                    	//le calculo sus datos iniciales
-				                    	int i_x = 0;
-				                    	int i_y = 0;
-				                    	form.append(message + " se ha conectado. ID: " + String.valueOf(i_id));
-				                    	i_x = xiniciales[i_id];
-				                    	i_y = yiniciales[i_id];
-				                    	
-				                    	//le genero el mensaje de respuesta
-				                    	String response = "";
-				                    	String s_id = String.valueOf(i_id);
-				                    	String s_x = String.valueOf(i_x);
-				                    	String s_y = String.valueOf(i_y);
-				                    	String s_cjugadores = String.valueOf(cantidadJugadores);
-				                    	s_id = MessageFromPlayer.charFill(s_id, 4, ' '); //rellena el id con ceros
-				                    	s_x = MessageFromPlayer.charFill(s_x, 4, ' ');
-				                    	s_y = MessageFromPlayer.charFill(s_y, 4, ' ');
-				                    	String s_mapa =  midlet.juego.mapa.mapaEnString(2);
-				                    	
-				                    	midlet.setState(GameState.RESPONSE);
-				                    	//le devuelve el id, el mensaje, x e y, y el mapa
-				                    	response = s_cjugadores + s_id + s_x + s_y + s_mapa; //CODING HORROR! 
-				                    	
-				                    	DataOutputStream out = (DataOutputStream) dataOutput.elementAt(i);
-				            			//Escribimos datos en el stream
-				            			out.writeUTF(response);
-				            			out.flush();
-				                    	midlet.setState(GameState.WAITING_PLAYERS); //se queda esperando jugadores de nuevo
-				                    	jugadoresListos++;
-				                    	if(jugadoresListos == cantidadJugadores){
-				                    		midlet.setState(GameState.READYTOSTART); //ahora si esta listo para jugar
-				                    	 	form.addCommand(startGame); //shall we dance?
-				                    	 }
-				                     }
-				                     if(message.length() != 0 & gs == GameState.RUNNING){ //recibe la informacion de algun jugador
-				                    	 int i_id = Integer.parseInt(message.substring(Broadcaster.dataPosId,Broadcaster.dataPosNombre).trim()); //extrae el id
-				                    	 //TODO muy lento y no anda
-				                    	 //juego.crearMonedasPorMuertos(message);
-				                    	 mensajeAJugadores.setElementAt(message, i_id); //almaceno el mensaje
-				                     }
-			    				}
+			    				int gs = midlet.getState();
+			    				if( gs == GameState.WAITING_PLAYERS){
+			                    	if(in.available() != 0) {
+				    					String message = in.readUTF();
+				    					if(message.length() <= BEMIDlet.MAX_NAME_LENGTH 
+						                & message.length() >= BEMIDlet.MIN_NAME_LENGTH){ //el mensaje contiene solo el nombre del jugador
+					                    	//alguien se quiere unir a la partida
+					                    	ultimoID++;
+					                    	int i_id = ultimoID; //le genero un id
+					                    	//le calculo sus datos iniciales
+					                    	int i_x = 0;
+					                    	int i_y = 0;
+					                    	form.append(message + " se ha conectado. ID: " + String.valueOf(i_id));
+					                    	i_x = xiniciales[i_id];
+					                    	i_y = yiniciales[i_id];
+					                    	
+					                    	//le genero el mensaje de respuesta
+					                    	String response = "";
+					                    	String s_id = String.valueOf(i_id);
+					                    	String s_x = String.valueOf(i_x);
+					                    	String s_y = String.valueOf(i_y);
+					                    	String s_cjugadores = String.valueOf(cantidadJugadores);
+					                    	s_id = MessageFromPlayer.charFill(s_id, 4, ' '); //rellena el id con ceros
+					                    	s_x = MessageFromPlayer.charFill(s_x, 4, ' ');
+					                    	s_y = MessageFromPlayer.charFill(s_y, 4, ' ');
+					                    	String s_mapa =  midlet.juego.mapa.mapaEnString(2);
+					                    	
+					                    	midlet.setState(GameState.RESPONSE);
+					                    	//le devuelve el id, el mensaje, x e y, y el mapa
+					                    	response = s_cjugadores + s_id + s_x + s_y + s_mapa; //CODING HORROR! 
+					                    	
+					                    	DataOutputStream out = (DataOutputStream) dataOutput.elementAt(i);
+					            			//Escribimos datos en el stream
+					            			out.writeUTF(response);
+					            			out.flush();
+					                    	midlet.setState(GameState.WAITING_PLAYERS); //se queda esperando jugadores de nuevo
+					                    	jugadoresListos++;
+					                    	if(jugadoresListos == cantidadJugadores){
+					                    		midlet.setState(GameState.READYTOSTART); //ahora si esta listo para jugar
+					                    	 	form.addCommand(startGame); //shall we dance?
+					                    	 }
+				    					}
+			                    	}
+			                    }
+			                    if(gs == GameState.RUNNING){ //recibe la informacion de algun jugador
+			                    	String message = in.readUTF();
+			                    	 int i_id = Integer.parseInt(message.substring(Broadcaster.dataPosId,Broadcaster.dataPosNombre).trim()); //extrae el id
+			                    	 mensajeAJugadores.setElementAt(message, i_id); //almaceno el mensaje
+			                     }
 							} catch(IOException ioe4) {}
 						}
 			        
 			         try {
-			             Thread.sleep(10);
+			             Thread.sleep((1000/juego.fpsDesdeServer)/2);
 			         } catch (InterruptedException ie) {}
+			         
 			     }
 	       	 }
 		}.start();
 	 }
 	 
 	 private void startRecieverClient(){
-		 while(true) {
-			 try{
-				//recibe mensaje
-				DataInputStream in = (DataInputStream) dataInput.elementAt(0); 
-				
-				//Leemos el mensaje y lo mostramos por pantalla
-				String message = in.readUTF();
-
-				int gs = midlet.juego.getGameState();
-
-				if(message.length() != 0 & message.equals("start")){
-					midlet.juego.setGameState(GameState.RUNNING); //empieza el juego
-					midlet.juego.start();
-                }
-				
-				if(message.length() != 0 & gs == GameState.WAITING){ //esta esperando su id y el mapa
-					int i_cjugadores = Integer.parseInt(message.substring(0,1));
-					int i_id = Integer.parseInt(message.substring(1,5).trim());
-					int i_x = Integer.parseInt(message.substring(5,9).trim());
-					int i_y = Integer.parseInt(message.substring(9,13).trim());
-					
-					this.cantidadJugadores = i_cjugadores;
-					midlet.juego.setDatosJugador(i_id,i_x,i_y);
-					
-					midlet.juego.crearMapa(message.substring(13));
-					
-					form.append("ID recibida = " + String.valueOf(i_id));
-					midlet.setState(GameState.READY);
-				}
-				else if(message.length() != 0 & gs == GameState.RUNNING){ //recibe la informacion de todos los jugadores por parte del servidor
-					this.estado = message; //guardo lo recibido en una variable miembro, para luego leerla desde afuera
-				}
-			 
-			 } catch(IOException e) { }
-		 } 
+		 new Thread() {
+			 public void run() {
+				 while(true) {
+					 try{
+						//recibe mensaje
+						DataInputStream in = (DataInputStream) dataInput.elementAt(0); 
+						
+						//Leemos el mensaje y lo mostramos por pantalla
+						String message = in.readUTF();
+			
+						int gs = midlet.juego.getGameState();
+			
+						if(message.length() != 0 & message.equals("start")){
+							midlet.juego.setGameState(GameState.RUNNING); //empieza el juego
+							midlet.juego.start();
+			            }
+						
+						if(message.length() != 0 & gs == GameState.WAITING){ //esta esperando su id y el mapa
+							int i_cjugadores = Integer.parseInt(message.substring(0,1));
+							int i_id = Integer.parseInt(message.substring(1,5).trim());
+							int i_x = Integer.parseInt(message.substring(5,9).trim());
+							int i_y = Integer.parseInt(message.substring(9,13).trim());
+							
+							cantidadJugadores = i_cjugadores;
+							midlet.juego.setDatosJugador(i_id,i_x,i_y);
+							
+							midlet.juego.crearMapa(message.substring(13));
+							
+							form.append("ID recibida = " + String.valueOf(i_id));
+							midlet.setState(GameState.READY);
+						}
+						else if(message.length() != 0 & gs == GameState.RUNNING){ //recibe la informacion de todos los jugadores por parte del servidor
+							estado = message; //guardo lo recibido en una variable miembro, para luego leerla desde afuera
+						}
+					 
+					 } catch(IOException e) { }
+				 }
+		        }
+	     }.start();
 	 }
 	 
 	 public void setInfoServer(String message){
@@ -469,9 +472,6 @@ public class Broadcaster implements CommandListener{
     			//Escribimos datos en el stream
     			out.writeUTF(message);
     			out.flush();
-    			//Cerramos la conexion
-    			//NOT
-    			
 	        } catch (IOException ioe5) {
 	            clients.removeElementAt(i);
 	            --i;
@@ -504,12 +504,7 @@ public class Broadcaster implements CommandListener{
 			 server = (StreamConnection) Connector.open(uerel);
 			 dataOutput.addElement(server.openDataOutputStream()); //se guarda input y output del server
 			 dataInput.addElement(server.openDataInputStream());
-		     new Thread() {
-		        public void run() {
-					startRecieverClient();
-		        }
-		     }.start();
-		     
+			 startRecieverClient();
 		 } catch(IOException ioe1) {}
 	 }
 
