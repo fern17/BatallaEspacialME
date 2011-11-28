@@ -29,10 +29,11 @@ public class Player {
 	
 	private int step = 1; //cuanto se mueve por frame
 	
-	public int dinero = 100;
+	//TODO arreglar
+	public int dinero = 2000;
 	
 	//COSAS TEMPORALES
-	private int idmoneda 	= 3145; 
+	private int idmoneda 	= 345; 
 	//FIN TEMPORALES
 	
 	//Atributos

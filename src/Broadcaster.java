@@ -375,7 +375,7 @@ public class Broadcaster implements CommandListener{
 				                    	s_id = MessageFromPlayer.charFill(s_id, 4, ' '); //rellena el id con ceros
 				                    	s_x = MessageFromPlayer.charFill(s_x, 4, ' ');
 				                    	s_y = MessageFromPlayer.charFill(s_y, 4, ' ');
-				                    	String s_mapa =  midlet.juego.mapa.mapaEnString();
+				                    	String s_mapa =  midlet.juego.mapa.mapaEnString(2);
 				                    	
 				                    	midlet.setState(GameState.RESPONSE);
 				                    	//le devuelve el id, el mensaje, x e y, y el mapa

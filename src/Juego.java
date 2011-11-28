@@ -64,7 +64,9 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 		
 		lm.append(jugador.s_player);
-		lm.append(mapa.background);
+		lm.append(mapa.backgroundL2);
+		lm.append(mapa.backgroundL1);
+		
 		
 		lm2 = new LayerManager();
 		actualizarCristales();
@@ -149,14 +151,12 @@ public class Juego extends GameCanvas implements Runnable {
 			if(esServidor == true){
 				if(monedas.size() < Juego.MAX_MONEDAS & t_monedas >= tiempoMonedas){
 					Random r = new Random();
-					//TODO agregar un 0
-					int l_x = 0+r.nextInt(100);
-					int l_y = 0+r.nextInt(100);
+					int l_x = 0+r.nextInt(1000);
+					int l_y = 0+r.nextInt(1000);
 					generarMoneda(l_x,l_y,Moneda.NORMAL);
 					t_monedas = 0;
 				} else {
-					//TODO fix
-					t_monedas = t_monedas + fpsDesdeServer;
+					t_monedas = t_monedas + 1000/fpsDesdeServer;
 				}
 			}
 			//sync
