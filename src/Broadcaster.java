@@ -69,6 +69,7 @@ public class Broadcaster implements CommandListener{
 	private int jugadoresListos	= 0;
 	
 	private BEMIDlet midlet 	= null;
+	public Juego juego 			= null;
 
 	private Form 	form;
 	private Command exit;
@@ -85,7 +86,7 @@ public class Broadcaster implements CommandListener{
 	private TextField tf;
 	
 	public String estado = "";
-	private Vector mensajeAJugadores = new Vector();
+	public Vector mensajeAJugadores = new Vector();
 	
 	public Broadcaster(BEMIDlet _m, Display _d){
 		midlet 		= _m;
@@ -395,6 +396,8 @@ public class Broadcaster implements CommandListener{
 				                     }
 				                     if(message.length() != 0 & gs == GameState.RUNNING){ //recibe la informacion de algun jugador
 				                    	 int i_id = Integer.parseInt(message.substring(Broadcaster.dataPosId,Broadcaster.dataPosNombre).trim()); //extrae el id
+				                    	 //TODO muy lento y no anda
+				                    	 //juego.crearMonedasPorMuertos(message);
 				                    	 mensajeAJugadores.setElementAt(message, i_id); //almaceno el mensaje
 				                     }
 			    				}

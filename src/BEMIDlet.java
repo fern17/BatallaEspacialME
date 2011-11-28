@@ -26,6 +26,7 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 	    
 	    broadcaster = new Broadcaster(this,display);
 	    juego = new Juego(this, broadcaster);
+	    broadcaster.juego = this.juego;
 	    
 	    compra = new Compra(display,juego);
 	    

@@ -32,11 +32,8 @@ public class Player {
 	//TODO arreglar
 	public int dinero = 2000;
 	
-	//COSAS TEMPORALES
-	private int idmoneda 	= 345; 
-	//FIN TEMPORALES
-	
-	
+	public int idMoneda 	= -1; 
+
 	private int idAsesino = -1;
 	//Atributos
 	private int inicio_v 	= 10;
@@ -69,10 +66,12 @@ public class Player {
 		this.identificador = _id;
 		this.xinicio = _xinicio;
 		this.yinicio = _yinicio;
+		this.x = _xinicio;
+		this.y = _yinicio;
 		this.disparo = new DisparoJugador(juego, this);
 		
 		_nombre.getChars(0, _nombre.length(), this.nombre, 0);
-		setInicio(true); //setea valores por defecto
+		setInicio(); //setea valores por defecto
 		s_player = new Sprite(juego.im.getImgNavePlayer(),48,48);
 		s_player.setPosition(this.x, this.y);
 		s_player.setRefPixelPosition(24, 24); //centra las coordenadas
@@ -93,9 +92,14 @@ public class Player {
 		
 		MessageFromPlayer mfp = 
 			new MessageFromPlayer(identificador, nombre, escudo, x, y, dir,
-								  life, disparo.potencia, disparo.x, disparo.y, idmoneda, idAsesino, (int) 1000/juego.milisegundosEnDibujar);
+								  life, disparo.potencia, disparo.x, disparo.y, idMoneda, idAsesino, (int) 1000/juego.milisegundosEnDibujar);
 		
-		estaVivo = true; //lo revivo DESPUES de mandar el mensaje
+		//lo revivo DESPUES de mandar el mensaje
+		if(estaVivo == false){
+			setInicio();
+		}
+		
+				
 		return mfp.getMsg();
 	}
 	
@@ -158,17 +162,16 @@ public class Player {
 		return vidas;
 	}
 	
-	public void setInicio(boolean inicialesTodo){
+	public void setInicio(){
 		this.x 			= this.xinicio;
 		this.y 			= this.yinicio;
 		this.dir	    = Player.DIRN;
-		//estaVivo		= true;
-		if(inicialesTodo == true){
-			this.escudo 	= this.inicio_e;
-			this.velocidad 	= this.inicio_v;
-			this.potencia 	= this.inicio_p;
-			this.cristales 	= this.inicio_c;
-		}
+		this.estaVivo		= true;
+		this.escudo 	= this.inicio_e;
+		this.velocidad 	= this.inicio_v;
+		this.potencia 	= this.inicio_p;
+		this.cristales 	= this.inicio_c;
+		this.idMoneda = -1;
 	}
 	
 	public void setDisparar(boolean _d){
@@ -185,17 +188,14 @@ public class Player {
 		
 		escudo = escudo - _potenciaDisparo;
 		if(escudo < 0){ 			//puede andar con 0 de escudo
-			juego.generarMoneda(this.x,this.y,Moneda.ESPECIAL);
-			//TODO pasar id moneda nueva
 			idAsesino = _de.id;
 			estaVivo = false;
-		
 			decrementarVida();
 			if(vidas == 0){
 				juego.borrarJugador(this);
 				//estaVivo = false;
 			}
-			setInicio(true);
+			//setInicio();
 			return -1; 	//escudo destruido 
 		}
 		return escudo;	//escudo restante

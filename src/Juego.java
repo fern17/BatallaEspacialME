@@ -248,7 +248,6 @@ public class Juego extends GameCanvas implements Runnable {
 			String t 	= msg.substring(start, end); //discrimino el mensaje del jugador i
 			int t_id 	= Integer.parseInt(t.substring(0,Broadcaster.dataPosNombre).trim());	//obtengo el id
 			char t_asesino = t.charAt(t.length()-1); //es el ultimo caracter
-			System.out.println("asesino" + t_asesino);
 			if(t_asesino != 'V'){ //si no esta vivo
 				int t_as = Integer.parseInt("" + t_asesino);
 				if(t_as == this.jugador.identificador) //si mate a alguien en el turno anterior
@@ -269,7 +268,10 @@ public class Juego extends GameCanvas implements Runnable {
 			disparos.addElement(de);//agrega un disparo
 			lm.insert(de.s_disparoenemigo, 0);
 		}
-		
+		if(esServidor == true){
+			borrarMonedas();
+			crearMonedasPorMuertos(msg);
+		}
 		if(esServidor == false){
 			for(int i = 0; i < monedas.size(); i++){
 				Moneda m = (Moneda) monedas.elementAt(i);
@@ -299,6 +301,36 @@ public class Juego extends GameCanvas implements Runnable {
 			}
 		}
 		 
+	}
+	
+	public void borrarMonedas(){
+		for(int i = 0; i < broadcaster.mensajeAJugadores.size(); i++){ 		//recorro los 4 jugadores
+			String t 	= (String) broadcaster.mensajeAJugadores.elementAt(i); 
+			int t_id	= Integer.parseInt(t.substring(Broadcaster.dataPosMoneda,Broadcaster.dataPosFrameRate).trim());
+			if(t_id != -1){
+				for(int j = 0; j < monedas.size(); j++){
+					Moneda m = (Moneda) monedas.elementAt(j);
+					if(m.id == t_id){
+						lm.remove(m.s_moneda);
+						monedas.removeElement(m);
+					}
+				}
+			}
+		}
+	}
+	
+	public void crearMonedasPorMuertos(String msg){
+		int step 	= Broadcaster.dataStep; 					//cada mensaje sobre cada jugador ocupa esto
+		int start 	= 0;
+		int end 	= 0;
+		end 		= start + step; 		//indice donde termina la cadena para el jugador i
+		String t 	= msg.substring(start, end); //discrimino el mensaje del jugador i
+		int t_x 	= Integer.parseInt(t.substring(Broadcaster.dataPosX,Broadcaster.dataPosY).trim());
+		int t_y 	= Integer.parseInt(t.substring(Broadcaster.dataPosY,Broadcaster.dataPosDir).trim());
+		String t_asesino = t.substring(Broadcaster.dataPosVM,Broadcaster.dataPosVM+1);
+		if(!t_asesino.equals("V")){ //si no esta vivo
+			generarMoneda(t_x,t_y,Moneda.ESPECIAL);
+		}
 	}
 	
 	public void input() {
@@ -348,16 +380,19 @@ public class Juego extends GameCanvas implements Runnable {
 				} else {
 					jugador.incrementarMoneda(Moneda.valorMonedaNormal);
 				}
+				jugador.idMoneda = m.id;
+				//TODO dejar? NO ANDA, LA AGARRA MUCHAS VECES
 				monedas.removeElement(m);
 				lm.remove(m.s_moneda);
 			}
 		}
-		
-		if(esServidor) colisionarServidor();
+		//TODO changed
+		//if(esServidor) colisionarServidor();
 	}
 	//tarea extra que hace un server
-	
+	//unused
 	public void colisionarServidor(){
+		
 		//se fija si algun enemigo colisiona con alguna moneda, entonces la borra
 		for(int j = 0; j < naves.size(); j++){
 			for(int i = 0; i < monedas.size(); i++){
@@ -398,12 +433,13 @@ public class Juego extends GameCanvas implements Runnable {
 	public String generarMensaje(){
 		return jugador.generarMensaje();
 	}
-	public void generarMoneda(int _x, int _y, int _valor){ // pone una moneda en la posicion x,y
+	public int generarMoneda(int _x, int _y, int _valor){ // pone una moneda en la posicion x,y
 		Moneda m = new Moneda(this, idMonedaNueva,_x,_y,_valor);
 		monedas.addElement(m);
 		lm.insert(m.s_moneda,0);
 		
 		idMonedaNueva++;
+		return idMonedaNueva-1; //devuelve el id generado
 	}
 	public void borrarJugador(Player _player){ //saca un jugador del juego porque tiene 0 vidas
 		
