@@ -1,5 +1,7 @@
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.game.Layer;
 import javax.microedition.lcdui.game.Sprite;
+import javax.microedition.lcdui.game.TiledLayer;
 
 public class Player {
 	//Direcciones
@@ -211,12 +213,12 @@ public class Player {
 	//funciones de interaccion
 	public void mover(int _direccion){
 		dir = _direccion;
-		//TODO not working
-		/*
-		if(s_player.collidesWith(juego.mapa.backgroundL2, false)){
-			return; //si colisiona, no debo moverlo
-		}*/
-			
+		
+		//TODO fix
+		
+		int prevx = this.x;
+		int prevy = this.y;
+		
 		//TODO revisar
 		step = velocidad;
 		switch(dir){
@@ -257,6 +259,24 @@ public class Player {
 				break;
 			}
 		}
+		/*
+		//THIS IS HORRIBLE, STAY AWAY
+		Sprite l_splayer   = (Sprite) juego.lm.getLayerAt(juego.lm.getSize()-3);
+		l_splayer.setPosition(this.x,this.y);
+		if( l_splayer.collidesWith(
+				((TiledLayer) juego.lm.getLayerAt(juego.lm.getSize()-2)),
+				true) ){
+			this.x = prevx;
+			this.y = prevy;
+			return; //si colisiona, no debo moverlo
+		}
+		//if(l_splayer.collidesWith(l_back2, false)){
+			
+		//}*/
+		/*if(this.x != this.xinicio)
+			if( this.s_player.collidesWith(juego.mapa.backgroundL2, true)){
+				return;
+			}*/
 		this.s_player.setPosition(this.x,this.y);
 		cambiarFrame();
 	}

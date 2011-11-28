@@ -48,7 +48,7 @@ public class Juego extends GameCanvas implements Runnable {
 			naves.addElement(e);
 		}
 		mapa = new Mapa(this);
-		fuente = Font.getFont (Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_MEDIUM);
+		fuente = Font.getFont (Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
 	}
 	
 	public void run(){
@@ -140,7 +140,7 @@ public class Juego extends GameCanvas implements Runnable {
 			else 						broadcaster.sendMessageFromClient(mensaje); //jugador envia su info
 			
 			//recibe el estado de todos
-			actualizarEstado(broadcaster.estado);
+			//actualizarEstado(broadcaster.estado);
 			
 			//dibujar
 			render(g);
@@ -203,11 +203,11 @@ public class Juego extends GameCanvas implements Runnable {
 		g.setFont(fuente);
 		g.setColor(0xFA0000);
 		g.drawString ("$:" + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
-		g.drawString ("Potencia:" + jugador.potencia, 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
-		g.drawString ("Velocidad:" + jugador.velocidad, 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+		g.drawString ("Velocidad:" + jugador.velocidad + "($" + jugador.costoVelocidad() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+		g.drawString ("Potencia:" + jugador.potencia + "($" + jugador.costoPotencia() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
 		g.drawString ("Puntos:" + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
-		g.drawString ("Escudo:" + jugador.escudo, l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
-		g.drawString ("Cristales:" + jugador.cristales, l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
+		g.drawString ("Escudo:" + jugador.escudo + "($" + jugador.costoEscudo() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
+		g.drawString ("Cristales:" + jugador.cristales + "($" + jugador.costoCristales() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
 		g.drawString ("Vidas:" + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
 		
 		flushGraphics();
@@ -300,7 +300,6 @@ public class Juego extends GameCanvas implements Runnable {
 				l_start = l_end;
 			}
 		}
-		 
 	}
 	
 	public void borrarMonedas(){
@@ -361,6 +360,22 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 		else if((ks & FIRE_PRESSED) != 0){
 			nuevoDisparo();
+		}
+		else if((ks & GAME_A_PRESSED) != 0){
+			System.out.println("compra ve");
+			jugador.aumentarVelocidad();
+		}
+		else if((ks & GAME_B_PRESSED) != 0){
+			System.out.println("compra escudito");
+			jugador.aumentarEscudo();
+		}
+		else if((ks & GAME_C_PRESSED) != 0){
+			System.out.println("compra potencia");
+			jugador.aumentarPotencia();
+		}
+		else if((ks & GAME_D_PRESSED) != 0){
+			System.out.println("compra cristales");
+			jugador.aumentarCristales();
 		}
 	}
 	
