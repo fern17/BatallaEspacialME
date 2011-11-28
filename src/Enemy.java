@@ -64,11 +64,7 @@ public class Enemy {
 	}
 	
 	public void dibujar(Graphics g){
-		
-		
 		if(this.id != juego.jugador.identificador) this.s_enemy.paint(g); 
-		
-		
 	}
 	
 	public boolean colisionar(Moneda m){

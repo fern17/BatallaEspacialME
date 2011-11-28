@@ -26,9 +26,9 @@ public class Broadcaster implements CommandListener{
 	public static final int[] xiniciales = {300,200,10,50};
 	public static final int[] yiniciales = {300,100,50,50};
 	//Datos sobre cadenas del servidor
-	public static final int dataPosFrameRate = 43;
+	
 	public static final int idx = 3; //indice donde empieza la data de jugadores
-	public static final int dataStep = 38; //cuanto ocupa la data de cada jugador
+	public static final int dataStep = 39; //cuanto ocupa la data de cada jugador
 	//datos sobre cadenas de jugadores
 	//Especifican donde empiezan esas cadenas en la de un jugador
 	public static final int dataPosId = 0;
@@ -42,6 +42,7 @@ public class Broadcaster implements CommandListener{
 	public static final int dataPosLX = 31;
 	public static final int dataPosLY = 35;
 	public static final int dataPosMoneda = 39;
+	public static final int dataPosFrameRate = 43;
 	
 	public static final int MIN_PLAYERS 	 = 1;
 	public static final int MAX_PLAYERS 	 = 4;

@@ -36,6 +36,8 @@ public class Player {
 	private int idmoneda 	= 345; 
 	//FIN TEMPORALES
 	
+	
+	private int idAsesino = -1;
 	//Atributos
 	private int inicio_v 	= 10;
 	private int inicio_e 	= 100;
@@ -91,7 +93,7 @@ public class Player {
 		
 		MessageFromPlayer mfp = 
 			new MessageFromPlayer(identificador, nombre, escudo, x, y, dir,
-								  life, disparo.potencia, disparo.x, disparo.y, idmoneda, (int) 1000/juego.milisegundosEnDibujar);
+								  life, disparo.potencia, disparo.x, disparo.y, idmoneda, idAsesino, (int) 1000/juego.milisegundosEnDibujar);
 		return mfp.getMsg();
 	}
 	
@@ -174,10 +176,16 @@ public class Player {
 	}
 	
 	//retorna el escudo que le queda o -1 si lo destruyo y se regenero en otro lado
-	public int recibirDisparo(int _potenciaDisparo){
+	public int recibirDisparo(DisparoEnemigo _de){
+		
+		int _potenciaDisparo = _de.potencia;
+		
 		escudo = escudo - _potenciaDisparo;
 		if(escudo < 0){ 			//puede andar con 0 de escudo
 			juego.generarMoneda(this.x,this.y,Moneda.ESPECIAL);
+			//TODO pasar id moneda nueva
+			idAsesino = _de.id;
+		
 			decrementarVida();
 			if(vidas == 0){
 				juego.borrarJugador(this);
@@ -188,10 +196,23 @@ public class Player {
 		}
 		return escudo;	//escudo restante
 	}
+	//no se esta usando, no anda bien
+	public boolean colisionaConMapaLevel2(){
+		int mapax = (int) this.x/Mapa.TILESIZE;
+		int mapay = (int) this.y/Mapa.TILESIZE;
+		int mapindex = mapax*Mapa.MAPSIDE + mapay;
+		return juego.mapa.colisionPlayer(mapindex);
+	}
 	
 	//funciones de interaccion
 	public void mover(int _direccion){
 		dir = _direccion;
+		//TODO not working
+		/*
+		if(s_player.collidesWith(juego.mapa.backgroundL2, false)){
+			return; //si colisiona, no debo moverlo
+		}*/
+			
 		//TODO revisar
 		step = velocidad;
 		switch(dir){

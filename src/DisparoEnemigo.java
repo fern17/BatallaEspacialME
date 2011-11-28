@@ -3,7 +3,7 @@ import javax.microedition.lcdui.game.Sprite;
 
 
 public class DisparoEnemigo {
-	private int id;
+	public int id;
 	private int x;
 	private int y;
 	public Sprite s_disparoenemigo;

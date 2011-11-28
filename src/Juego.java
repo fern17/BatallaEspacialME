@@ -67,7 +67,6 @@ public class Juego extends GameCanvas implements Runnable {
 		lm.append(mapa.backgroundL2);
 		lm.append(mapa.backgroundL1);
 		
-		
 		lm2 = new LayerManager();
 		actualizarCristales();
 		
@@ -90,8 +89,8 @@ public class Juego extends GameCanvas implements Runnable {
 			
 			String estadoInicial = broadcaster.generarMensaje();
 			
-			int idx 	= 3; 					//los primeros 3 caracteres son framerate
-			int step 	= 38; 					//cada mensaje sobre cada jugador ocupa esto
+			int idx 	= Broadcaster.idx; 					//los primeros 3 caracteres son framerate
+			int step 	= Broadcaster.dataStep; 					//cada mensaje sobre cada jugador ocupa esto
 			int l_start	= 0;
 			int l_end	= 0;
 			
@@ -99,7 +98,6 @@ public class Juego extends GameCanvas implements Runnable {
 				l_start		= idx+i*step; 		//indice donde empieza la cadena para el jugador i
 				l_end 		= l_start + step; 		//indice donde termina la cadena para el jugador i
 				String t 	= estadoInicial.substring(l_start, l_end); //discrimino el mensaje del jugador i
-				
 				int l_id 	= Integer.parseInt(t.substring(Broadcaster.dataPosId,Broadcaster.dataPosNombre).trim());	//obtengo el id
 				String l_name = t.substring(Broadcaster.dataPosNombre,Broadcaster.dataPosEscudo);
 				int l_x 		= Integer.parseInt(t.substring(Broadcaster.dataPosX,Broadcaster.dataPosY).trim());
@@ -225,7 +223,7 @@ public class Juego extends GameCanvas implements Runnable {
 	
 	public void actualizarEstado(String msg){
 		if (msg.length() <= 0) return;
-		fpsDesdeServer = Integer.parseInt(msg.substring(0,3).trim()); //actualiza framerate que le paso el server
+		fpsDesdeServer = Integer.parseInt(msg.substring(0,Broadcaster.idx).trim()); //actualiza framerate que le paso el server
 		
 		for(int i = 0; i < naves.size(); i++){
 			if(i != jugador.identificador)
@@ -242,19 +240,28 @@ public class Juego extends GameCanvas implements Runnable {
 			lm.remove(de.s_disparoenemigo);
 		}
 		disparos.removeAllElements();
+		
 		for(int i = 0; i < broadcaster.cantidadJugadores & end < msg.length(); i++){ 		//recorro los 4 jugadores
 			start		= idx + i*step; 		//indice donde empieza la cadena para el jugador i
 			end 		= start + step; 		//indice donde termina la cadena para el jugador i
 			if(end > msg.length()) return; //no sigo buscando porque me voy del rango
 			String t 	= msg.substring(start, end); //discrimino el mensaje del jugador i
-			int t_id 	= Integer.parseInt(t.substring(0,4).trim());	//obtengo el id
-			
+			System.out.println("0");
+			int t_id 	= Integer.parseInt(t.substring(0,Broadcaster.dataPosNombre).trim());	//obtengo el id
+			char t_asesino = t.charAt(t.length()-1); //es el ultimo caracter
+			if(t_asesino != 'V'){ //si no esta vivo
+				int t_as = Integer.parseInt("" + t_asesino);
+				if(t_as == this.jugador.identificador) //si mate a alguien en el turno anterior
+					this.jugador.incrementarPuntos();
+			}
 			if(t_id == this.jugador.identificador){ 			//si es mi id
 				continue; //no busco mi disparo aqui
 			}
-			int i_laser = Integer.parseInt(t.substring(Broadcaster.dataPosLaser,Broadcaster.dataPosLX).trim());
-			int i_lx	= Integer.parseInt(t.substring(Broadcaster.dataPosLX,Broadcaster.dataPosLY).trim());
-			int i_ly	= Integer.parseInt(t.substring(Broadcaster.dataPosLY).trim());
+			//se resta 1 porque el server le quita un caracter al enviarlo, y las posiciones
+			// son del mensaje de los clientes
+			int i_laser = Integer.parseInt(t.substring(Broadcaster.dataPosLaser-1,Broadcaster.dataPosLX-1).trim());
+			int i_lx	= Integer.parseInt(t.substring(Broadcaster.dataPosLX-1,Broadcaster.dataPosLY-1).trim());
+			int i_ly	= Integer.parseInt(t.substring(Broadcaster.dataPosLY-1, Broadcaster.dataPosLY-1+4).trim());
 			DisparoEnemigo de = new DisparoEnemigo(this,t_id,i_lx,i_ly,i_laser);
 			if(i_laser == DisparoEnemigo.VALORESPECIAL){
 				de.s_disparoenemigo.setVisible(false);
@@ -329,7 +336,7 @@ public class Juego extends GameCanvas implements Runnable {
 		for(int i = 0; i < disparos.size(); i++){
 			DisparoEnemigo de = (DisparoEnemigo) disparos.elementAt(i);
 			if(jugador.colisionar(de)){
-				jugador.recibirDisparo(de.potencia);
+				jugador.recibirDisparo(de);
 			}
 		}
 		

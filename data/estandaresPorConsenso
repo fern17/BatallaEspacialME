@@ -3,7 +3,7 @@ ESTANDARES POR CONSENSO:
 - Naves de 48x48
 - Disparos de 32x32
 - Cada uno se encarga de verificar si es golpeado
-- En el mensaje que cada uno envía al server, al final se agrega un campo IDAsesino (4 char) ' -1' en el caso de estar vivo, o la ID de la nave que acaba de asesinarte si estás muerto. Este ID va también al final de cada una de las líneas por jugador que difunde el servidor.
+
 - El mapa es ahora de 1000x1000 (o sea, 20x20 tiles)
 El ID del asesino se manda en el lugar de la V o M:
 
