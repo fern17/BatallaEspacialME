@@ -10,7 +10,6 @@ import javax.microedition.lcdui.CommandListener;
 public class BEMIDlet extends MIDlet implements CommandListener {
 	public Juego juego;
 	public Broadcaster broadcaster = null;
-	public Compra compra = null;
 	public static int MIN_NAME_LENGTH = 2;
 	public static int MAX_NAME_LENGTH = 10;
 	public Display display = null;
@@ -18,7 +17,6 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 	private TextField textField;
 	private Command exit = null;
 	private Command enter = null;
-	private Command shop = null;
 
 	public BEMIDlet() {
 		super();
@@ -28,11 +26,9 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 	    juego = new Juego(this, broadcaster);
 	    broadcaster.juego = this.juego;
 	    
-	    compra = new Compra(display,juego);
 	    
 	    exit = new Command("Salir", Command.EXIT, 1);
 		enter = new Command("Entrar", Command.OK, 1);
-		shop = new Command("Shop", Command.OK, 1);
 		
 	    form = new Form("Batalla Espacial ME");
 		textField = new TextField("Nombre","",10,TextField.ANY);
@@ -43,7 +39,6 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 		form.addCommand(enter);
 		
 		juego.addCommand(exit);
-		juego.addCommand(shop);
 		
 		juego.setCommandListener(this);
 		
@@ -80,9 +75,6 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 	    		this.juego.nombreJugador = MessageFromPlayer.charFill(name, 10, ' '); //completo con espacios
 	        	broadcaster.show();
 	    	}
-	    }
-	    else if(cmd == shop){
-	    	compra.show();
 	    }
 	}//fin commandAction
 

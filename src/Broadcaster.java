@@ -351,8 +351,9 @@ public class Broadcaster implements CommandListener{
 			                	//recibe mensaje
 			    				DataInputStream in = (DataInputStream) dataInput.elementAt(i);
 			    				int gs = midlet.getState();
-			    				if( gs == GameState.WAITING_PLAYERS){
-			                    	if(in.available() != 0) {
+			    				
+		                    	if(in.available() != 0) {
+		                    		if( gs == GameState.WAITING_PLAYERS){
 				    					String message = in.readUTF();
 				    					if(message.length() <= BEMIDlet.MAX_NAME_LENGTH 
 						                & message.length() >= BEMIDlet.MIN_NAME_LENGTH){ //el mensaje contiene solo el nombre del jugador
@@ -402,9 +403,10 @@ public class Broadcaster implements CommandListener{
 							} catch(IOException ioe4) {}
 						}
 			        
-			         try {
+			         /*try {
 			             Thread.sleep((1000/juego.fpsDesdeServer)/2);
 			         } catch (InterruptedException ie) {}
+			         */
 			         
 			     }
 	       	 }
@@ -446,10 +448,12 @@ public class Broadcaster implements CommandListener{
 						else if(message.length() != 0 & gs == GameState.RUNNING){ //recibe la informacion de todos los jugadores por parte del servidor
 							estado = message; //guardo lo recibido en una variable miembro, para luego leerla desde afuera
 						}
-					 
-					 } catch(IOException e) { }
+						//Thread.sleep((1000/juego.fpsDesdeServer)/2);
+					 	} 
+					 catch(IOException e) { }
+					 //catch (InterruptedException e) {}
 				 }
-		        }
+			 }
 	     }.start();
 	 }
 	 

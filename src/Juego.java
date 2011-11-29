@@ -215,8 +215,9 @@ public class Juego extends GameCanvas implements Runnable {
 	public void actualizarCristales(){
 		im.generarMascara(0, 0, getWidth(), getHeight(), jugador.x, jugador.y, jugador.cristales);
 		s_mascara = new Sprite(im.getImgMascara());
-		if(s_mascara != null) 
-			lm2.remove(s_mascara);
+		//if(s_mascara != null) 
+		lm2 = null;
+		lm2 = new LayerManager();
 		lm2.append(s_mascara);
 	}
 	
@@ -363,21 +364,18 @@ public class Juego extends GameCanvas implements Runnable {
 			nuevoDisparo();
 		}
 		else if((ks & GAME_A_PRESSED) != 0){
-			System.out.println("compra ve");
 			jugador.aumentarVelocidad();
 		}
 		else if((ks & GAME_B_PRESSED) != 0){
-			System.out.println("compra escudito");
 			jugador.aumentarEscudo();
 		}
 		else if((ks & GAME_C_PRESSED) != 0){
-			System.out.println("compra potencia");
 			jugador.aumentarPotencia();
 		}
 		else if((ks & GAME_D_PRESSED) != 0){
-			System.out.println("compra cristales");
 			jugador.aumentarCristales();
 		}
+		getKeyStates();
 	}
 	
 	public void colisionar(){
