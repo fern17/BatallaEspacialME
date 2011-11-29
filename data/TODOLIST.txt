@@ -6,3 +6,4 @@ COSAS QUE FALTAN:
 * Generar monedas de muertes
 * Pantalla de inicio
 * Usar Player.idMoneda
+* Hacer los mapas bien
