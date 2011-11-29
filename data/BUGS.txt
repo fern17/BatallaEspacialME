@@ -1,5 +1,5 @@
 BUGS:
-* Agarrar monedas muchas veces
+* Agarra monedas muchas veces el jugador
 * Moverse mas de una vez
 * Naves aparecen invisibles a veces
 * Acomodar posicion del jugador para centrarlo

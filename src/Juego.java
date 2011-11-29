@@ -158,8 +158,8 @@ public class Juego extends GameCanvas implements Runnable {
 			if(esServidor == true){
 				if(monedas.size() < Juego.MAX_MONEDAS & t_monedas >= tiempoMonedas){
 					Random r = new Random();
-					int l_x = 0+r.nextInt(1000);
-					int l_y = 0+r.nextInt(1000);
+					int l_x = 0+r.nextInt(100);
+					int l_y = 0+r.nextInt(100);
 					generarMoneda(l_x,l_y,Moneda.NORMAL);
 					t_monedas = 0;
 				} else {
@@ -302,10 +302,12 @@ public class Juego extends GameCanvas implements Runnable {
 			}
 			disparos.addElement(de);//agrega un disparo
 			lm.insert(de.s_disparoenemigo, 0);
+			if(esServidor)
+				crearMonedasPorMuertos(t);
 		}
 		if(esServidor == true){
 			borrarMonedas();
-			crearMonedasPorMuertos(msg);
+		//	crearMonedasPorMuertos(msg);
 		}
 		if(esServidor == false){
 			for(int i = 0; i < monedas.size(); i++){
@@ -336,7 +338,7 @@ public class Juego extends GameCanvas implements Runnable {
 			}
 		}
 	}
-	
+	// Prueba colision de jugadores con monedas
 	public void borrarMonedas(){
 		for(int i = 0; i < broadcaster.mensajeAJugadores.size(); i++){ 		//recorro los 4 jugadores
 			String t 	= (String) broadcaster.mensajeAJugadores.elementAt(i); 
@@ -361,10 +363,9 @@ public class Juego extends GameCanvas implements Runnable {
 		String t 	= msg.substring(start, end); //discrimino el mensaje del jugador i
 		int t_x 	= Integer.parseInt(t.substring(Broadcaster.dataPosX,Broadcaster.dataPosY).trim());
 		int t_y 	= Integer.parseInt(t.substring(Broadcaster.dataPosY,Broadcaster.dataPosDir).trim());
-		String t_asesino = t.substring(Broadcaster.dataPosVM,Broadcaster.dataPosVM+1);
-		if(!t_asesino.equals("V")){ //si no esta vivo
-			//TODO
-			//generarMoneda(t_x,t_y,Moneda.ESPECIAL);
+		char t_asesino = t.charAt(t.length()-1);
+		if(t_asesino != 'V'){ //si no esta vivo
+			generarMoneda(t_x,t_y,Moneda.ESPECIAL);
 		}
 	}
 	
@@ -459,8 +460,8 @@ public class Juego extends GameCanvas implements Runnable {
 				}
 				jugador.idMoneda = m.id;
 				//TODO dejar? NO ANDA, LA AGARRA MUCHAS VECES
-				monedas.removeElement(m);
-				lm.remove(m.s_moneda);
+				//monedas.removeElement(m);
+				//lm.remove(m.s_moneda);
 			}
 		}
 		//TODO changed

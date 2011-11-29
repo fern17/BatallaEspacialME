@@ -5,5 +5,3 @@ COSAS QUE FALTAN:
 * Colisionar con mapa nivel 2
 * Generar monedas de muertes
 * Pantalla de inicio
-* Usar Player.idMoneda
-* Hacer los mapas bien
