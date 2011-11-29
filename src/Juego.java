@@ -33,13 +33,22 @@ public class Juego extends GameCanvas implements Runnable {
 	//TODO pasar a 30000 y 25
 	public int tiempoMonedas = 100; //cuanto tiempo tardan en generarse las monedas
 	private static final int  MAX_MONEDAS = 3; 
-	private Font fuente = null;
+	public Font fuenteJugadores = null;
+	public Font fuenteInterfaz = null;
+	
 	public Juego(BEMIDlet _m, Broadcaster _bc){
-		super(false);
+		super(true);
+		//super(false);
 		this.midlet = _m;
 		this.broadcaster = _bc;
 		
 		im = new ImageManager();
+		lm = new LayerManager();
+		lm2 = new LayerManager();
+		
+		fuenteInterfaz = Font.getFont (Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
+		fuenteJugadores = Font.getFont (Font.FACE_PROPORTIONAL, Font.STYLE_ITALIC, Font.SIZE_SMALL);
+		
 		char[] l_n = {'s','i','n',' ','n','o','m','b','r','e'};
 		for(int i = 0; i < 4; i++){
 			Enemy e = new Enemy(this,i,l_n,
@@ -47,18 +56,19 @@ public class Juego extends GameCanvas implements Runnable {
 			naves.addElement(e);
 		}
 		mapa = new Mapa(this);
-		fuente = Font.getFont (Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
+		
 	}
 	
 	public void run(){
-		lm = new LayerManager();
+		
 		
 		lm.append(jugador.disparo.s_disparo);
 		if(esServidor == false){
 			for(int i = 0; i < broadcaster.cantidadJugadores; i++){
 				Enemy e = (Enemy) naves.elementAt(i);
-				if(e.id != jugador.identificador) 
+				if(e.id != jugador.identificador){
 					lm.append(e.s_enemy);
+				}
 			}
 		}
 		
@@ -66,7 +76,7 @@ public class Juego extends GameCanvas implements Runnable {
 		lm.append(mapa.backgroundL2);
 		lm.append(mapa.backgroundL1);
 		
-		lm2 = new LayerManager();
+		
 		actualizarCristales();
 		
 		Graphics g = getGraphics();
@@ -125,7 +135,7 @@ public class Juego extends GameCanvas implements Runnable {
 			start = System.currentTimeMillis();
 			
 			//sensar teclado y mover jugador
-			//input(); 
+			input(); 
 			
 			//mueve el disparo, if any
 			jugador.moverDisparo();
@@ -196,22 +206,46 @@ public class Juego extends GameCanvas implements Runnable {
 		lm.setViewWindow(jugador.x-l_w/2,jugador.y-l_h/2,l_w,l_h);
 		lm.paint(g,0,0);
 		
-		lm2.setViewWindow(jugador.x-l_w/2,jugador.y-l_h/2,l_w,l_h);
-		s_mascara.setPosition(jugador.x - l_w/2, jugador.y - l_h/2);
-		lm2.paint(g,0,0);
+		g.setFont(fuenteJugadores);
+		g.setColor(0x000088);
 		
-		g.setFont(fuente);
-		g.setColor(0xFA0000);
-		g.drawString ("$:" + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
-		g.drawString ("Velocidad:" + jugador.velocidad + "($" + jugador.costoVelocidad() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
-		g.drawString ("Potencia:" + jugador.potencia + "($" + jugador.costoPotencia() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
-		g.drawString ("Puntos:" + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
-		g.drawString ("Escudo:" + jugador.escudo + "($" + jugador.costoEscudo() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
-		g.drawString ("Cristales:" + jugador.cristales + "($" + jugador.costoCristales() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
-		g.drawString ("Vidas:" + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
+		//Dibuja el nombre del jugador
+		/*
+		for(int i = 0; i < broadcaster.cantidadJugadores; i++){
+			Enemy e = (Enemy) naves.elementAt(i);
+			if(enPantalla(e.s_enemy.getX(), e.s_enemy.getY(),
+					jugador.x-l_w/2, jugador.y-l_h/2, l_w, l_h))
+				if(e.id != jugador.identificador)
+					g.drawString (new String(e.nombre).trim(), e.x, e.y,Graphics.LEFT | Graphics.TOP);
+		}*/
+		if(jugador.estaVivo){
+			lm2.setViewWindow(jugador.x-l_w/2,jugador.y-l_h/2,l_w,l_h);
+			s_mascara.setPosition(jugador.x - l_w/2, jugador.y - l_h/2);
+			lm2.paint(g,0,0);
+		}
+		
+		if(jugador.estaVivo){
+			g.setFont(fuenteInterfaz);
+			g.setColor(0xFA0000);
+			g.drawString ("$:" + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
+			g.drawString ("Velocidad:" + jugador.velocidad + "($" + jugador.costoVelocidad() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Potencia:" + jugador.potencia + "($" + jugador.costoPotencia() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Puntos:" + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Escudo:" + jugador.escudo + "($" + jugador.costoEscudo() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("Cristales:" + jugador.cristales + "($" + jugador.costoCristales() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("Vidas:" + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
+		}
+		
 		
 		flushGraphics();
 	}
+	
+	public boolean enPantalla(int x, int y, int x0, int y0, int w, int h){
+		if((x >= x0 & x <= x0+w) & (y >= y0 & y <= y0+h))
+			return true;
+		return false;
+	}
+	
 	public void actualizarCristales(){
 		im.generarMascara(0, 0, getWidth(), getHeight(), jugador.x, jugador.y, jugador.cristales);
 		s_mascara = new Sprite(im.getImgMascara());
@@ -378,27 +412,27 @@ public class Juego extends GameCanvas implements Runnable {
 		getKeyStates();
 	}
 	
+	//no se esta usando, para usarla, poner el constructor en super(false)
 	protected void keyPressed(int keyCode) {
-		System.out.println("wololo");
 		int gameAction = getGameAction(keyCode);
 		switch(gameAction) {
-			case UP: 
+			case UP: jugador.mover(Player.DIRN);
 				break;
-			case DOWN: 
+			case DOWN: jugador.mover(Player.DIRS);
 				break;
-			case LEFT: 
+			case LEFT: jugador.mover(Player.DIRO);
 				break;
-			case RIGHT: 
+			case RIGHT: jugador.mover(Player.DIRE);
 				break;
-			case FIRE: 
+			case FIRE: nuevoDisparo();	
 				break;
 			case GAME_A: jugador.aumentarVelocidad();
 				break;
-			case GAME_B: 
+			case GAME_B: jugador.aumentarEscudo();
 				break;
-			case GAME_C: 
+			case GAME_C: jugador.aumentarPotencia();
 				break;
-			case GAME_D: 
+			case GAME_D: jugador.aumentarCristales();
 				break;
 			default: 
 				break;
@@ -484,9 +518,7 @@ public class Juego extends GameCanvas implements Runnable {
 		idMonedaNueva++;
 		return idMonedaNueva-1; //devuelve el id generado
 	}
-	public void borrarJugador(Player _player){ //saca un jugador del juego porque tiene 0 vidas
-		
-	}
+	
 	public void nuevoDisparo(){//el jugador QUIERE disparar
 		jugador.disparar();
 	}

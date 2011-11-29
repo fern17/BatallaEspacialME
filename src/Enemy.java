@@ -8,9 +8,9 @@ import javax.microedition.lcdui.game.Sprite;
 public class Enemy {
 	
 	public int id;
-	private char[] nombre;
-	private int x; 
-	private int y;
+	public char[] nombre;
+	public int x; 
+	public int y;
 	public Sprite s_enemy;
 	private int dir;
 	private Juego juego;
@@ -53,6 +53,9 @@ public class Enemy {
 			String t 	= msg.substring(start, end); //discrimino el mensaje del jugador i
 			int t_id 	= Integer.parseInt(t.substring(Broadcaster.dataPosId,Broadcaster.dataPosNombre).trim());	//obtengo el id
 			if(t_id == this.id){ 			//si es mi id
+				int t_escudo = Integer.parseInt(t.substring(Broadcaster.dataPosEscudo, Broadcaster.dataPosX).trim());
+				if(t_escudo == -1)
+					juego.lm.remove(this.s_enemy);
 				this.x 		= Integer.parseInt(t.substring(Broadcaster.dataPosX,Broadcaster.dataPosY).trim());
 				this.y 		= Integer.parseInt(t.substring(Broadcaster.dataPosY,Broadcaster.dataPosDir).trim());				
 				this.dir 	= Integer.parseInt(t.substring(Broadcaster.dataPosDir,Broadcaster.dataPosVM).trim());

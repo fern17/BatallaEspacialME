@@ -1,0 +1,8 @@
+COSAS QUE FALTAN:
+* Sumar puntos
+* Decidir ganador
+* Dejar de dibujar los que perdieron
+* Colisionar con mapa nivel 2
+* Generar monedas de muertes
+* Pantalla de inicio
+* Usar Player.idMoneda

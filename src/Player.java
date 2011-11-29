@@ -49,7 +49,7 @@ public class Player {
 	public int potencia;
 	public int cristales;
 	
-	public int vidas 		= 3;
+	public int vidas 		= 1;
 	public int puntos 		= 0;
 	
 	public boolean estaVivo = false;
@@ -90,21 +90,58 @@ public class Player {
 	
 	public String generarMensaje(){
 		char life;
-		if(estaVivo) 	life = 'V';
+		if(estaVivo | escudo == -1) 	life = 'V';
 		else			life = 'M';
 		
 		MessageFromPlayer mfp = 
 			new MessageFromPlayer(identificador, nombre, escudo, x, y, dir,
 								  life, disparo.potencia, disparo.x, disparo.y, idMoneda, idAsesino, (int) 1000/juego.milisegundosEnDibujar);
-		
 		//lo revivo DESPUES de mandar el mensaje
 		if(estaVivo == false){
 			setInicio();
 		}
-		
-				
 		return mfp.getMsg();
 	}
+	
+	public void setInicio(){
+		this.x 			= this.xinicio;
+		this.y 			= this.yinicio;
+		this.dir	    = Player.DIRN;
+		
+		if(vidas > 0){
+			this.escudo 	= this.inicio_e;
+			this.estaVivo		= true;
+			this.puedeDisparar = true;
+		}
+		else{
+			this.escudo 	= -1;
+			this.estaVivo = false;
+			this.s_player.setVisible(false);
+			//juego.lm.remove(this.s_player); //no lo dibujo mas
+			this.puedeDisparar = false; //ya no puede disparar
+		}
+		this.velocidad 	= this.inicio_v;
+		this.potencia 	= this.inicio_p;
+		this.cristales 	= this.inicio_c;
+		this.idMoneda = -1;
+		this.idAsesino = -1;
+	}
+	
+	//retorna el escudo que le queda o -1 si lo destruyo y se regenero en otro lado
+	public int recibirDisparo(DisparoEnemigo _de){
+		int _potenciaDisparo = _de.potencia;
+		escudo = escudo - _potenciaDisparo;
+		if(escudo <= 0){ 			
+			idAsesino = _de.id;
+			estaVivo = false;
+			decrementarVida();
+			this.escudo = 0;
+			return -1; 		//escudo destruido 
+		}
+		return escudo;		//escudo restante
+	}
+	
+	
 	
 	public void actualizar(int _x, int _y, int _dir){
 		this.x = _x;
@@ -165,17 +202,7 @@ public class Player {
 		return vidas;
 	}
 	
-	public void setInicio(){
-		this.x 			= this.xinicio;
-		this.y 			= this.yinicio;
-		this.dir	    = Player.DIRN;
-		this.estaVivo		= true;
-		this.escudo 	= this.inicio_e;
-		this.velocidad 	= this.inicio_v;
-		this.potencia 	= this.inicio_p;
-		this.cristales 	= this.inicio_c;
-		this.idMoneda = -1;
-	}
+	
 	
 	public void setDisparar(boolean _d){
 		this.puedeDisparar = _d;
@@ -184,25 +211,8 @@ public class Player {
 		puntos = puntos + 1;
 	}
 	
-	//retorna el escudo que le queda o -1 si lo destruyo y se regenero en otro lado
-	public int recibirDisparo(DisparoEnemigo _de){
-		
-		int _potenciaDisparo = _de.potencia;
-		
-		escudo = escudo - _potenciaDisparo;
-		if(escudo < 0){ 			//puede andar con 0 de escudo
-			idAsesino = _de.id;
-			estaVivo = false;
-			decrementarVida();
-			if(vidas == 0){
-				juego.borrarJugador(this);
-				//estaVivo = false;
-			}
-			//setInicio();
-			return -1; 	//escudo destruido 
-		}
-		return escudo;	//escudo restante
-	}
+	
+	
 	//no se esta usando, no anda bien
 	public boolean colisionaConMapaLevel2(){
 		int mapax = (int) this.x/Mapa.TILESIZE;
