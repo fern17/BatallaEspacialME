@@ -35,7 +35,7 @@ public class Juego extends GameCanvas implements Runnable {
 	private static final int  MAX_MONEDAS = 3; 
 	private Font fuente = null;
 	public Juego(BEMIDlet _m, Broadcaster _bc){
-		super(true);
+		super(false);
 		this.midlet = _m;
 		this.broadcaster = _bc;
 		
@@ -125,7 +125,7 @@ public class Juego extends GameCanvas implements Runnable {
 			start = System.currentTimeMillis();
 			
 			//sensar teclado y mover jugador
-			input(); 
+			//input(); 
 			
 			//mueve el disparo, if any
 			jugador.moverDisparo();
@@ -377,6 +377,35 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 		getKeyStates();
 	}
+	
+	protected void keyPressed(int keyCode) {
+		System.out.println("wololo");
+		int gameAction = getGameAction(keyCode);
+		switch(gameAction) {
+			case UP: 
+				break;
+			case DOWN: 
+				break;
+			case LEFT: 
+				break;
+			case RIGHT: 
+				break;
+			case FIRE: 
+				break;
+			case GAME_A: jugador.aumentarVelocidad();
+				break;
+			case GAME_B: 
+				break;
+			case GAME_C: 
+				break;
+			case GAME_D: 
+				break;
+			default: 
+				break;
+		}
+	}
+	
+	
 	
 	public void colisionar(){
 		for(int i = 0; i < disparos.size(); i++){
