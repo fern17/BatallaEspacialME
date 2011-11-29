@@ -1,7 +1,7 @@
 COSAS QUE FALTAN:
-* Sumar puntos
-* Decidir ganador
-* Dejar de dibujar los que perdieron
+* Sumar puntos (DEPRECATED: no usamos puntos)
+* Decidir ganador (DEPRECATED: no usamos puntos)
+* Mensaje de ganador
 * Colisionar con mapa nivel 2
 * Generar monedas de muertes
 * Pantalla de inicio

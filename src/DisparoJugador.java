@@ -22,6 +22,7 @@ public class DisparoJugador {
 	private boolean existe = false;
 	private int step = 3;
 	private Juego juego = null;
+	public static final int POSICIONESPECIAL = -999;
 	public DisparoJugador(Juego _j, Player _duenio){ //constructor por defecto
 		this.juego = _j;
 		this.jugador = _duenio;
@@ -105,8 +106,8 @@ public class DisparoJugador {
 	
 	public void unSet(){
 		this.existe = false;
-		this.x = -1;
-		this.y = -1;
+		this.x = DisparoJugador.POSICIONESPECIAL;
+		this.y = DisparoJugador.POSICIONESPECIAL;
 		this.potencia = -1;
 		s_disparo.setVisible(false);
 		jugador.setDisparar(true);

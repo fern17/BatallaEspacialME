@@ -49,7 +49,7 @@ public class Player {
 	public int potencia;
 	public int cristales;
 	
-	public int vidas 		= 1;
+	public int vidas 		= 3;
 	public int puntos 		= 0;
 	
 	public boolean estaVivo = false;

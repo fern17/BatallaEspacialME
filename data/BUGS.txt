@@ -1,7 +1,7 @@
 BUGS:
-* Disparo invisible aparece en el resto
 * Agarrar monedas muchas veces
 * Moverse mas de una vez
-* Naves aparecen invisibles
+* Naves aparecen invisibles a veces
 * Acomodar posicion del jugador para centrarlo
 * Acomodar posicion de disparos
+
