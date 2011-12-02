@@ -1,8 +1,11 @@
+import java.io.IOException;
+
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
+import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -17,7 +20,7 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 	private TextField textField;
 	private Command exit = null;
 	private Command enter = null;
-
+	private Image img = null;
 	public BEMIDlet() {
 		super();
 	    display = Display.getDisplay(this);
@@ -31,7 +34,17 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 		
 	    form = new Form("Batalla Espacial ME");
 		textField = new TextField("Nombre","",10,TextField.ANY);
+		
+		try {
+			img = Image.createImage("/temp.png");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		form.append(textField);
+		form.append(img);
 		
 		form.setCommandListener(this);
 		form.addCommand(exit);
@@ -49,7 +62,9 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 		return this.juego.getGameState();
 	}
 	protected void startApp() throws MIDletStateChangeException {
+		
 		display.setCurrent(form);
+		
 	}//fin startApp
 
 	protected void pauseApp() {

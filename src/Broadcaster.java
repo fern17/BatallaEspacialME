@@ -274,27 +274,15 @@ public class Broadcaster implements CommandListener{
 	 }//fin sendMessageFromServer
 
 	public void enviarServer(){
-		//new Thread() {
-       	 //public void run() {
-       		//while(true){
-	   			if(midlet.getState() == GameState.RUNNING){
-	   				for(int i = 0; i < mensajeAJugadores.size(); i++){ //evita mandar el mensaje
-	   					if( ((String) mensajeAJugadores.elementAt(i)).length() == 0){
-	   						break; 
-	   					}
-	   				}
-	   				estado = generarMensaje(); //tambien me guardo el mensaje para mi
-	   				Broadcast(-1, estado); //envia el mensaje a todos
-	   			}
-	   			/*try {
-	   				//TODO
-					Thread.sleep((1000/midlet.juego.fpsDesdeServer)/3);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}*/
-    		//}
-       	// }
-        //}.start();
+		if(midlet.getState() == GameState.RUNNING){
+			for(int i = 0; i < mensajeAJugadores.size(); i++){ //evita mandar el mensaje
+				if( ((String) mensajeAJugadores.elementAt(i)).length() == 0){
+					break; 
+				}
+			}
+			estado = generarMensaje(); //tambien me guardo el mensaje para mi
+			Broadcast(-1, estado); //envia el mensaje a todos
+		}
 	}
 	
 	public String generarMensaje(){
@@ -379,7 +367,7 @@ public class Broadcaster implements CommandListener{
 					                    	String s_mapa =  midlet.juego.mapa.mapaEnString(2);
 					                    	
 					                    	midlet.setState(GameState.RESPONSE);
-					                    	//le devuelve el id, el mensaje, x e y, y el mapa
+					                    	//le devuelve el id, el mensaje, x e y, y el mapa y la cantidad de jugadores
 					                    	response = s_cjugadores + s_id + s_x + s_y + s_mapa; //CODING HORROR! 
 					                    	
 					                    	DataOutputStream out = (DataOutputStream) dataOutput.elementAt(i);

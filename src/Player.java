@@ -1,7 +1,5 @@
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.game.Layer;
 import javax.microedition.lcdui.game.Sprite;
-import javax.microedition.lcdui.game.TiledLayer;
 
 public class Player {
 	//Direcciones
@@ -31,8 +29,7 @@ public class Player {
 	
 	private int step = 1; //cuanto se mueve por frame
 	
-	//TODO arreglar
-	public int dinero = 2000;
+	public int dinero = 100;
 	
 	public int idMoneda 	= -1; 
 
@@ -75,7 +72,6 @@ public class Player {
 		_nombre.getChars(0, _nombre.length(), this.nombre, 0);
 		
 		s_player = new Sprite(juego.im.getImgNavePlayer(),48,48);
-		
 		
 		s_player.setRefPixelPosition(24, 24); //centra las coordenadas
 		//s_player.setPosition(this.x, this.y);

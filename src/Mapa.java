@@ -64,8 +64,8 @@ public class Mapa {
 	public Mapa(Juego _j){
 		this.juego = _j;
 		try {
-			i_bg1 = Image.createImage("/tileset1NOALFA.png");
-			i_bg2 = Image.createImage("/tileset2NOALFA.png");
+			i_bg1 = Image.createImage("/tileset1.png");
+			i_bg2 = Image.createImage("/tileset2.png");
 		} catch (IOException e) { 
 			System.out.println("No se pudo leer el tilemap");
 		};

@@ -1,7 +1,5 @@
 COSAS QUE FALTAN:
-* Sumar puntos (DEPRECATED: no usamos puntos)
-* Decidir ganador (DEPRECATED: no usamos puntos)
 * Mensaje de ganador
 * Colisionar con mapa nivel 2
-* Pantalla de inicio
-* usar numero de jugadores
+* Pantalla de inicio //se la pedi a cristian
+* ver como calcular la velocidad por frame

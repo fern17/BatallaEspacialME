@@ -28,6 +28,7 @@ public class Juego extends GameCanvas implements Runnable {
 	private Vector naves = new Vector(); //guarda la info de las 4 naves
 	public Vector monedas = new Vector();
 	public Vector disparos = new Vector();
+	
 	public boolean esServidor = false;
 	public int idMonedaNueva = 0; // identificador de las monedas
 	public int tiempoMonedas = 30000; //cuanto tiempo tardan en generarse las monedas
@@ -38,7 +39,6 @@ public class Juego extends GameCanvas implements Runnable {
 	private int RETARDOCOMPRA = 1000;
 	public Juego(BEMIDlet _m, Broadcaster _bc){
 		super(true);
-		//super(false);
 		this.midlet = _m;
 		this.broadcaster = _bc;
 		
@@ -60,8 +60,6 @@ public class Juego extends GameCanvas implements Runnable {
 	}
 	
 	public void run(){
-		
-		
 		lm.append(jugador.disparo.s_disparo);
 		if(esServidor == false){
 			for(int i = 0; i < broadcaster.cantidadJugadores; i++){
@@ -213,10 +211,11 @@ public class Juego extends GameCanvas implements Runnable {
 		g.setColor(0x000000);
 		int l_w = getWidth();
 		int l_h = getHeight();
+		//System.out.println(l_w + " "+ l_h);
 		g.fillRect(0, 0, l_w, l_h);
 		
 		//draw
-		lm.setViewWindow(jugador.x-l_w/2,jugador.y-l_h/2,l_w,l_h);
+		lm.setViewWindow(jugador.x - l_w/2 + 16,jugador.y - l_h/2 + 16,l_w,l_h);
 		lm.paint(g,0,0);
 		
 		g.setFont(fuenteJugadores);
@@ -240,16 +239,14 @@ public class Juego extends GameCanvas implements Runnable {
 		if(jugador.estaVivo){
 			g.setFont(fuenteInterfaz);
 			g.setColor(0xFA0000);
-			g.drawString ("$:" + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
-			g.drawString ("Velocidad:" + jugador.velocidad + "($" + jugador.costoVelocidad() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
-			g.drawString ("Potencia:" + jugador.potencia + "($" + jugador.costoPotencia() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
-			g.drawString ("Puntos:" + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("Escudo:" + jugador.escudo + "($" + jugador.costoEscudo() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("Cristales:" + jugador.cristales + "($" + jugador.costoCristales() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("Vidas:" + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("$: " + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
+			g.drawString ("Velocidad: " + jugador.velocidad + " ($" + jugador.costoVelocidad() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("Potencia: " + jugador.potencia + " ($" + jugador.costoPotencia() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("Puntos: " + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Escudo: " + jugador.escudo + " ($" + jugador.costoEscudo() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Cristales: " + jugador.cristales + " ($" + jugador.costoCristales() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Vidas: " + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
 		}
-		
-		
 		flushGraphics();
 	}
 	
@@ -262,7 +259,6 @@ public class Juego extends GameCanvas implements Runnable {
 	public void actualizarCristales(){
 		im.generarMascara(0, 0, getWidth(), getHeight(), jugador.x, jugador.y, jugador.cristales);
 		s_mascara = new Sprite(im.getImgMascara());
-		//if(s_mascara != null) 
 		lm2 = null;
 		lm2 = new LayerManager();
 		lm2.append(s_mascara);

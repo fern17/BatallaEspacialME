@@ -1,5 +1,5 @@
 BUGS:
-* Acomodar posicion del jugador para centrarlo en pantalla
+
 
 PARTIALLY SOLVED:
 * se apretan muchas veces las teclas de compra (parece problema del emulador)
