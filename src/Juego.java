@@ -35,7 +35,8 @@ public class Juego extends GameCanvas implements Runnable {
 	private static final int  MAX_MONEDAS = 3; 
 	public Font fuenteJugadores = null;
 	public Font fuenteInterfaz = null;
-	
+	private int tiempoParaCompra = 0;
+	private int RETARDOCOMPRA = 1000;
 	public Juego(BEMIDlet _m, Broadcaster _bc){
 		super(true);
 		//super(false);
@@ -175,11 +176,17 @@ public class Juego extends GameCanvas implements Runnable {
 				fpsDesdeServer = broadcaster.recalcularFrameRate();
 			}
 			
-			int fpsActual = (int) 1000/milisegundosEnDibujar;
+			if(tiempoParaCompra > 0){
+				tiempoParaCompra = tiempoParaCompra - milisegundosEnDibujar;
+			}
+				
+			if(tiempoParaCompra < 0) tiempoParaCompra = 0;
 			
-			if(fpsActual > FPSLIMITE){ //si soy mas rapido que el limite, espero hasta el limite
+			int fpsActual = (int) 1000/milisegundosEnDibujar;
+
+			if(fpsActual > Juego.FPSLIMITE){ //si soy mas rapido que el limite, espero hasta el limite
 				try {
-					Thread.sleep(FRAMESAT30 - milisegundosEnDibujar);
+					Thread.sleep(Juego.FRAMESAT30 - milisegundosEnDibujar);
 				} 
 				catch (InterruptedException ie) {break;}
 			}
@@ -190,7 +197,14 @@ public class Juego extends GameCanvas implements Runnable {
 				} 
 				catch (InterruptedException ie) {break;}
 			}
+			else Thread.yield();
+			
 			if(esServidor) broadcaster.enviarServer();
+			try{
+				Thread.sleep(10);
+			}
+			catch(InterruptedException ie){ 
+			}
 			
 		}
 	}
@@ -228,11 +242,11 @@ public class Juego extends GameCanvas implements Runnable {
 			g.setFont(fuenteInterfaz);
 			g.setColor(0xFA0000);
 			g.drawString ("$:" + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
-			g.drawString ("Velocidad:" + jugador.velocidad + "($" + jugador.costoVelocidad() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("Potencia:" + jugador.potencia + "($" + jugador.costoPotencia() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Velocidad:" + jugador.velocidad + "($" + jugador.costoVelocidad() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("Potencia:" + jugador.potencia + "($" + jugador.costoPotencia() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
 			g.drawString ("Puntos:" + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("Escudo:" + jugador.escudo + "($" + jugador.costoEscudo() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
-			g.drawString ("Cristales:" + jugador.cristales + "($" + jugador.costoCristales() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("Escudo:" + jugador.escudo + "($" + jugador.costoEscudo() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Cristales:" + jugador.cristales + "($" + jugador.costoCristales() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
 			g.drawString ("Vidas:" + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
 		}
 		
@@ -398,18 +412,24 @@ public class Juego extends GameCanvas implements Runnable {
 		else if((ks & FIRE_PRESSED) != 0){
 			nuevoDisparo();
 		}
-		else if((ks & GAME_A_PRESSED) != 0){
-			jugador.aumentarVelocidad();
+		if(tiempoParaCompra > 0) return;
+		if((ks & GAME_A_PRESSED) != 0){
+			if(jugador.aumentarEscudo())
+				tiempoParaCompra = RETARDOCOMPRA;
 		}
 		else if((ks & GAME_B_PRESSED) != 0){
-			jugador.aumentarEscudo();
+			if(jugador.aumentarPotencia())
+				tiempoParaCompra = RETARDOCOMPRA;
 		}
 		else if((ks & GAME_C_PRESSED) != 0){
-			jugador.aumentarPotencia();
+			if(jugador.aumentarCristales())
+				tiempoParaCompra = RETARDOCOMPRA;
 		}
 		else if((ks & GAME_D_PRESSED) != 0){
-			jugador.aumentarCristales();
+			if(jugador.aumentarVelocidad())
+				tiempoParaCompra = RETARDOCOMPRA;
 		}
+
 		getKeyStates();
 	}
 	

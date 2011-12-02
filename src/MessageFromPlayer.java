@@ -22,7 +22,6 @@ public class MessageFromPlayer {
 		String s_moneda = "" + (_moneda);
 		String s_fm 	= "" + (_fm);
 				
-		s_id 		= charFill(s_id,4,' ');
 		s_name 		= charFill(s_name,10,' ');
 		s_escudo 	= charFill(s_escudo,4,' ');
 		s_x 		= charFill(s_x,4,' ');

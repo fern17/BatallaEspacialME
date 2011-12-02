@@ -28,21 +28,21 @@ public class Broadcaster implements CommandListener{
 	//Datos sobre cadenas del servidor
 	
 	public static final int idx = 3; //indice donde empieza la data de jugadores
-	public static final int dataStep = 39; //cuanto ocupa la data de cada jugador
+	public static final int dataStep = 36; //cuanto ocupa la data de cada jugador
 	//datos sobre cadenas de jugadores
 	//Especifican donde empiezan esas cadenas en la de un jugador
 	public static final int dataPosId = 0;
-	public static final int dataPosNombre = 4;
-	public static final int dataPosEscudo = 14;
-	public static final int dataPosX = 18;
-	public static final int dataPosY = 22;
-	public static final int dataPosDir = 26;
-	public static final int dataPosVM = 27;
-	public static final int dataPosLaser = 28;
-	public static final int dataPosLX = 31;
-	public static final int dataPosLY = 35;
-	public static final int dataPosMoneda = 39;
-	public static final int dataPosFrameRate = 43;
+	public static final int dataPosNombre = 1;
+	public static final int dataPosEscudo = 11;
+	public static final int dataPosX = 15;
+	public static final int dataPosY = 19;
+	public static final int dataPosDir = 23;
+	public static final int dataPosVM = 24;
+	public static final int dataPosLaser = 25;
+	public static final int dataPosLX = 28;
+	public static final int dataPosLY = 32;
+	public static final int dataPosMoneda = 36;
+	public static final int dataPosFrameRate = 40;
 	
 	public static final int MIN_PLAYERS 	 = 1;
 	public static final int MAX_PLAYERS 	 = 4;
@@ -403,11 +403,10 @@ public class Broadcaster implements CommandListener{
 							} catch(IOException ioe4) {}
 						}
 			        
-			         /*try {
-			             Thread.sleep((1000/juego.fpsDesdeServer)/2);
+			         try {
+			             Thread.sleep(10);
 			         } catch (InterruptedException ie) {}
-			         */
-			         
+			         Thread.yield();
 			     }
 	       	 }
 		}.start();
@@ -448,10 +447,12 @@ public class Broadcaster implements CommandListener{
 						else if(message.length() != 0 & gs == GameState.RUNNING){ //recibe la informacion de todos los jugadores por parte del servidor
 							estado = message; //guardo lo recibido en una variable miembro, para luego leerla desde afuera
 						}
-						//Thread.sleep((1000/juego.fpsDesdeServer)/2);
-					 	} 
+						Thread.sleep(10);
+					 	}
+					 
 					 catch(IOException e) { }
-					 //catch (InterruptedException e) {}
+					 catch (InterruptedException e) {}
+					 Thread.yield();
 				 }
 			 }
 	     }.start();

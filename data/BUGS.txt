@@ -1,7 +1,7 @@
 BUGS:
 * Agarra monedas muchas veces el jugador
-* Moverse mas de una vez
 * Naves aparecen invisibles a veces
-* Acomodar posicion del jugador para centrarlo
-* Acomodar posicion de disparos
+* Acomodar posicion del jugador para centrarlo en pantalla
+
+* se apretan muchas veces las teclas de compra
 

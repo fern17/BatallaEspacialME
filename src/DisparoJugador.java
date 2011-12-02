@@ -37,10 +37,10 @@ public class DisparoJugador {
 	
 	
 	public void set(int _x, int _y, int _dir, int _potencia, int _distancia){
-		this.xinicial = _x;//correccion por sprite
-		this.yinicial = _y;
-		this.x = _x; 
-		this.y = _y; 
+		this.xinicial = _x+8;//correccion por sprite
+		this.yinicial = _y+8;
+		this.x = this.xinicial; 
+		this.y = this.yinicial; 
 		this.dir = _dir;
 		this.distancia = _distancia;
 		switch(dir){
