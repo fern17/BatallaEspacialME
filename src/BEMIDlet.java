@@ -26,7 +26,6 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 	    juego = new Juego(this, broadcaster);
 	    broadcaster.juego = this.juego;
 	    
-	    
 	    exit = new Command("Salir", Command.EXIT, 1);
 		enter = new Command("Entrar", Command.OK, 1);
 		
@@ -37,11 +36,9 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 		form.setCommandListener(this);
 		form.addCommand(exit);
 		form.addCommand(enter);
-		
 		juego.addCommand(exit);
 		
 		juego.setCommandListener(this);
-		
 	}//fin BEMIDlet constructor
 	
 	public void setState(int _state){

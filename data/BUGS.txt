@@ -1,7 +1,6 @@
 BUGS:
-* Agarra monedas muchas veces el jugador
-* Naves aparecen invisibles a veces
 * Acomodar posicion del jugador para centrarlo en pantalla
 
-* se apretan muchas veces las teclas de compra
-
+PARTIALLY SOLVED:
+* se apretan muchas veces las teclas de compra (parece problema del emulador)
+* Naves aparecen invisibles a veces (meh)

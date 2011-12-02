@@ -73,11 +73,13 @@ public class Player {
 		this.disparo = new DisparoJugador(juego, this);
 		
 		_nombre.getChars(0, _nombre.length(), this.nombre, 0);
-		setInicio(); //setea valores por defecto
+		
 		s_player = new Sprite(juego.im.getImgNavePlayer(),48,48);
 		
+		
 		s_player.setRefPixelPosition(24, 24); //centra las coordenadas
-		s_player.setPosition(this.x, this.y);
+		//s_player.setPosition(this.x, this.y);
+		setInicio(); //setea valores por defecto
 		cambiarFrame();
 		estaVivo = true;
 	}
@@ -106,6 +108,8 @@ public class Player {
 	public void setInicio(){
 		this.x 			= this.xinicio;
 		this.y 			= this.yinicio;
+		this.s_player.setPosition(this.x,this.y);
+		this.s_player.setVisible(true);
 		this.dir	    = Player.DIRN;
 		
 		if(vidas > 0){
@@ -322,7 +326,7 @@ public class Player {
 		}
 	}
 	
-	public int costoVelocidad(){ return (mejoraVelocidad * velocidad); 	}
+	public int costoVelocidad(){ return (mejoraVelocidad * inicio_e); 	}
 	
 	public boolean aumentarEscudo(){
 		if (dinero-costoEscudo() >= 0) {
@@ -335,7 +339,7 @@ public class Player {
 		}
 	}
 	
-	public int costoEscudo(){return (mejoraEscudo * escudo); }
+	public int costoEscudo(){return (mejoraEscudo * inicio_e); }
 	
 	public boolean aumentarPotencia(){
 		if (dinero-costoPotencia() >= 0) {
@@ -348,7 +352,7 @@ public class Player {
 		}
 	}
 	
-	public int costoPotencia(){	return (mejoraPotencia * potencia);	}
+	public int costoPotencia(){	return (mejoraPotencia * inicio_p);	}
 	
 	public boolean aumentarCristales(){
 		if (dinero-costoCristales() >= 0) {
@@ -362,6 +366,6 @@ public class Player {
 		}
 	}
 	
-	public int costoCristales(){ return (mejoraCristales * cristales);	}
+	public int costoCristales(){ return (mejoraCristales * inicio_c);	}
 	
 }

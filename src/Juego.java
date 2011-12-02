@@ -30,9 +30,8 @@ public class Juego extends GameCanvas implements Runnable {
 	public Vector disparos = new Vector();
 	public boolean esServidor = false;
 	public int idMonedaNueva = 0; // identificador de las monedas
-	//TODO pasar a 30000 y 25
-	public int tiempoMonedas = 100; //cuanto tiempo tardan en generarse las monedas
-	private static final int  MAX_MONEDAS = 3; 
+	public int tiempoMonedas = 30000; //cuanto tiempo tardan en generarse las monedas
+	private static final int  MAX_MONEDAS = 25; 
 	public Font fuenteJugadores = null;
 	public Font fuenteInterfaz = null;
 	private int tiempoParaCompra = 0;
@@ -302,6 +301,8 @@ public class Juego extends GameCanvas implements Runnable {
 				if(t_as == this.jugador.identificador) //si mate a alguien en el turno anterior
 					this.jugador.incrementarPuntos();
 			}
+			if(esServidor)
+				crearMonedasPorMuertos(t);
 			if(t_id == this.jugador.identificador){ 			//si es mi id
 				continue; //no busco mi disparo aqui
 			}
@@ -316,8 +317,7 @@ public class Juego extends GameCanvas implements Runnable {
 			}
 			disparos.addElement(de);//agrega un disparo
 			lm.insert(de.s_disparoenemigo, 0);
-			if(esServidor)
-				crearMonedasPorMuertos(t);
+			
 		}
 		if(esServidor == true){
 			borrarMonedas();
@@ -354,13 +354,14 @@ public class Juego extends GameCanvas implements Runnable {
 	}
 	// Prueba colision de jugadores con monedas
 	public void borrarMonedas(){
-		for(int i = 0; i < broadcaster.mensajeAJugadores.size(); i++){ 		//recorro los 4 jugadores
+		for (int i = 0; i < broadcaster.mensajeAJugadores.size(); i++) { 		//recorro los 4 jugadores
 			String t 	= (String) broadcaster.mensajeAJugadores.elementAt(i); 
 			int t_id	= Integer.parseInt(t.substring(Broadcaster.dataPosMoneda,Broadcaster.dataPosFrameRate).trim());
-			if(t_id != -1){
-				for(int j = 0; j < monedas.size(); j++){
+			if (t_id != -1) {
+				for (int j = 0; j < monedas.size(); j++) {
 					Moneda m = (Moneda) monedas.elementAt(j);
-					if(m.id == t_id){
+					
+					if (m.id == t_id) {
 						lm.remove(m.s_moneda);
 						monedas.removeElement(m);
 					}
@@ -473,20 +474,20 @@ public class Juego extends GameCanvas implements Runnable {
 		for(int i = 0; i < monedas.size(); i++){
 			Moneda m = (Moneda) monedas.elementAt(i);
 			if(jugador.colisionar(m)){
+				if(m.id == jugador.idMoneda) 
+					continue; //ya la agarre, no vuelvo a colisionar
 				if(m.valor == Moneda.ESPECIAL){
 					jugador.incrementarMoneda(Moneda.valorMonedaEspecial);
 				} else {
 					jugador.incrementarMoneda(Moneda.valorMonedaNormal);
 				}
 				jugador.idMoneda = m.id;
-				//TODO dejar? NO ANDA, LA AGARRA MUCHAS VECES
-				//monedas.removeElement(m);
-				//lm.remove(m.s_moneda);
+				monedas.removeElement(m);
+				lm.remove(m.s_moneda);
 			}
 		}
-		//TODO changed
-		//if(esServidor) colisionarServidor();
 	}
+	/*
 	//tarea extra que hace un server
 	//unused
 	public void colisionarServidor(){
@@ -502,7 +503,7 @@ public class Juego extends GameCanvas implements Runnable {
 				}
 			}
 		}
-	}
+	}*/
 	
 	public void start(){
 		midlet.display.setCurrent(this);

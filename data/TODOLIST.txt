@@ -3,5 +3,5 @@ COSAS QUE FALTAN:
 * Decidir ganador (DEPRECATED: no usamos puntos)
 * Mensaje de ganador
 * Colisionar con mapa nivel 2
-* Generar monedas de muertes
 * Pantalla de inicio
+* usar numero de jugadores
