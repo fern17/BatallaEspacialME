@@ -15,7 +15,7 @@ public class ImageManager {
 	public ImageManager(){
 		try{
 			img_disparo = Image.createImage("/disparo2.png");
-			img_monedaNormal = Image.createImage("/coin_yellowSINALFA.png");
+			img_monedaNormal = Image.createImage("/coin_yellow.png");
 			img_monedaEspecial = Image.createImage("/coin_red.png");
 			img_nave_player = Image.createImage("/nave_player.png");
 			img_nave_enemy = Image.createImage("/nave_enemy.png");

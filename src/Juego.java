@@ -25,7 +25,7 @@ public class Juego extends GameCanvas implements Runnable {
 	public Sprite s_mascara = null;
 	
 	public Player jugador = null;
-	private Vector naves = new Vector(); //guarda la info de las 4 naves
+	public Vector naves = new Vector(); //guarda la info de las 4 naves
 	public Vector monedas = new Vector();
 	public Vector disparos = new Vector();
 	

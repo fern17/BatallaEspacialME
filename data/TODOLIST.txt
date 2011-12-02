@@ -1,5 +1,5 @@
 COSAS QUE FALTAN:
 * Mensaje de ganador
-* Colisionar con mapa nivel 2
 * Pantalla de inicio //se la pedi a cristian
 * ver como calcular la velocidad por frame
+* colisionar entre naves

@@ -227,8 +227,8 @@ public class Player {
 		
 		//TODO fix
 		
-		int prevx = this.x;
-		int prevy = this.y;
+		int t_x = this.x;
+		int t_y = this.y;
 		
 		//TODO revisar
 		step = velocidad;
@@ -270,26 +270,27 @@ public class Player {
 				break;
 			}
 		}
-		/*
-		//THIS IS HORRIBLE, STAY AWAY
-		Sprite l_splayer   = (Sprite) juego.lm.getLayerAt(juego.lm.getSize()-3);
-		l_splayer.setPosition(this.x,this.y);
-		if( l_splayer.collidesWith(
-				((TiledLayer) juego.lm.getLayerAt(juego.lm.getSize()-2)),
-				true) ){
-			this.x = prevx;
-			this.y = prevy;
-			return; //si colisiona, no debo moverlo
-		}
-		//if(l_splayer.collidesWith(l_back2, false)){
-			
-		//}*/
-		/*if(this.x != this.xinicio)
-			if( this.s_player.collidesWith(juego.mapa.backgroundL2, true)){
-				return;
-			}*/
-		this.s_player.setPosition(this.x,this.y);
+		boolean rollback = false;
+		this.s_player.setPosition(x,y);
 		cambiarFrame();
+		if( this.s_player.collidesWith(juego.mapa.backgroundL2, true)){
+			//si colisiona, hago rollback
+			rollback = true;
+		}
+		else{ //si ya colisione, ni pruebo con otra cosa
+			for(int i = 0; i < juego.broadcaster.cantidadJugadores; i++){
+				Enemy e = (Enemy) juego.naves.elementAt(i);
+				if(this.s_player.collidesWith(e.s_enemy,true)){
+					rollback = true;
+					break;
+				}
+			}
+		}
+		if(rollback == true){
+			this.x = t_x;
+			this.y = t_y;
+			s_player.setPosition(t_x,t_y);
+		}
 	}
 	
 	public boolean disparar(){

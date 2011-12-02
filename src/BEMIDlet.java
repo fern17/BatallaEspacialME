@@ -44,7 +44,7 @@ public class BEMIDlet extends MIDlet implements CommandListener {
 		
 		
 		form.append(textField);
-		form.append(img);
+		//form.append(img);
 		
 		form.setCommandListener(this);
 		form.addCommand(exit);
