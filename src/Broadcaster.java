@@ -102,6 +102,7 @@ public class Broadcaster implements CommandListener{
 		startGame 	= new Command("Iniciar Juego", Command.OK,1);
 		devices 	= new ChoiceGroup(null,Choice.EXCLUSIVE);
 		
+		
 		form.addCommand(exit);
 		form.addCommand(connect);
 		form.addCommand(startServer);

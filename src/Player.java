@@ -29,7 +29,7 @@ public class Player {
 	
 	private int step = 1; //cuanto se mueve por frame
 	
-	public int dinero = 100;
+	public int dinero = 10000;
 	
 	public int idMoneda 	= -1; 
 
@@ -280,6 +280,7 @@ public class Player {
 		else{ //si ya colisione, ni pruebo con otra cosa
 			for(int i = 0; i < juego.broadcaster.cantidadJugadores; i++){
 				Enemy e = (Enemy) juego.naves.elementAt(i);
+				if(e.id == this.identificador) continue; //no debo colisionar conmigo mismo
 				if(this.s_player.collidesWith(e.s_enemy,true)){
 					rollback = true;
 					break;
