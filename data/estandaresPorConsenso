@@ -1,0 +1,25 @@
+ESTANDARES POR CONSENSO:
+
+- Naves de 48x48
+- Disparos de 32x32
+- Cada uno se encarga de verificar si es golpeado
+
+- El mapa es ahora de 1000x1000 (o sea, 20x20 tiles)
+El ID del asesino se manda en el lugar de la V o M:
+
+-si estamos vivos mandamos V
+-si estamos muertos mandamos el ID de quien nos mató.
+
+Seguimos usando 1 caracter para este campo.
+La velocidad de los tiros es el doble de la velocidad de la nave
+
+- El mapa que usamos se compone solamente de objetos "chocables" (recién lo subió Cristian). Entonces, el string de mapa que mandamos va a tener uno de los nros del mapa (1-16) donde haya un tile con un objeto chocable, o un 0 cuando no haya nada. Cada uno se encargará de poner cualquier hierba (literalmente) en ese tile.
+
+- Los IDs son de un caracter.
+
+- Las monedas son de 32x32.
+
+- Las velocidades de la nave son por ciclo de dibujo, no por segundo.
+
+Ah, sí, eso es algo que dijimos un día pero no quedó anotado en ninguna parte. El UUID es 112233445566778899AABBCCDDEEFF (el mismo que el ejemplo del chat).
+El nombre (que para mí es innecesario) creo que había quedado en "Jueguito".

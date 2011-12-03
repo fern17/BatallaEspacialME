@@ -1,0 +1,6 @@
+BUGS:
+
+
+PARTIALLY SOLVED:
+* se apretan muchas veces las teclas de compra (parece problema del emulador)
+* Naves aparecen invisibles a veces (meh)
