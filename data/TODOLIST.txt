@@ -1,5 +1,3 @@
 COSAS QUE FALTAN:
-* Mensaje de ganador
-* Pantalla de inicio //se la pedi a cristian
 * ver como calcular la velocidad por frame
-* colisionar entre naves
+* ver que no se generen monedas donde hay otras cosas
