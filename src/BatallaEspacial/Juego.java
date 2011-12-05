@@ -56,7 +56,7 @@ public class Juego extends GameCanvas implements Runnable {
 					Broadcaster.xiniciales[i],Broadcaster.yiniciales[i],0);
 			naves.addElement(e);
 		}
-		mapa = new Mapa(this);
+		mapa = new Mapa();
 		
 	}
 	
@@ -74,7 +74,6 @@ public class Juego extends GameCanvas implements Runnable {
 		lm.append(jugador.s_player);
 		lm.append(mapa.backgroundL2);
 		lm.append(mapa.backgroundL1);
-		
 		
 		actualizarCristales();
 		
@@ -195,11 +194,11 @@ public class Juego extends GameCanvas implements Runnable {
 				} 
 				catch (InterruptedException ie) {break;}
 			}
-			else Thread.yield();
+			//else Thread.yield();
 			
 			if(esServidor) broadcaster.enviarServer();
 			try{
-				Thread.sleep(5);
+				Thread.sleep(10);
 			}
 			catch(InterruptedException ie){ 
 			}

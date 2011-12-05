@@ -232,16 +232,6 @@ public class Player {
 		puntos = puntos + 1;
 	}
 	
-	
-	
-	//no se esta usando, no anda bien
-	public boolean colisionaConMapaLevel2(){
-		int mapax = (int) this.x/Mapa.TILESIZE;
-		int mapay = (int) this.y/Mapa.TILESIZE;
-		int mapindex = mapax*Mapa.MAPSIDE + mapay;
-		return juego.mapa.colisionPlayer(mapindex);
-	}
-	
 	//funciones de interaccion
 	public void mover(int _direccion){
 		dir = _direccion;
@@ -249,7 +239,6 @@ public class Player {
 		int t_x = this.x;
 		int t_y = this.y;
 		
-		//TODO revisar
 		step = velocidad;
 		switch(dir){
 			case Player.DIRN:{
@@ -292,7 +281,7 @@ public class Player {
 		boolean rollback = false;
 		this.s_player.setPosition(x,y);
 		cambiarFrame();
-		if( this.s_player.collidesWith(juego.mapa.backgroundL2, true)){
+		if( this.s_player.collidesWith(juego.mapa.backgroundL2, false)){
 			//si colisiona, hago rollback
 			rollback = true;
 		}

@@ -29,7 +29,7 @@ public class DeviceDiscoverer implements DiscoveryListener
 
  public void inquiryCompleted(int descType)
 	{
-	 String message = "";
+	 /*String message = "";
 
      switch(descType)
 		{
@@ -42,7 +42,7 @@ public class DeviceDiscoverer implements DiscoveryListener
 	     case DiscoveryListener.INQUIRY_ERROR:
 			     message = "INQUIRY_ERROR";
 		         break;
-	    }
+	    }*/
 
       rDevices = new RemoteDevice[devices.size()];
 	  for(int i=0;i<devices.size();i++)
@@ -53,6 +53,7 @@ public class DeviceDiscoverer implements DiscoveryListener
 
 	  bc = null;
       devices = null;
+     
 	}
 
  public void servicesDiscovered(int transId,ServiceRecord[] services)

@@ -10,17 +10,30 @@ import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 
+/**
+ * Clase BatallaEspacial. 
+ * MIDlet principal que es ejecutado al inicio y almacena el juego.
+ * 
+ */
+
 public class BatallaEspacial extends MIDlet implements CommandListener {
-	public Juego juego;
-	public Broadcaster broadcaster = null;
+	public Juego 		juego = null;
+	public Broadcaster 	broadcaster = null;
 	public static int MIN_NAME_LENGTH = 2;
 	public static int MAX_NAME_LENGTH = 10;
 	public Display display = null;
-	private Form form;
-	private TextField textField;
+	private Form form = null;
+	private TextField textField = null;
 	private Command exit = null;
 	private Command enter = null;
 	public ImageItem imagetitle = null;
+	/**
+	 * Constructor de BatallaEspacial.
+	 * Llama a los constructores de Juego y Broadcaster. Tambien los conecta entre sí por variables miembro. 
+	 * Construye la pantalla principal.
+	 * @see Juego
+	 * @see Broadcaster
+	 */
 	public BatallaEspacial() {
 		super();
 	    display = Display.getDisplay(this);
@@ -48,18 +61,30 @@ public class BatallaEspacial extends MIDlet implements CommandListener {
 		juego.setCommandListener(this);
 	}//fin BEMIDlet constructor
 	
+	/**
+	 * Cambia el estado de Juego.
+	 * @param _state : Estado a imponer.
+	 * @see GameState
+	 */
 	public void setState(int _state){
 		this.juego.setGameState(_state);
 	}//fin setState
-	
+	/**
+	 * Retorna el estado actual del juego
+	 * @return 
+	 *    Estado actual del juego
+	 */
 	public int getState(){
 		return this.juego.getGameState();
 	}
+	/**
+	 * Muestra en pantalla el formulario inicial.
+	 */
 	protected void startApp() throws MIDletStateChangeException {
 		display.setCurrent(form);
 		
 	}//fin startApp
-
+	
 	protected void pauseApp() {
    
 	}//fin pauseApp
@@ -67,7 +92,12 @@ public class BatallaEspacial extends MIDlet implements CommandListener {
 	protected void destroyApp(boolean uncond) {
 
 	}//fin destroyApp
-
+	/**
+	 * Maneja el comando exit de todos los Displayable.
+	 * Comprueba que el nombre esté en la longitud especificada.
+	 *   Si está, llama a Broadcaster.show().
+	 *   @see Broadcaster
+	 */
 	public void commandAction(Command cmd,Displayable disp) {
 	    if(cmd == exit) {
 	    	destroyApp(true);

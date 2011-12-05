@@ -4,11 +4,27 @@ import java.io.IOException;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
 
-
+/**
+ * Clase Mapa. 
+ * Se encarga de construir las 2 capas de mapa para el jugador y el servidor.
+ *
+ */
 public class Mapa {
-	public static int MAPLENGTH = 400;
+	/**
+	 * Longitud del mapa, en cantidad de tiles uno tras del otro. 
+	 */
+	public static int MAPLENGTH = 400; 
+	/**
+	 * Tamaño en píxeles de cada tile.
+	 */
 	public static int TILESIZE = 50;
+	/**
+	 * Cantidad de tiles por lado del mapa.
+	 */
 	public static int MAPSIDE = 20;
+	/**
+	 * Mapa nivel 1.
+	 */
 	private int[] map1 = {	
 			1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 			1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -31,7 +47,9 @@ public class Mapa {
 			1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 			1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 		};
-	
+	/**
+	 * Mapa nivel 2 con el que se colisiona.
+	 */
 	private int[] map2 = {	
 			2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,
 			7,0,0,0,0,0,0,5,6,5,0,0,0,0,0,0,0,0,0,9,
@@ -57,21 +75,25 @@ public class Mapa {
 	
 	private String mapa1EnString;
 	private String mapa2EnString;
-	private Juego juego;
 	private Image i_bg1;
 	private Image i_bg2;
 	public TiledLayer backgroundL1;
 	public TiledLayer backgroundL2;
-	public Mapa(Juego _j){
-		this.juego = _j;
+	/**
+	 * Constructor.
+	 * Carga las imágenes de cada tilemap.
+	 */
+	public Mapa(){
 		try {
-			i_bg1 = Image.createImage("/tileset1.png");
+			i_bg1 = Image.createImage("/tileset1solo.png");
 			i_bg2 = Image.createImage("/tileset22.png");
 		} catch (IOException e) { 
 			System.out.println("No se pudo leer el tilemap");
 		};
 	}
-	
+	/**
+	 * Construye los dos mapas a partir de los tileset y genera las cadenas en string de cada uno.
+	 */
 	public void crearComoServer(){
 		backgroundL1 = new TiledLayer(Mapa.MAPSIDE,Mapa.MAPSIDE,i_bg1,Mapa.TILESIZE,Mapa.TILESIZE);
 		mapa1EnString = "";
@@ -95,6 +117,10 @@ public class Mapa {
 		backgroundL2.setPosition(0,0);
 	}
 	
+	/**
+	 * Se le pasa un mapa nivel 2 en String, y crea un TiledLayer a partir de allí.
+	 * @param _map : Mapa en formato String
+	 */
 	public void crearComoCliente(String _map){ //solo crea el mapa 2
 		
 		//esta parte es igual al server, reveer una forma de organizarlo mejor :S
@@ -108,10 +134,7 @@ public class Mapa {
 			mapa1EnString = mapa1EnString + MessageFromPlayer.charFill(""+map1[i], 2, ' ');
 		}
 		backgroundL1.setPosition(0,0);
-		
-		
-		
-		
+
 		int start = 0;
 		int end = 0;
 		map2 = new int [Mapa.MAPLENGTH];
@@ -136,7 +159,11 @@ public class Mapa {
 		}
 		backgroundL2.setPosition(0,0);
 	}
-	
+	/**
+	 * Retorna el mapa en formato String indicado por el parámetro
+	 * @param i Si es 1, devuelve el mapa nivel 1. Si es 2, devuelve el mapa nivel 2. Si es otro número, devuelve una cadena vacía.
+	 * @return La cadena correspondiente al argumento. 
+	 */
 	public String mapaEnString(int i){
 		if(i == 1)
 			return mapa1EnString;
@@ -144,10 +171,4 @@ public class Mapa {
 			return mapa2EnString;
 		return "";
 	}
-	
-	public boolean colisionPlayer(int index){
-		if (index >= map2.length) return false;
-		else 					 return (map2[index] != 0);
-	}
-	
 }
