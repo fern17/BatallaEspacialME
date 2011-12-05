@@ -13,20 +13,20 @@ import javax.microedition.lcdui.CommandListener;
 /**
  * Clase BatallaEspacial. 
  * MIDlet principal que es ejecutado al inicio y almacena el juego.
- * 
  */
 
 public class BatallaEspacial extends MIDlet implements CommandListener {
-	public Juego 		juego = null;
+	public Juego juego = null;
 	public Broadcaster 	broadcaster = null;
-	public static int MIN_NAME_LENGTH = 2;
-	public static int MAX_NAME_LENGTH = 10;
+	public static int MIN_NAME_LENGTH = 2; //Longitud mínima del nombre
+	public static int MAX_NAME_LENGTH = 10; // Longitud máxima del nombre
 	public Display display = null;
 	private Form form = null;
 	private TextField textField = null;
 	private Command exit = null;
 	private Command enter = null;
 	public ImageItem imagetitle = null;
+	
 	/**
 	 * Constructor de BatallaEspacial.
 	 * Llama a los constructores de Juego y Broadcaster. Tambien los conecta entre sí por variables miembro. 
@@ -65,38 +65,38 @@ public class BatallaEspacial extends MIDlet implements CommandListener {
 	 * Cambia el estado de Juego.
 	 * @param _state : Estado a imponer.
 	 * @see GameState
+	 * @see Juego::setGameState()
 	 */
 	public void setState(int _state){
 		this.juego.setGameState(_state);
-	}//fin setState
+	}
+	
 	/**
 	 * Retorna el estado actual del juego
-	 * @return 
-	 *    Estado actual del juego
+	 * @return Estado actual del juego
+	 * @see Juego::getGameState()
 	 */
 	public int getState(){
 		return this.juego.getGameState();
 	}
+	
 	/**
 	 * Muestra en pantalla el formulario inicial.
 	 */
 	protected void startApp() throws MIDletStateChangeException {
 		display.setCurrent(form);
-		
-	}//fin startApp
+	}
 	
-	protected void pauseApp() {
-   
-	}//fin pauseApp
+	protected void pauseApp() { }
 
-	protected void destroyApp(boolean uncond) {
-
-	}//fin destroyApp
+	protected void destroyApp(boolean uncond) {	}
+	
 	/**
 	 * Maneja el comando exit de todos los Displayable.
 	 * Comprueba que el nombre esté en la longitud especificada.
-	 *   Si está, llama a Broadcaster.show().
-	 *   @see Broadcaster
+	 * Si está, llama a Broadcaster.show().
+	 * @see Broadcaster::show()
+	 * @see MessageFromPlayer::charFill()
 	 */
 	public void commandAction(Command cmd,Displayable disp) {
 	    if(cmd == exit) {

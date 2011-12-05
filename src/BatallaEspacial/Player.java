@@ -1,5 +1,4 @@
 package BatallaEspacial;
-import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.Sprite;
 
 public class Player {
@@ -77,12 +76,6 @@ public class Player {
 		setInicio(); //setea valores por defecto
 		cambiarFrame();
 		estaVivo = true;
-	}
-	
-	
-	public void dibujar(Graphics g){
-		this.s_player.paint(g);
-		this.disparo.dibujar(g);
 	}
 	
 	public String generarMensaje(){
@@ -289,7 +282,7 @@ public class Player {
 			for(int i = 0; i < juego.broadcaster.cantidadJugadores; i++){
 				Enemy e = (Enemy) juego.naves.elementAt(i);
 				if(e.id == this.identificador) continue; //no debo colisionar conmigo mismo
-				if(this.s_player.collidesWith(e.s_enemy,true)){
+				if(e.s_enemy.isVisible() & this.s_player.collidesWith(e.s_enemy,true)){ 
 					rollback = true;
 					break;
 				}
@@ -304,7 +297,7 @@ public class Player {
 	
 	public boolean disparar(){
 		if(this.puedeDisparar){
-			this.disparo.set(this.x,this.y,this.dir,this.potencia,this.cristales);
+			this.disparo.set();
 			setDisparar(false); //ahora no puede disparar
 			return true;
 		}

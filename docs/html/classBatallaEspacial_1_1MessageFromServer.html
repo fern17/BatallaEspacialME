@@ -75,15 +75,87 @@ var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Métodos públicos</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7696ba75d83b0ea75b9e5ab20e80f491"></a><!-- doxytag: member="BatallaEspacial::MessageFromServer::MessageFromServer" ref="a7696ba75d83b0ea75b9e5ab20e80f491" args="(Vector _playerString, Vector _monedas, int FM)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>MessageFromServer</b> (Vector _playerString, Vector _monedas, int FM)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac86e77f8b599a205c423d89bbb2ebf1e"></a><!-- doxytag: member="BatallaEspacial::MessageFromServer::getMsg" ref="ac86e77f8b599a205c423d89bbb2ebf1e" args="()" -->
-String&#160;</td><td class="memItemRight" valign="bottom"><b>getMsg</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1MessageFromServer.html#a7696ba75d83b0ea75b9e5ab20e80f491">MessageFromServer</a> (Vector _playerString, Vector _monedas, int FM)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1MessageFromServer.html#ac86e77f8b599a205c423d89bbb2ebf1e">getMsg</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Atributos privados</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7d73f33c96c193cf8d0ce45f83e98c8"></a><!-- doxytag: member="BatallaEspacial::MessageFromServer::msg" ref="ae7d73f33c96c193cf8d0ce45f83e98c8" args="" -->
 String&#160;</td><td class="memItemRight" valign="bottom"><b>msg</b></td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Descripción detallada</h2>
+<div class="textblock"><p>Clase <a class="el" href="classBatallaEspacial_1_1MessageFromServer.html">MessageFromServer</a>. Toma los mensajes de todos los jugadores y arma un único mensaje. Sólo debe usarlo el servidor </p>
+</div><hr/><h2>Documentación del constructor y destructor</h2>
+<a class="anchor" id="a7696ba75d83b0ea75b9e5ab20e80f491"></a><!-- doxytag: member="BatallaEspacial::MessageFromServer::MessageFromServer" ref="a7696ba75d83b0ea75b9e5ab20e80f491" args="(Vector _playerString, Vector _monedas, int FM)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BatallaEspacial.MessageFromServer.MessageFromServer </td>
+          <td>(</td>
+          <td class="paramtype">Vector&#160;</td>
+          <td class="paramname"><em>_playerString</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vector&#160;</td>
+          <td class="paramname"><em>_monedas</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>FM</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Constructor. Toma un vector de mensajes de los jugadores, un vector de objetos <a class="el" href="classBatallaEspacial_1_1Moneda.html">Moneda</a> y un FrameRate a imponer a los jugadores </p>
+<dl><dt><b>Parámetros:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_playerString</td><td>: Vector de mensajes de jugadores </td></tr>
+    <tr><td class="paramname">_monedas</td><td>: Vector de Monedas </td></tr>
+    <tr><td class="paramname">FM</td><td>: FrameRate a imponer a los jugadores, calculado como el mínimo de todos. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Player.html">Player</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1Broadcaster.html">Broadcaster</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1Moneda.html">Moneda</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1Broadcaster.html#a5202f4cdca2e7031311dcdc47d7dce73">Broadcaster.generarMensaje()</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1Broadcaster.html#a5fbe1fc5364790302e75955fb6021e62">Broadcaster.recalcularFrameRate()</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1Moneda.html#a8ca2f3a7d6bb712dbd145442ab2f3c5f">Moneda.generarMensaje</a> </dd></dl>
+
+</div>
+</div>
+<hr/><h2>Documentación de las funciones miembro</h2>
+<a class="anchor" id="ac86e77f8b599a205c423d89bbb2ebf1e"></a><!-- doxytag: member="BatallaEspacial::MessageFromServer::getMsg" ref="ac86e77f8b599a205c423d89bbb2ebf1e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String BatallaEspacial.MessageFromServer.getMsg </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Devuelve:</b></dt><dd>Mensaje generado en el constructor </dd></dl>
+
+</div>
+</div>
 <hr/>La documentación para esta clase fue generada a partir del siguiente fichero:<ul>
 <li>src/BatallaEspacial/MessageFromServer.java</li>
 </ul>
@@ -102,7 +174,7 @@ String&#160;</td><td class="memItemRight" valign="bottom"><b>msg</b></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generado el Lunes, 5 de Diciembre de 2011 04:57:33 para 'BatallaEspacialME' por&#160;
+<hr class="footer"/><address class="footer"><small>Generado el Lunes, 5 de Diciembre de 2011 19:47:21 para 'BatallaEspacialME' por&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

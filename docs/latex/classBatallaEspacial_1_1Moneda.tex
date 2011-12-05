@@ -5,20 +5,9 @@
 \subsection*{Métodos públicos}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classBatallaEspacial_1_1Moneda_a19446852af09b6e2aaf3de1d65609c0e}{
-{\bfseries Moneda} (\hyperlink{classBatallaEspacial_1_1Juego}{Juego} \_\-j, int \_\-id, int \_\-x, int \_\-y, int \_\-valor)}
-\label{classBatallaEspacial_1_1Moneda_a19446852af09b6e2aaf3de1d65609c0e}
-
+\hyperlink{classBatallaEspacial_1_1Moneda_a19446852af09b6e2aaf3de1d65609c0e}{Moneda} (\hyperlink{classBatallaEspacial_1_1Juego}{Juego} \_\-j, int \_\-id, int \_\-x, int \_\-y, int \_\-valor)
 \item 
-\hypertarget{classBatallaEspacial_1_1Moneda_a3a4a0555bb60ceed72515d81b802d8e9}{
-void {\bfseries dibujar} (Graphics g)}
-\label{classBatallaEspacial_1_1Moneda_a3a4a0555bb60ceed72515d81b802d8e9}
-
-\item 
-\hypertarget{classBatallaEspacial_1_1Moneda_a8ca2f3a7d6bb712dbd145442ab2f3c5f}{
-String {\bfseries generarMensaje} ()}
-\label{classBatallaEspacial_1_1Moneda_a8ca2f3a7d6bb712dbd145442ab2f3c5f}
-
+String \hyperlink{classBatallaEspacial_1_1Moneda_a8ca2f3a7d6bb712dbd145442ab2f3c5f}{generarMensaje} ()
 \end{DoxyCompactItemize}
 \subsection*{Atributos públicos}
 \begin{DoxyCompactItemize}
@@ -79,6 +68,58 @@ static final int {\bfseries valorMonedaEspecial} = 20}
 \label{classBatallaEspacial_1_1Moneda_ac6efe7b8d5bc79b472de1a920e27c414}
 
 \end{DoxyCompactItemize}
+
+
+\subsection{Descripción detallada}
+Clase \hyperlink{classBatallaEspacial_1_1Moneda}{Moneda} Representa una moneda en el juego, que puede ser NORMAL, con valor 5, o ESPECIAL, con valor 20. 
+
+\subsection{Documentación del constructor y destructor}
+\hypertarget{classBatallaEspacial_1_1Moneda_a19446852af09b6e2aaf3de1d65609c0e}{
+\index{BatallaEspacial::Moneda@{BatallaEspacial::Moneda}!Moneda@{Moneda}}
+\index{Moneda@{Moneda}!BatallaEspacial::Moneda@{BatallaEspacial::Moneda}}
+\subsubsection[{Moneda}]{\setlength{\rightskip}{0pt plus 5cm}BatallaEspacial.Moneda.Moneda (
+\begin{DoxyParamCaption}
+\item[{{\bf Juego}}]{\_\-j, }
+\item[{int}]{\_\-id, }
+\item[{int}]{\_\-x, }
+\item[{int}]{\_\-y, }
+\item[{int}]{\_\-valor}
+\end{DoxyParamCaption}
+)}}
+\label{classBatallaEspacial_1_1Moneda_a19446852af09b6e2aaf3de1d65609c0e}
+Constructor. Recibe todos los datos inherentes a una \hyperlink{classBatallaEspacial_1_1Moneda}{Moneda} y crea el objeto. 
+\begin{DoxyParams}{Parámetros}
+{\em \_\-j} & : Objeto \hyperlink{classBatallaEspacial_1_1Juego}{Juego} de la aplicacion \\
+\hline
+{\em \_\-id} & : Id de la moneda \\
+\hline
+{\em \_\-x} & : Posición X inicial \\
+\hline
+{\em \_\-y} & : Posición Y inicial \\
+\hline
+{\em \_\-valor} & : Valor. Si es Moneda.NORMAL, se asigna 5. Si es Moneda.ESPECIAL, se asigna 20. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{Ver también}
+\hyperlink{classBatallaEspacial_1_1Juego}{Juego} 
+
+\hyperlink{classBatallaEspacial_1_1ImageManager}{ImageManager} 
+\end{DoxySeeAlso}
+
+
+\subsection{Documentación de las funciones miembro}
+\hypertarget{classBatallaEspacial_1_1Moneda_a8ca2f3a7d6bb712dbd145442ab2f3c5f}{
+\index{BatallaEspacial::Moneda@{BatallaEspacial::Moneda}!generarMensaje@{generarMensaje}}
+\index{generarMensaje@{generarMensaje}!BatallaEspacial::Moneda@{BatallaEspacial::Moneda}}
+\subsubsection[{generarMensaje}]{\setlength{\rightskip}{0pt plus 5cm}String BatallaEspacial.Moneda.generarMensaje (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classBatallaEspacial_1_1Moneda_a8ca2f3a7d6bb712dbd145442ab2f3c5f}
+Construye el mensaje sobre los datos de la moneda, para que se distribuya en los mensajes desde el servidor \begin{DoxyReturn}{Devuelve}
+: String representando los datos de la moneda. 
+\end{DoxyReturn}
 
 
 La documentación para esta clase fue generada a partir del siguiente fichero:\begin{DoxyCompactItemize}

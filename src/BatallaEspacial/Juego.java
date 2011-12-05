@@ -9,6 +9,9 @@ import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.Sprite;
 
 public class Juego extends GameCanvas implements Runnable {
+	//Posiciones iniciales de todos los jugadores
+	public static final int[] xiniciales = {50,900,900,50};
+	public static final int[] yiniciales = {50,900,50,900};
 	public int fpsDesdeServer = 30;
 	public int milisegundosEnDibujar = 33;
 	public static final int FRAMESAT30 = 33;
@@ -53,7 +56,7 @@ public class Juego extends GameCanvas implements Runnable {
 		char[] l_n = {'s','i','n',' ','n','o','m','b','r','e'};
 		for(int i = 0; i < 4; i++){
 			Enemy e = new Enemy(this,i,l_n,
-					Broadcaster.xiniciales[i],Broadcaster.yiniciales[i],0);
+					xiniciales[i],yiniciales[i],0);
 			naves.addElement(e);
 		}
 		mapa = new Mapa();
@@ -273,6 +276,7 @@ public class Juego extends GameCanvas implements Runnable {
 			if(i != jugador.identificador)
 				((Enemy) naves.elementAt(i)).updateMsg(msg); //actualiza enemigos
 		}
+		
 		int idx 	= Broadcaster.idx; 					//los primeros 3 caracteres son framerate
 		int step 	= Broadcaster.dataStep; 					//cada mensaje sobre cada jugador ocupa esto
 		int start 	= 0;
@@ -308,11 +312,11 @@ public class Juego extends GameCanvas implements Runnable {
 			int i_lx	= Integer.parseInt(t.substring(Broadcaster.dataPosLX-1,Broadcaster.dataPosLY-1).trim());
 			int i_ly	= Integer.parseInt(t.substring(Broadcaster.dataPosLY-1, Broadcaster.dataPosLY-1+4).trim());
 			DisparoEnemigo de = new DisparoEnemigo(this,t_id,i_lx,i_ly,i_laser);
-			if(i_laser == DisparoEnemigo.VALORESPECIAL){
-				de.s_disparoenemigo.setVisible(false);
+			if(i_lx != DisparoEnemigo.VALORESPECIAL 
+					& i_ly != DisparoEnemigo.VALORESPECIAL){
+				disparos.addElement(de);//agrega un disparo
+				lm.insert(de.s_disparoenemigo, 0);
 			}
-			disparos.addElement(de);//agrega un disparo
-			lm.insert(de.s_disparoenemigo, 0);
 			
 		}
 		if(esServidor == true){
@@ -348,6 +352,7 @@ public class Juego extends GameCanvas implements Runnable {
 			}
 		}
 	}
+	
 	// Prueba colision de jugadores con monedas
 	public void borrarMonedas(){
 		for (int i = 0; i < broadcaster.mensajeAJugadores.size(); i++) { 		//recorro los 4 jugadores
@@ -483,32 +488,19 @@ public class Juego extends GameCanvas implements Runnable {
 			}
 		}
 	}
-	/*
-	//tarea extra que hace un server
-	//unused
-	public void colisionarServidor(){
-		
-		//se fija si algun enemigo colisiona con alguna moneda, entonces la borra
-		for(int j = 0; j < naves.size(); j++){
-			for(int i = 0; i < monedas.size(); i++){
-				Moneda m = (Moneda) monedas.elementAt(i);
-				Enemy e = (Enemy) naves.elementAt(j);
-				if(e.colisionar(m)){
-					monedas.removeElement(m);
-					lm.remove(m.s_moneda);
-				}
-			}
-		}
-	}*/
+	
 	
 	public void start(){
 		midlet.display.setCurrent(this);
 		new Thread(this).start();
 	}
-	public void setDatosJugador(int _id, int _x, int _y){
-		jugador = new Player(this,_id,_x,_y, this.nombreJugador);
+	public void setDatosJugador(int _id){
+		jugador = new Player(this,_id, xiniciales[_id], yiniciales[_id], this.nombreJugador);
 	}	
 	
+	public void setDatosJugadorXY(int _id, int _x, int _y){
+		jugador = new Player(this,_id, _x, _y, this.nombreJugador);
+	}
 	
 	public void crearMapa(String _mapa){
 		if(esServidor == true)

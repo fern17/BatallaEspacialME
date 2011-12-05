@@ -77,10 +77,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Métodos públicos</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18d3903cc57df51236ea2d9b8151a3a9"></a><!-- doxytag: member="BatallaEspacial::DisparoEnemigo::DisparoEnemigo" ref="a18d3903cc57df51236ea2d9b8151a3a9" args="(Juego _j, int _id, int _x, int _y, int _p)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>DisparoEnemigo</b> (<a class="el" href="classBatallaEspacial_1_1Juego.html">Juego</a> _j, int _id, int _x, int _y, int _p)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab968fbd87083689fa23354e1de28e5d0"></a><!-- doxytag: member="BatallaEspacial::DisparoEnemigo::dibujar" ref="ab968fbd87083689fa23354e1de28e5d0" args="(Graphics g)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dibujar</b> (Graphics g)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html#a18d3903cc57df51236ea2d9b8151a3a9">DisparoEnemigo</a> (<a class="el" href="classBatallaEspacial_1_1Juego.html">Juego</a> _j, int _id, int _x, int _y, int _p)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Atributos públicos</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a38f3bce5400ab2d3f4b9d633cabc2708"></a><!-- doxytag: member="BatallaEspacial::DisparoEnemigo::id" ref="a38f3bce5400ab2d3f4b9d633cabc2708" args="" -->
@@ -92,7 +89,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>potencia</b></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Atributos públicos estáticos</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae905809e028829ab0d3c5e93e4175353"></a><!-- doxytag: member="BatallaEspacial::DisparoEnemigo::VALORESPECIAL" ref="ae905809e028829ab0d3c5e93e4175353" args="" -->
-static final int&#160;</td><td class="memItemRight" valign="bottom"><b>VALORESPECIAL</b> = 0</td></tr>
+static final int&#160;</td><td class="memItemRight" valign="bottom"><b>VALORESPECIAL</b> = -1</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Atributos privados</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01941f1a77568e12cf9fa142fcfd2aab"></a><!-- doxytag: member="BatallaEspacial::DisparoEnemigo::x" ref="a01941f1a77568e12cf9fa142fcfd2aab" args="" -->
@@ -102,6 +99,71 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad347800753c7c5fbd4a447b102d90de"></a><!-- doxytag: member="BatallaEspacial::DisparoEnemigo::juego" ref="aad347800753c7c5fbd4a447b102d90de" args="" -->
 <a class="el" href="classBatallaEspacial_1_1Juego.html">Juego</a>&#160;</td><td class="memItemRight" valign="bottom"><b>juego</b></td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Descripción detallada</h2>
+<div class="textblock"><p>Clase <a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a>. Representa un disparo hecho por cualquiera de los enemigos. Los objetos de esta clase se crean y destruyen cada vez que dispara alguno de los enemigos. </p>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Enemy.html">Enemy</a> </dd></dl>
+</div><hr/><h2>Documentación del constructor y destructor</h2>
+<a class="anchor" id="a18d3903cc57df51236ea2d9b8151a3a9"></a><!-- doxytag: member="BatallaEspacial::DisparoEnemigo::DisparoEnemigo" ref="a18d3903cc57df51236ea2d9b8151a3a9" args="(Juego _j, int _id, int _x, int _y, int _p)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BatallaEspacial.DisparoEnemigo.DisparoEnemigo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classBatallaEspacial_1_1Juego.html">Juego</a>&#160;</td>
+          <td class="paramname"><em>_j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>_p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Constructor. Asigna toda la información importante al disparo </p>
+<dl><dt><b>Parámetros:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_j</td><td>: Objeto <a class="el" href="classBatallaEspacial_1_1Juego.html">Juego</a> de la aplicación </td></tr>
+    <tr><td class="paramname">_id</td><td>: Id del enemigo </td></tr>
+    <tr><td class="paramname">_x</td><td>: Posición X del disparo </td></tr>
+    <tr><td class="paramname">_y</td><td>: Posicion Y del disparo </td></tr>
+    <tr><td class="paramname">_p</td><td>: Potencia del disparo </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Juego.html">Juego</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1Enemy.html">Enemy</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1ImageManager.html">ImageManager</a> </dd></dl>
+
+</div>
+</div>
 <hr/>La documentación para esta clase fue generada a partir del siguiente fichero:<ul>
 <li>src/BatallaEspacial/DisparoEnemigo.java</li>
 </ul>
@@ -120,7 +182,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generado el Lunes, 5 de Diciembre de 2011 04:57:33 para 'BatallaEspacialME' por&#160;
+<hr class="footer"/><address class="footer"><small>Generado el Lunes, 5 de Diciembre de 2011 19:47:21 para 'BatallaEspacialME' por&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

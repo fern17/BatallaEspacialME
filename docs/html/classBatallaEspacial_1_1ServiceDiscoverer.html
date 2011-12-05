@@ -77,16 +77,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Métodos públicos</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a95046c1506d8ce9e3369fefa39b79715"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::ServiceDiscoverer" ref="a95046c1506d8ce9e3369fefa39b79715" args="(Broadcaster _bc)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>ServiceDiscoverer</b> (<a class="el" href="classBatallaEspacial_1_1Broadcaster.html">Broadcaster</a> _bc)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a33ff8fd3dcfb60023edfacdefbdf85c9"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::deviceDiscovered" ref="a33ff8fd3dcfb60023edfacdefbdf85c9" args="(RemoteDevice remote, DeviceClass dClass)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>deviceDiscovered</b> (RemoteDevice remote, DeviceClass dClass)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22214f40f4fed08e8d61e6c0c4cbf03e"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::inquiryCompleted" ref="a22214f40f4fed08e8d61e6c0c4cbf03e" args="(int descType)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>inquiryCompleted</b> (int descType)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ae6cdebc17cf67f1c291840df48d568"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::servicesDiscovered" ref="a8ae6cdebc17cf67f1c291840df48d568" args="(int transId, ServiceRecord[] services)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>servicesDiscovered</b> (int transId, ServiceRecord[] services)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa95e2c4baf4ab791dbf01e1a35c18ea8"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::serviceSearchCompleted" ref="aa95e2c4baf4ab791dbf01e1a35c18ea8" args="(int transId, int respCode)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>serviceSearchCompleted</b> (int transId, int respCode)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1ServiceDiscoverer.html#a95046c1506d8ce9e3369fefa39b79715">ServiceDiscoverer</a> (<a class="el" href="classBatallaEspacial_1_1Broadcaster.html">Broadcaster</a> _bc)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1ServiceDiscoverer.html#a33ff8fd3dcfb60023edfacdefbdf85c9">deviceDiscovered</a> (RemoteDevice remote, DeviceClass dClass)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1ServiceDiscoverer.html#a22214f40f4fed08e8d61e6c0c4cbf03e">inquiryCompleted</a> (int descType)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1ServiceDiscoverer.html#a8ae6cdebc17cf67f1c291840df48d568">servicesDiscovered</a> (int transId, ServiceRecord[] services)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1ServiceDiscoverer.html#aa95e2c4baf4ab791dbf01e1a35c18ea8">serviceSearchCompleted</a> (int transId, int respCode)</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Atributos privados</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0948e02c91640e35689341047e98479"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::bc" ref="af0948e02c91640e35689341047e98479" args="" -->
@@ -94,6 +89,140 @@ Atributos privados</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1474b91ea9c0f533076daa89764ee0d0"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::service" ref="a1474b91ea9c0f533076daa89764ee0d0" args="" -->
 ServiceRecord&#160;</td><td class="memItemRight" valign="bottom"><b>service</b> = null</td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Descripción detallada</h2>
+<div class="textblock"><p>Clase <a class="el" href="classBatallaEspacial_1_1ServiceDiscoverer.html">ServiceDiscoverer</a>. Se encarga de buscar servicios en los equipos detectados por <a class="el" href="classBatallaEspacial_1_1DeviceDiscoverer.html">DeviceDiscoverer</a> </p>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1DeviceDiscoverer.html">DeviceDiscoverer</a> </dd></dl>
+</div><hr/><h2>Documentación del constructor y destructor</h2>
+<a class="anchor" id="a95046c1506d8ce9e3369fefa39b79715"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::ServiceDiscoverer" ref="a95046c1506d8ce9e3369fefa39b79715" args="(Broadcaster _bc)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BatallaEspacial.ServiceDiscoverer.ServiceDiscoverer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classBatallaEspacial_1_1Broadcaster.html">Broadcaster</a>&#160;</td>
+          <td class="paramname"><em>_bc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Constructor. Llama al constructor del padre y asigna el objeto <a class="el" href="classBatallaEspacial_1_1Broadcaster.html">Broadcaster</a> </p>
+<dl><dt><b>Parámetros:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_bc</td><td>: Objeto <a class="el" href="classBatallaEspacial_1_1Broadcaster.html">Broadcaster</a> de la aplicación. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Broadcaster.html">Broadcaster</a> </dd></dl>
+
+</div>
+</div>
+<hr/><h2>Documentación de las funciones miembro</h2>
+<a class="anchor" id="a33ff8fd3dcfb60023edfacdefbdf85c9"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::deviceDiscovered" ref="a33ff8fd3dcfb60023edfacdefbdf85c9" args="(RemoteDevice remote, DeviceClass dClass)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BatallaEspacial.ServiceDiscoverer.deviceDiscovered </td>
+          <td>(</td>
+          <td class="paramtype">RemoteDevice&#160;</td>
+          <td class="paramname"><em>remote</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DeviceClass&#160;</td>
+          <td class="paramname"><em>dClass</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sin uso. </p>
+
+</div>
+</div>
+<a class="anchor" id="a22214f40f4fed08e8d61e6c0c4cbf03e"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::inquiryCompleted" ref="a22214f40f4fed08e8d61e6c0c4cbf03e" args="(int descType)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BatallaEspacial.ServiceDiscoverer.inquiryCompleted </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>descType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sin uso. </p>
+
+</div>
+</div>
+<a class="anchor" id="a8ae6cdebc17cf67f1c291840df48d568"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::servicesDiscovered" ref="a8ae6cdebc17cf67f1c291840df48d568" args="(int transId, ServiceRecord[] services)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BatallaEspacial.ServiceDiscoverer.servicesDiscovered </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>transId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ServiceRecord[]&#160;</td>
+          <td class="paramname"><em>services</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Obtiene los servicios encontrados y asigna el primero al miembro service. </p>
+<dl class="see"><dt><b>Ver también:</b></dt><dd>service </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa95e2c4baf4ab791dbf01e1a35c18ea8"></a><!-- doxytag: member="BatallaEspacial::ServiceDiscoverer::serviceSearchCompleted" ref="aa95e2c4baf4ab791dbf01e1a35c18ea8" args="(int transId, int respCode)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BatallaEspacial.ServiceDiscoverer.serviceSearchCompleted </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>transId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>respCode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Termina de buscar servicios y le informa a <a class="el" href="classBatallaEspacial_1_1Broadcaster.html">Broadcaster</a> llamando a <a class="el" href="classBatallaEspacial_1_1Broadcaster.html#a4a3a4c97f594460a76932efb8e85dfde">Broadcaster.serviceSearchFinished()</a>. Luego vuelve todos los valores a NULL. </p>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Broadcaster.html#a4a3a4c97f594460a76932efb8e85dfde">Broadcaster.serviceSearchFinished()</a> </dd></dl>
+
+</div>
+</div>
 <hr/>La documentación para esta clase fue generada a partir del siguiente fichero:<ul>
 <li>src/BatallaEspacial/ServiceDiscoverer.java</li>
 </ul>
@@ -112,7 +241,7 @@ ServiceRecord&#160;</td><td class="memItemRight" valign="bottom"><b>service</b> 
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generado el Lunes, 5 de Diciembre de 2011 04:57:33 para 'BatallaEspacialME' por&#160;
+<hr class="footer"/><address class="footer"><small>Generado el Lunes, 5 de Diciembre de 2011 19:47:21 para 'BatallaEspacialME' por&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

@@ -1,7 +1,34 @@
 package BatallaEspacial;
-//se encarga de armar un String con los atributos de un player
+
+/**
+ * Clase MessageFromPlayer.
+ * Se encarga de armar un mensaje String con los datos de un Jugador.
+ * @see Player
+ */
 public class MessageFromPlayer {
 	private String msg;
+	
+	/**
+	 * Constructor. Toma toda la información de un jugador y 
+	 *  construye el mensaje, guardándolo en msg
+	 * @param _id : Id
+	 * @param _name : Nombre
+	 * @param _escudo : Valor de escudo actual
+	 * @param _x : Posición X actual
+	 * @param _y : Posición Y actual
+	 * @param _dir : Dirección actual
+	 * @param _vm : Valor del byte VM. 'V' si está vivo, M si está muerto
+	 * @param _power : Valor de potencia. Si no está disparando, es DisparoEnemigo.VALORESPECIAL.
+	 * @param _lx : Posición X actual del laser. Si no está disparando, es DisparoEnemigo.VALORESPECIAL.
+	 * @param _ly : Posicion Y actual del laser. Si no está disparando, es DisparoEnemigo.VALORESPECIAL.
+	 * @param _moneda : Id de la moneda que agarró antes de enviar el mensaje. -1 si no agarró ninguna.
+	 * @param _idAsesino : Número entre 0 y 3 del id enemigo que lo destruyó, o -1 si nadie lo destruyó.
+	 * @param _fm : Framerate del jugador.
+	 * @see Juego
+	 * @see Player
+	 * @see DisparoJugador
+	 * 
+	 */
 	MessageFromPlayer	(int _id, char[] _name,int _escudo, 
 						int _x, int _y, int _dir, char _vm, 
 						int _power,int _lx, int _ly, int _moneda, int _idAsesino, int _fm){
@@ -29,7 +56,6 @@ public class MessageFromPlayer {
 		s_escudo 	= charFill(s_escudo,4,' ');
 		s_x 		= charFill(s_x,4,' ');
 		s_y 		= charFill(s_y,4,' ');
-		
 		s_power 	= charFill(s_power,3,' ');
 		s_lx 		= charFill(s_lx,4,' ');
 		s_ly 		= charFill(s_ly,4,' ');
@@ -37,10 +63,16 @@ public class MessageFromPlayer {
 		s_fm 		= charFill(s_fm,3,' ');
 		
 		msg = s_id + s_name + s_escudo + s_x + s_y + s_dir + s_vm + s_power + s_lx + s_ly + s_moneda + s_fm;
-		
 	}
 	
-	//rellena la string con el caracter especificado, insertandolo al principio hasta que se alcance el tamaño deseado
+	/**
+	 * Rellena una String s con el caracter especificado c, 
+	 * insertandolo al principio hasta que se alcance el tamaño deseado n 
+	 * @param s : String origen
+	 * @param n : Longitud final deseada
+	 * @param c : Caracter con el que rellenar al principio
+	 * @return : String s rellenada con el caracter especificado.
+	 */
 	public static String charFill(String s, int n, char c){
 		StringBuffer t = new StringBuffer(s);
 		while(t.toString().length() < n){
@@ -51,6 +83,10 @@ public class MessageFromPlayer {
 		}
 		return t.toString();
 	}
+	
+	/**
+	 * @return Mensaje generado en el constructor.
+	 */
 	public String getMsg(){
 		return this.msg;
 	}

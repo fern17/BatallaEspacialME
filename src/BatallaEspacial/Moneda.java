@@ -1,8 +1,11 @@
 package BatallaEspacial;
-import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.Sprite;
 
-
+/**
+ * Clase Moneda
+ * Representa una moneda en el juego, que puede ser NORMAL, con valor 5, o ESPECIAL, con valor 20.
+ *
+ */
 public class Moneda {
 	private Juego juego = null;
 	public int id;
@@ -14,6 +17,16 @@ public class Moneda {
 	public static final int ESPECIAL = 1;
 	public static final int valorMonedaNormal = 5;
 	public static final int valorMonedaEspecial = 20;
+	/**
+	 * Constructor. Recibe todos los datos inherentes a una Moneda y crea el objeto.
+	 * @param _j : Objeto Juego de la aplicacion
+	 * @param _id : Id de la moneda
+	 * @param _x : Posición X inicial
+	 * @param _y : Posición Y inicial
+	 * @param _valor : Valor. Si es Moneda.NORMAL, se asigna 5. Si es Moneda.ESPECIAL, se asigna 20.
+	 * @see Juego
+	 * @see ImageManager
+	 */
 	public Moneda(Juego _j, int _id, int _x, int _y, int _valor){
 		this.juego = _j;
 		this.id = _id;
@@ -26,15 +39,14 @@ public class Moneda {
 			this.s_moneda = new Sprite(juego.im.getImgMonedaEspecial());
 		}
 		
-		
-		
+		s_moneda.setRefPixelPosition(12,12);
 		s_moneda.setPosition(this.x, this.y);
 	}
 	
-	public void dibujar(Graphics g){
-		s_moneda.paint(g);
-	}
-	
+	/**
+	 * Construye el mensaje sobre los datos de la moneda, para que se distribuya en los mensajes desde el servidor
+	 * @return : String representando los datos de la moneda.
+	 */
 	public String generarMensaje(){
 		String s_id = String.valueOf(this.id);
 		String s_valor;
@@ -54,6 +66,4 @@ public class Moneda {
 		String msg = s_id + s_x + s_y + s_valor;
 		return msg;
 	}
-	
-	
 }

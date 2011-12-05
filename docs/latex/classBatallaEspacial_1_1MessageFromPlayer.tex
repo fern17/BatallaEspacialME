@@ -5,26 +5,17 @@
 \subsection*{Métodos públicos}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classBatallaEspacial_1_1MessageFromPlayer_a8e7ff2f90816afb286c77e9fecd7754d}{
-String {\bfseries getMsg} ()}
-\label{classBatallaEspacial_1_1MessageFromPlayer_a8e7ff2f90816afb286c77e9fecd7754d}
-
+String \hyperlink{classBatallaEspacial_1_1MessageFromPlayer_a8e7ff2f90816afb286c77e9fecd7754d}{getMsg} ()
 \end{DoxyCompactItemize}
 \subsection*{Métodos públicos estáticos}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classBatallaEspacial_1_1MessageFromPlayer_af8e32dfb2d1d3d16ce4759b7c7fb7585}{
-static String {\bfseries charFill} (String s, int n, char c)}
-\label{classBatallaEspacial_1_1MessageFromPlayer_af8e32dfb2d1d3d16ce4759b7c7fb7585}
-
+static String \hyperlink{classBatallaEspacial_1_1MessageFromPlayer_af8e32dfb2d1d3d16ce4759b7c7fb7585}{charFill} (String s, int n, char c)
 \end{DoxyCompactItemize}
 \subsection*{Funciones del 'package'}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classBatallaEspacial_1_1MessageFromPlayer_a0726f0c83695518df2d73a7a74c65853}{
-{\bfseries MessageFromPlayer} (int \_\-id, char\mbox{[}$\,$\mbox{]} \_\-name, int \_\-escudo, int \_\-x, int \_\-y, int \_\-dir, char \_\-vm, int \_\-power, int \_\-lx, int \_\-ly, int \_\-moneda, int \_\-idAsesino, int \_\-fm)}
-\label{classBatallaEspacial_1_1MessageFromPlayer_a0726f0c83695518df2d73a7a74c65853}
-
+\hyperlink{classBatallaEspacial_1_1MessageFromPlayer_a0726f0c83695518df2d73a7a74c65853}{MessageFromPlayer} (int \_\-id, char\mbox{[}$\,$\mbox{]} \_\-name, int \_\-escudo, int \_\-x, int \_\-y, int \_\-dir, char \_\-vm, int \_\-power, int \_\-lx, int \_\-ly, int \_\-moneda, int \_\-idAsesino, int \_\-fm)
 \end{DoxyCompactItemize}
 \subsection*{Atributos privados}
 \begin{DoxyCompactItemize}
@@ -34,6 +25,110 @@ String {\bfseries msg}}
 \label{classBatallaEspacial_1_1MessageFromPlayer_afee8010406a5937e9900d38fc9142970}
 
 \end{DoxyCompactItemize}
+
+
+\subsection{Descripción detallada}
+Clase \hyperlink{classBatallaEspacial_1_1MessageFromPlayer}{MessageFromPlayer}. Se encarga de armar un mensaje String con los datos de un Jugador. \begin{DoxySeeAlso}{Ver también}
+\hyperlink{classBatallaEspacial_1_1Player}{Player} 
+\end{DoxySeeAlso}
+
+
+\subsection{Documentación del constructor y destructor}
+\hypertarget{classBatallaEspacial_1_1MessageFromPlayer_a0726f0c83695518df2d73a7a74c65853}{
+\index{BatallaEspacial::MessageFromPlayer@{BatallaEspacial::MessageFromPlayer}!MessageFromPlayer@{MessageFromPlayer}}
+\index{MessageFromPlayer@{MessageFromPlayer}!BatallaEspacial::MessageFromPlayer@{BatallaEspacial::MessageFromPlayer}}
+\subsubsection[{MessageFromPlayer}]{\setlength{\rightskip}{0pt plus 5cm}BatallaEspacial.MessageFromPlayer.MessageFromPlayer (
+\begin{DoxyParamCaption}
+\item[{int}]{\_\-id, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{\_\-name, }
+\item[{int}]{\_\-escudo, }
+\item[{int}]{\_\-x, }
+\item[{int}]{\_\-y, }
+\item[{int}]{\_\-dir, }
+\item[{char}]{\_\-vm, }
+\item[{int}]{\_\-power, }
+\item[{int}]{\_\-lx, }
+\item[{int}]{\_\-ly, }
+\item[{int}]{\_\-moneda, }
+\item[{int}]{\_\-idAsesino, }
+\item[{int}]{\_\-fm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}package\mbox{]}}}}
+\label{classBatallaEspacial_1_1MessageFromPlayer_a0726f0c83695518df2d73a7a74c65853}
+Constructor. Toma toda la información de un jugador y construye el mensaje, guardándolo en msg 
+\begin{DoxyParams}{Parámetros}
+{\em \_\-id} & : Id \\
+\hline
+{\em \_\-name} & : Nombre \\
+\hline
+{\em \_\-escudo} & : Valor de escudo actual \\
+\hline
+{\em \_\-x} & : Posición X actual \\
+\hline
+{\em \_\-y} & : Posición Y actual \\
+\hline
+{\em \_\-dir} & : Dirección actual \\
+\hline
+{\em \_\-vm} & : Valor del byte VM. 'V' si está vivo, M si está muerto \\
+\hline
+{\em \_\-power} & : Valor de potencia. Si no está disparando, es DisparoEnemigo.VALORESPECIAL. \\
+\hline
+{\em \_\-lx} & : Posición X actual del laser. Si no está disparando, es DisparoEnemigo.VALORESPECIAL. \\
+\hline
+{\em \_\-ly} & : Posicion Y actual del laser. Si no está disparando, es DisparoEnemigo.VALORESPECIAL. \\
+\hline
+{\em \_\-moneda} & : Id de la moneda que agarró antes de enviar el mensaje. -\/1 si no agarró ninguna. \\
+\hline
+{\em \_\-idAsesino} & : Número entre 0 y 3 del id enemigo que lo destruyó, o -\/1 si nadie lo destruyó. \\
+\hline
+{\em \_\-fm} & : Framerate del jugador. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{Ver también}
+\hyperlink{classBatallaEspacial_1_1Juego}{Juego} 
+
+\hyperlink{classBatallaEspacial_1_1Player}{Player} 
+
+\hyperlink{classBatallaEspacial_1_1DisparoJugador}{DisparoJugador} 
+\end{DoxySeeAlso}
+
+
+\subsection{Documentación de las funciones miembro}
+\hypertarget{classBatallaEspacial_1_1MessageFromPlayer_af8e32dfb2d1d3d16ce4759b7c7fb7585}{
+\index{BatallaEspacial::MessageFromPlayer@{BatallaEspacial::MessageFromPlayer}!charFill@{charFill}}
+\index{charFill@{charFill}!BatallaEspacial::MessageFromPlayer@{BatallaEspacial::MessageFromPlayer}}
+\subsubsection[{charFill}]{\setlength{\rightskip}{0pt plus 5cm}static String BatallaEspacial.MessageFromPlayer.charFill (
+\begin{DoxyParamCaption}
+\item[{String}]{s, }
+\item[{int}]{n, }
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classBatallaEspacial_1_1MessageFromPlayer_af8e32dfb2d1d3d16ce4759b7c7fb7585}
+Rellena una String s con el caracter especificado c, insertandolo al principio hasta que se alcance el tamaño deseado n 
+\begin{DoxyParams}{Parámetros}
+{\em s} & : String origen \\
+\hline
+{\em n} & : Longitud final deseada \\
+\hline
+{\em c} & : Caracter con el que rellenar al principio \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+: String s rellenada con el caracter especificado. 
+\end{DoxyReturn}
+\hypertarget{classBatallaEspacial_1_1MessageFromPlayer_a8e7ff2f90816afb286c77e9fecd7754d}{
+\index{BatallaEspacial::MessageFromPlayer@{BatallaEspacial::MessageFromPlayer}!getMsg@{getMsg}}
+\index{getMsg@{getMsg}!BatallaEspacial::MessageFromPlayer@{BatallaEspacial::MessageFromPlayer}}
+\subsubsection[{getMsg}]{\setlength{\rightskip}{0pt plus 5cm}String BatallaEspacial.MessageFromPlayer.getMsg (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classBatallaEspacial_1_1MessageFromPlayer_a8e7ff2f90816afb286c77e9fecd7754d}
+\begin{DoxyReturn}{Devuelve}
+Mensaje generado en el constructor. 
+\end{DoxyReturn}
 
 
 La documentación para esta clase fue generada a partir del siguiente fichero:\begin{DoxyCompactItemize}
