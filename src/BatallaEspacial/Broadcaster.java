@@ -364,7 +364,6 @@ public class Broadcaster implements CommandListener{
 					                    	String s_x = String.valueOf(i_x);
 					                    	String s_y = String.valueOf(i_y);
 					                    	String s_cjugadores = String.valueOf(cantidadJugadores);
-					                    	s_id = MessageFromPlayer.charFill(s_id, 4, ' '); //rellena el id con ceros
 					                    	s_x = MessageFromPlayer.charFill(s_x, 4, ' ');
 					                    	s_y = MessageFromPlayer.charFill(s_y, 4, ' ');
 					                    	String s_mapa =  midlet.juego.mapa.mapaEnString(2);
@@ -423,14 +422,14 @@ public class Broadcaster implements CommandListener{
 						
 						if(message.length() != 0 & gs == GameState.WAITING){ //esta esperando su id y el mapa
 							int i_cjugadores = Integer.parseInt(message.substring(0,1));
-							int i_id = Integer.parseInt(message.substring(1,5).trim());
-							int i_x = Integer.parseInt(message.substring(5,9).trim());
-							int i_y = Integer.parseInt(message.substring(9,13).trim());
+							int i_id = Integer.parseInt(message.substring(1,2).trim());
+							int i_x = Integer.parseInt(message.substring(2,6).trim());
+							int i_y = Integer.parseInt(message.substring(6,10).trim());
 							
 							cantidadJugadores = i_cjugadores;
 							midlet.juego.setDatosJugador(i_id,i_x,i_y);
 							
-							midlet.juego.crearMapa(message.substring(13));
+							midlet.juego.crearMapa(message.substring(10));
 							
 							form.append("ID recibida = " + String.valueOf(i_id));
 							midlet.setState(GameState.READY);

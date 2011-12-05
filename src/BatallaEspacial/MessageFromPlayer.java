@@ -5,6 +5,8 @@ public class MessageFromPlayer {
 	MessageFromPlayer	(int _id, char[] _name,int _escudo, 
 						int _x, int _y, int _dir, char _vm, 
 						int _power,int _lx, int _ly, int _moneda, int _idAsesino, int _fm){
+		if(_fm < 1)
+			_fm = 1;
 		String s_id 	= "" + (_id);
 		String s_name 	= String.valueOf(_name);
 		String s_escudo = "" + (_escudo);

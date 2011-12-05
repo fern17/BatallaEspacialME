@@ -171,7 +171,7 @@ public class Juego extends GameCanvas implements Runnable {
 			milisegundosEnDibujar = (int)(end - start);			
 			
 			if(esServidor == true){//recalcular fr
-				fpsDesdeServer = broadcaster.recalcularFrameRate();
+				fpsDesdeServer = Math.max(broadcaster.recalcularFrameRate(),1);
 			}
 			
 			if(tiempoParaCompra > 0){
@@ -199,7 +199,7 @@ public class Juego extends GameCanvas implements Runnable {
 			
 			if(esServidor) broadcaster.enviarServer();
 			try{
-				Thread.sleep(10);
+				Thread.sleep(5);
 			}
 			catch(InterruptedException ie){ 
 			}

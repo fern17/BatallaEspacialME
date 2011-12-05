@@ -36,7 +36,7 @@ public class Player {
 
 	private int idAsesino = -1;
 	//Atributos
-	private int inicio_v 	= 10;
+	private int inicio_v 	= 5;
 	private int inicio_e 	= 100;
 	private int inicio_p 	= 10;
 	private int inicio_c 	= 100;
@@ -64,10 +64,9 @@ public class Player {
 		
 		this.juego = _j;
 		this.identificador = _id;
+		//correcciones por setRefPixel
 		this.xinicio = _xinicio;
 		this.yinicio = _yinicio;
-		this.x = _xinicio;
-		this.y = _yinicio;
 		this.disparo = new DisparoJugador(juego, this);
 		
 		_nombre.getChars(0, _nombre.length(), this.nombre, 0);
@@ -75,7 +74,6 @@ public class Player {
 		s_player = new Sprite(juego.im.getImgNavePlayer(),48,48);
 		
 		s_player.setRefPixelPosition(24, 24); //centra las coordenadas
-		//s_player.setPosition(this.x, this.y);
 		setInicio(); //setea valores por defecto
 		cambiarFrame();
 		estaVivo = true;
@@ -351,7 +349,7 @@ public class Player {
 		if (dinero-costoEscudo() >= 0) {
 			dinero 		= dinero - costoEscudo();
 			escudo		= (int) ( (double) escudo * 1.1);
-			inicio_e	= escudo;
+			inicio_e	= (int) ( (double) inicio_e * 1.1);;
 			return true;
 		} else {
 			return false;
