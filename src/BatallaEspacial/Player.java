@@ -1,6 +1,12 @@
 package BatallaEspacial;
 import javax.microedition.lcdui.game.Sprite;
 
+/**
+ * Clase Player. Maneja toda la lógica pertinente a un jugador.
+ * Mueve el sprite, lo cambia, actualiza los atributos, 
+ * calcula colisiones, calcula puntos, y se encarga del disparo.
+ *
+ */
 public class Player {
 	//Direcciones
 	public static final int DIRN 	= 0; //Norte
@@ -27,57 +33,76 @@ public class Player {
 	public int height = 48;
 	public int dir; //señala donde esta mirando, para saber donde disparar
 	
-	private int step = 1; //cuanto se mueve por frame
+	private int step = 1; //cuánto se mueve por frame
 	
 	public int dinero = 100;
+	public int vidas 		= 3;
+	public int puntos 		= 0;
 	
 	public int idMoneda 	= -1; 
-
 	private int idAsesino = -1;
+	
 	//Atributos
 	private int inicio_v 	= 5;
 	private int inicio_e 	= 100;
 	private int inicio_p 	= 10;
 	private int inicio_c 	= 100;
 	
-	public DisparoJugador disparo = null;
 	public int velocidad;
 	public int escudo;
 	public int potencia;
 	public int cristales;
 	
-	public int vidas 		= 3;
-	public int puntos 		= 0;
-	
-	public boolean estaVivo = false;
-	public boolean puedeDisparar = true;
 	//cuanto sale cada mejora
 	private int mejoraVelocidad 	= 10;
 	private int mejoraEscudo 		= 5;
 	private int mejoraPotencia 		= 10;
 	private int mejoraCristales 	= 1;
 	
-	public Juego juego;
+	public boolean estaVivo = false;
+	public boolean puedeDisparar = true;
 	
+	public Juego juego;
+	public DisparoJugador disparo = null;
+	
+	/**
+	 * Constructor. Construye el Sprite y le asigna los datos iniciales al jugador.
+	 * @param _j : Objeto Juego de la aplicación
+	 * @param _id : Id del jugador
+	 * @param _xinicio : Posición X inicial
+	 * @param _yinicio : Posición Y inicial
+	 * @param _nombre : Nombre del jugador
+	 * @see Juego
+	 * @see DisparoJugador
+	 * @see ImageManager
+	 * @see Player::setInicio()
+	 * @see Player::cambiarFrame()
+	 */
 	public Player(Juego _j, int _id, int _xinicio, int _yinicio, String _nombre){
-		
 		this.juego = _j;
 		this.identificador = _id;
 		//correcciones por setRefPixel
 		this.xinicio = _xinicio;
 		this.yinicio = _yinicio;
 		this.disparo = new DisparoJugador(juego, this);
-		
 		_nombre.getChars(0, _nombre.length(), this.nombre, 0);
 		
 		s_player = new Sprite(juego.im.getImgNavePlayer(),48,48);
-		
 		s_player.setRefPixelPosition(24, 24); //centra las coordenadas
+		
 		setInicio(); //setea valores por defecto
 		cambiarFrame();
 		estaVivo = true;
 	}
 	
+	/**
+	 * Construye el mensaje de este jugador, con sus datos propios.
+	 * Además, si esta función se llama luego de ser destruído, se llama a Player::setInicio()
+	 * 
+	 * @return Mensaje generado
+	 * @see MessageFromPlayer
+	 * @see Player::setInicio()
+	 */
 	public String generarMensaje(){
 		char life;
 		if(estaVivo | escudo == -1) 	life = 'V';
@@ -93,6 +118,10 @@ public class Player {
 		return mfp.getMsg();
 	}
 	
+	/**
+	 * Asigna los valores por defecto al jugador. Además, si se le acabaron las vidas, 
+	 * le asigna los valores especiales para que el servidor se entere que está muerto.
+	 */
 	public void setInicio(){
 		this.x 			= this.xinicio;
 		this.y 			= this.yinicio;
@@ -141,6 +170,14 @@ public class Player {
 		this.idAsesino = -1;
 	}
 	
+	/**
+	 * Calcula si el disparo afectó al jugador. De ser así, le resta el valor de escudo.
+	 * Si se le acabó el escudo, le resta una vida y lo llama a respawn en su base.
+	 * @param _de : DisparoEnemigo con el que se va a probar colisión
+	 * @return Cantidad de escudo restante
+	 * @see DisparoEnemigo
+	 * @see Player::decrementarVida()
+	 */
 	//retorna el escudo que le queda o -1 si lo destruyo y se regenero en otro lado
 	public int recibirDisparo(DisparoEnemigo _de){
 		int _potenciaDisparo = _de.potencia;
@@ -155,21 +192,17 @@ public class Player {
 		return escudo;		//escudo restante
 	}
 	
-	
-	
-	public void actualizar(int _x, int _y, int _dir){
-		this.x = _x;
-		this.y = _y;
-		this.dir = _dir;
-		cambiarFrame();
-		
-	}
-	
+	/**
+	 * Mueve un disparo. Llama a DisparoJugador::mover()
+	 * @see DisparoJugador::mover()
+	 */
 	public void moverDisparo(){
 		this.disparo.mover();
 	}
 
-
+	/**
+	 * Cambia el frame del Sprite dependiendo de la dirección que esté mirando el jugador.
+	 */
 	private void cambiarFrame(){
 		switch(this.dir){
 		case Player.DIRN:{
@@ -207,25 +240,46 @@ public class Player {
 		}
 	}
 
+	/**
+	 * Aumenta el valor de dinero.
+	 * @param _valor : Valor a aumentar
+	 */
 	public void incrementarMoneda(int _valor){
 		dinero = dinero + _valor;
 	}
 	
+	/**
+	 * Resta una vida del jugador
+	 * @return Vidas restantes
+	 */
 	public int decrementarVida(){
 		vidas = vidas - 1;
 		return vidas;
 	}
 	
-	
-	
+	/**
+	 * Cambia el valor de la variable Player::puedeDisparar.
+	 * @param _d : Valor a imponer
+	 */
 	public void setDisparar(boolean _d){
 		this.puedeDisparar = _d;
 	}
+	
+	/**
+	 * Incrementa un punto.
+	 */
 	public void incrementarPuntos(){
 		puntos = puntos + 1;
 	}
 	
-	//funciones de interaccion
+	/**
+	 * Mueve al jugador. Luego de moverlo, se fija si colisiona con un enemigo o con
+	 * el TiledLayer capa 2, de ser así, vuelve a la posición, haciendo nulo el movimiento. 
+	 * @param _direccion : Dirección en la cual moverse
+	 * @see Enemy
+	 * @see Mapa
+	 * @see Player::cambiarFrame()
+	 */
 	public void mover(int _direccion){
 		dir = _direccion;
 		
@@ -290,7 +344,6 @@ public class Player {
 								break;
 							}
 					}
-		
 				}
 			}
 		}
@@ -301,6 +354,14 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * Llamada cuando el jugador apreta el boton de disparar. Se fija si el jugador
+	 * está en condiciones de disparar (basado en el contador de la distancia del disparo 
+	 * anterior). Si puede disparar, llama a DisparoJugador::set() y a Player::setDisparar() con False.
+	 * @return True si el disparo se efectuó con éxito, False si no.
+	 * @see DisparoJugador::set()
+	 * @see Player::setDisparar()
+	 */
 	public boolean disparar(){
 		if(this.puedeDisparar){
 			this.disparo.set();
@@ -308,9 +369,14 @@ public class Player {
 			return true;
 		}
 		return false;
-		
 	}
 	
+	/**
+	 * Prueba si el jugador colisiona con un DisparoEnemigo.
+	 * @param de : DisparoEnemigo con el cual colisionar.
+	 * @return True si colisiona, False si no.
+	 * @see DisparoEnemigo
+	 */
 	public boolean colisionar(DisparoEnemigo de){
 		if(this.s_player.collidesWith(de.s_disparoenemigo, false))
 			return (this.s_player.collidesWith(de.s_disparoenemigo,true));
@@ -318,6 +384,12 @@ public class Player {
 			return false;
 	}
 	
+	/**
+	 * Prueba si el jugador colisiona con una Moneda.
+	 * @param m : Moneda con la cual colisionar
+	 * @return : True si colisiona, False si no.
+	 * @see Moneda
+	 */
 	public boolean colisionar(Moneda m){
 		if(this.s_player.collidesWith(m.s_moneda, false))
 			return (this.s_player.collidesWith(m.s_moneda, true));
@@ -326,6 +398,11 @@ public class Player {
 	}
 	
 	//funciones que aumentan los stats
+	/**
+	 * Aumenta en un valor la velocidad y disminuye el dinero, si alcanza. 
+	 * @return True si pudo aumentarlo, False si no.
+	 * @see Player::costoVelocidad()
+	 */
 	public boolean aumentarVelocidad(){
 		if (dinero-costoVelocidad() >= 0) {
 			dinero 		= dinero - costoVelocidad();
@@ -337,8 +414,16 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * @return Costo de mejorar la velocidad.
+	 */
 	public int costoVelocidad(){ return (mejoraVelocidad * inicio_e); 	}
 	
+	/**
+	 * Aumenta en un valor el escudo y disminuye el dinero, si alcanza. 
+	 * @return True si pudo aumentarlo, False si no.
+	 * @see Player::costoEscudo()
+	 */
 	public boolean aumentarEscudo(){
 		if (dinero-costoEscudo() >= 0) {
 			dinero 		= dinero - costoEscudo();
@@ -350,8 +435,16 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * @return Costo de mejorar el escudo
+	 */
 	public int costoEscudo(){return (mejoraEscudo * inicio_e); }
 	
+	/**
+	 * Aumenta en un valor la potencia y disminuye el dinero, si alcanza. 
+	 * @return True si pudo aumentarlo, False si no.
+	 * @see Player::costoPotencia()
+	 */
 	public boolean aumentarPotencia(){
 		if (dinero-costoPotencia() >= 0) {
 			dinero 		= dinero - costoPotencia();
@@ -363,8 +456,18 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * @return Costo de mejorar la potencia
+	 */
 	public int costoPotencia(){	return (mejoraPotencia * inicio_p);	}
 	
+	/**
+	 * Aumenta en un valor los cristales y disminuye el dinero, si alcanza. Si lo aumentó,
+	 * llama a Juego::actualizarCristales() para que se actualice la máscara.
+	 * @return True si pudo aumentarlo, False si no.
+	 * @see Player::costoCristales()
+	 * @see Juego::actualizarCristales()
+	 */
 	public boolean aumentarCristales(){
 		if (dinero-costoCristales() >= 0) {
 			dinero 		= dinero - costoCristales();
@@ -377,6 +480,9 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * @return Costo de mejorar los cristales
+	 */
 	public int costoCristales(){ return (mejoraCristales * inicio_c);	}
 	
 }

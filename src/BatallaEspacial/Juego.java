@@ -208,8 +208,8 @@ public class Juego extends GameCanvas implements Runnable {
 						t_monedas >= tiempoMonedas){
 					while(monedaGenerada == false){
 						Random r = new Random();
-						int l_x = 0+r.nextInt(100);
-						int l_y = 0+r.nextInt(100);
+						int l_x = 0+r.nextInt(1000);
+						int l_y = 0+r.nextInt(1000);
 						if(generarMoneda(l_x,l_y,Moneda.NORMAL) == true){
 							t_monedas = 0;
 							monedaGenerada = true;
