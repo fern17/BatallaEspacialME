@@ -1,13 +1,18 @@
 package BatallaEspacial;
 import java.util.Random;
 import java.util.Vector;
-
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.Sprite;
 
+/**
+ * Clase Juego.
+ * Se encarga de toda la lógica de la aplicación una vez que se está
+ * jugando. Captura el teclado, calcula colisiones, actualiza posiciones, 
+ * arma mensajes, envia y recibe mensajes y sincroniza los jugadores.
+ */
 public class Juego extends GameCanvas implements Runnable {
 	//Posiciones iniciales de todos los jugadores
 	public static final int[] xiniciales = {50,900,900,50};
@@ -34,6 +39,8 @@ public class Juego extends GameCanvas implements Runnable {
 	public Vector disparos = new Vector();
 	
 	public boolean esServidor = false;
+	//usado para evitar que se generen monedas en lugares donde no se pueden agarrar
+	public boolean monedaGenerada = false; 
 	public int idMonedaNueva = 0; // identificador de las monedas
 	public int tiempoMonedas = 30000; //cuanto tiempo tardan en generarse las monedas
 	private static final int  MAX_MONEDAS = 25; 
@@ -41,8 +48,19 @@ public class Juego extends GameCanvas implements Runnable {
 	public Font fuenteInterfaz = null;
 	private int tiempoParaCompra = 0;
 	private int RETARDOCOMPRA = 1000;
+	/**
+	 * Constructor. Construyte todos los objetos básicos para el desarrollo del juego.
+	 * @param _m : Midlet de la aplicación
+	 * @param _bc : Objeto encargado de enviar y recibir los mensajes
+	 * @see BatallaEspacial
+	 * @see Broadcaster
+	 * @see ImageManager
+	 * @see Enemy
+	 * @see Mapa
+	 */
 	public Juego(BatallaEspacial _m, Broadcaster _bc){
 		super(true);
+		setFullScreenMode(true);
 		this.midlet = _m;
 		this.broadcaster = _bc;
 		
@@ -60,10 +78,36 @@ public class Juego extends GameCanvas implements Runnable {
 			naves.addElement(e);
 		}
 		mapa = new Mapa();
-		
 	}
 	
+	/**
+	 * Función principal. Aquí se desarrolla todo el juego.
+	 * Consiste en unas configuraciones al inicio de la partida y
+	 * luego entra en un bucle infinito.
+	 * Sensa el teclado, calcula colisiones, actualiza el estado general del juego,
+	 * manda a entregar los mensajes, sincroniza los jugadores y llama al dibujado.
+	 * @see Player
+	 * @see DisparoJugador
+	 * @see DisparoEnemigo
+	 * @see Enemy
+	 * @see Broadcaster
+	 * @see Moneda
+	 * @see Mapa
+	 * @see Juego::input()
+	 * @see Juego::render()
+	 * @see Juego::generarMensaje()
+	 * @see Juego::actualizarCristales()
+	 * @see Juego::actualizarEstado()
+	 * @see Juego::colisionar()
+	 * @see Broadcaster::setInfoServer()
+	 * @see Broadcaster::sendMessageFromClient()
+	 * @see Broadcaster::generarMensaje()
+	 * @see Broadcaster::enviarServer()
+	 * @see Broadcaster::recalcularFrameRate()
+	 * @see Player::moverDisparo()
+	 */
 	public void run(){
+		//agrega las layer al LayerManager
 		lm.append(jugador.disparo.s_disparo);
 		if(esServidor == false){
 			for(int i = 0; i < broadcaster.cantidadJugadores; i++){
@@ -78,6 +122,7 @@ public class Juego extends GameCanvas implements Runnable {
 		lm.append(mapa.backgroundL2);
 		lm.append(mapa.backgroundL1);
 		
+		//se agregan a lm2
 		actualizarCristales();
 		
 		Graphics g = getGraphics();
@@ -91,6 +136,7 @@ public class Juego extends GameCanvas implements Runnable {
 			broadcaster.sendMessageFromClient(mensaje);
 		}
 		
+		//configuraciones iniciales
 		if(esServidor == true){
 			try { //espera a que llegue el mensaje de todos los players
 				Thread.sleep(200);
@@ -120,10 +166,10 @@ public class Juego extends GameCanvas implements Runnable {
 				if(e.id != jugador.identificador) 
 					lm.insert(e.s_enemy,0);
 			}
-			
-			broadcaster.enviarServer(); //empieza a enviar datos
+			 //envia datos
+			broadcaster.enviarServer();
 		} else {
-			
+			//cliente se queda esperando un poco
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -131,6 +177,7 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 		
 		int t_monedas = 0; //tiempo de generacion de monedas
+		
 		//game loop
 		while(true){
 			start = System.currentTimeMillis();
@@ -157,19 +204,25 @@ public class Juego extends GameCanvas implements Runnable {
 			
 			//generar moneda
 			if(esServidor == true){
-				if(monedas.size() < Juego.MAX_MONEDAS & t_monedas >= tiempoMonedas){
-					Random r = new Random();
-					int l_x = 0+r.nextInt(1000);
-					int l_y = 0+r.nextInt(1000);
-					generarMoneda(l_x,l_y,Moneda.NORMAL);
-					t_monedas = 0;
+				if(monedas.size() < Juego.MAX_MONEDAS & 
+						t_monedas >= tiempoMonedas){
+					while(monedaGenerada == false){
+						Random r = new Random();
+						int l_x = 0+r.nextInt(100);
+						int l_y = 0+r.nextInt(100);
+						if(generarMoneda(l_x,l_y,Moneda.NORMAL) == true){
+							t_monedas = 0;
+							monedaGenerada = true;
+						}
+					}
+					monedaGenerada = false;
 				} else {
 					t_monedas = t_monedas + 1000/fpsDesdeServer;
 				}
 			}
-			//sync
+			
+			//sincronizacion
 			end = System.currentTimeMillis();
-
 			milisegundosEnDibujar = (int)(end - start);			
 			
 			if(esServidor == true){//recalcular fr
@@ -183,14 +236,15 @@ public class Juego extends GameCanvas implements Runnable {
 			if(tiempoParaCompra < 0) tiempoParaCompra = 0;
 			
 			int fpsActual = (int) 1000/milisegundosEnDibujar;
-
-			if(fpsActual > Juego.FPSLIMITE){ //si soy mas rapido que el limite, espero hasta el limite
+			//si soy mas rapido que el limite, espero hasta el limite
+			if(fpsActual > Juego.FPSLIMITE){ 
 				try {
 					Thread.sleep(Juego.FRAMESAT30 - milisegundosEnDibujar);
 				} 
 				catch (InterruptedException ie) {break;}
 			}
-			else if (fpsActual > fpsDesdeServer) { //si demoro menos de lo que me pidio el server
+			//si demoro menos de lo que me pidio el server
+			else if (fpsActual > fpsDesdeServer) { 
 				try {
 					int milisegundosDelServer = 1000 / fpsDesdeServer;
 					Thread.sleep(milisegundosDelServer - milisegundosEnDibujar);
@@ -200,32 +254,35 @@ public class Juego extends GameCanvas implements Runnable {
 			//else Thread.yield();
 			
 			if(esServidor) broadcaster.enviarServer();
+			//se duerme para evitar errores de censado de teclado
 			try{
 				Thread.sleep(10);
 			}
 			catch(InterruptedException ie){ 
 			}
-			
 		}
 	}
 	
+	/**
+	 * Funcion encargada de dibujar en pantalla.
+	 * Borra la pantalla (la pone todo en negro). Dibuja jugadores, mapa, monedas, disparos
+	 * e interfaz.
+	 * @param g : Objeto gráfico
+	 */
 	public void render(Graphics g){
-		// clean screen
+		// limpia pantalla
 		g.setColor(0x000000);
 		int l_w = getWidth();
 		int l_h = getHeight();
-		//System.out.println(l_w + " "+ l_h);
 		g.fillRect(0, 0, l_w, l_h);
 		
-		//draw
+		//dibuja
 		lm.setViewWindow(jugador.x - l_w/2 + 16,jugador.y - l_h/2 + 16,l_w,l_h);
 		lm.paint(g,0,0);
-		
-		g.setFont(fuenteJugadores);
-		g.setColor(0x000088);
-		
 		//Dibuja el nombre del jugador
 		/*
+		g.setFont(fuenteJugadores);
+		g.setColor(0x000088);
 		for(int i = 0; i < broadcaster.cantidadJugadores; i++){
 			Enemy e = (Enemy) naves.elementAt(i);
 			if(enPantalla(e.s_enemy.getX(), e.s_enemy.getY(),
@@ -233,32 +290,32 @@ public class Juego extends GameCanvas implements Runnable {
 				if(e.id != jugador.identificador)
 					g.drawString (new String(e.nombre).trim(), e.x, e.y,Graphics.LEFT | Graphics.TOP);
 		}*/
+
+		//dibujo la interfaz solo si esta vivo
 		if(jugador.estaVivo){
+			
 			lm2.setViewWindow(jugador.x-l_w/2,jugador.y-l_h/2,l_w,l_h);
 			s_mascara.setPosition(jugador.x - l_w/2, jugador.y - l_h/2);
 			lm2.paint(g,0,0);
-		}
-		
-		if(jugador.estaVivo){
+			
 			g.setFont(fuenteInterfaz);
-			g.setColor(0xFA0000);
+			g.setColor(0x990000);
 			g.drawString ("$: " + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
-			g.drawString ("Velocidad: " + jugador.velocidad + " ($" + jugador.costoVelocidad() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
-			g.drawString ("Potencia: " + jugador.potencia + " ($" + jugador.costoPotencia() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("VEL: " + jugador.velocidad + " [9] ($" + jugador.costoVelocidad() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("POT: " + jugador.potencia + " [3] ($" + jugador.costoPotencia() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
 			g.drawString ("Puntos: " + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("Escudo: " + jugador.escudo + " ($" + jugador.costoEscudo() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("Cristales: " + jugador.cristales + " ($" + jugador.costoCristales() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("ESC: " + jugador.escudo + " [1] ($" + jugador.costoEscudo() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("CRI: " + jugador.cristales + " [7] ($" + jugador.costoCristales() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
 			g.drawString ("Vidas: " + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
 		}
 		flushGraphics();
 	}
 	
-	public boolean enPantalla(int x, int y, int x0, int y0, int w, int h){
-		if((x >= x0 & x <= x0+w) & (y >= y0 & y <= y0+h))
-			return true;
-		return false;
-	}
-	
+	/**
+	 * Ante un cambio del valor de jugador.cristales, calcula la máscara de nuevo y la cambia.
+	 * @see Player
+	 * @see ImageManager
+	 */
 	public void actualizarCristales(){
 		im.generarMascara(0, 0, getWidth(), getHeight(), jugador.x, jugador.y, jugador.cristales);
 		s_mascara = new Sprite(im.getImgMascara());
@@ -267,7 +324,20 @@ public class Juego extends GameCanvas implements Runnable {
 		lm2.append(s_mascara);
 	}
 	
-	
+	/**
+	 * Recibe un mensaje del servidor y actualiza el estado de todo el juego.
+	 * Calcula las nuevas posiciones de los enemigos. Cambia las posiciones de los disparos.
+	 * Agrega las monedas en el mapa.
+	 * @param msg : Mensaje recibido desde el servidor que incluye la informacíon de todo el juego en ese frame.
+	 * @see Broadcaster
+	 * @see Player
+	 * @see Enemy
+	 * @see Moneda
+	 * @see DisparoEnemigo
+	 * @see DisparoJugador
+	 * @see Juego::crearMonedasPorMuertos()
+	 * @see Juego::borrarMonedasComoServidor()
+	 */
 	public void actualizarEstado(String msg){
 		if (msg.length() <= 0) return;
 		fpsDesdeServer = Integer.parseInt(msg.substring(0,Broadcaster.idx).trim()); //actualiza framerate que le paso el server
@@ -320,10 +390,9 @@ public class Juego extends GameCanvas implements Runnable {
 			
 		}
 		if(esServidor == true){
-			borrarMonedas();
-		//	crearMonedasPorMuertos(msg);
+			borrarMonedasComoServidor();
 		}
-		if(esServidor == false){
+		else{
 			for(int i = 0; i < monedas.size(); i++){
 				Moneda m = (Moneda) monedas.elementAt(i);
 				lm.remove(m.s_moneda);
@@ -353,8 +422,13 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 	}
 	
-	// Prueba colision de jugadores con monedas
-	public void borrarMonedas(){
+	/**
+	 * Siendo servidor, inspecciona los mensajes de los jugadores en busca de colisiones
+	 * con monedas. Si colisionan, las borra.
+	 * @see Broadcaster
+	 * @see Moneda
+	 */
+	public void borrarMonedasComoServidor(){
 		for (int i = 0; i < broadcaster.mensajeAJugadores.size(); i++) { 		//recorro los 4 jugadores
 			String t 	= (String) broadcaster.mensajeAJugadores.elementAt(i); 
 			int t_id	= Integer.parseInt(t.substring(Broadcaster.dataPosMoneda,Broadcaster.dataPosFrameRate).trim());
@@ -371,6 +445,13 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 	}
 	
+	/**
+	 * Crea monedas en los lugares donde hay naves destruidas
+	 * @param msg : Mensaje que se recibió con la información de todos los jugadores
+	 * @see Broadcaster
+	 * @see Moneda
+	 * @see Juego::generarMoneda
+	 */
 	public void crearMonedasPorMuertos(String msg){
 		int step 	= Broadcaster.dataStep; 					//cada mensaje sobre cada jugador ocupa esto
 		int start 	= 0;
@@ -385,6 +466,17 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 	}
 	
+	/**
+	 * Censa el teclado en busca de teclas apretadas. De ser así, realiza las funciones 
+	 * descriptas por cada tecla.
+	 * @see Player
+	 * @see Juego::nuevoDisparo()
+	 * @see Player::mover()
+	 * @see Player::aumentarEscudo()
+	 * @see Player::aumentarCristales()
+	 * @see Player::aumentarVelocidad()
+	 * @see Player::aumentarPotencia
+	 */
 	public void input() {
 		int ks = getKeyStates();
 		if 		((ks & UP_PRESSED) != 0 & (ks & RIGHT_PRESSED) != 0){
@@ -435,35 +527,13 @@ public class Juego extends GameCanvas implements Runnable {
 		getKeyStates();
 	}
 	
-	//no se esta usando, para usarla, poner el constructor en super(false)
-	protected void keyPressed(int keyCode) {
-		int gameAction = getGameAction(keyCode);
-		switch(gameAction) {
-			case UP: jugador.mover(Player.DIRN);
-				break;
-			case DOWN: jugador.mover(Player.DIRS);
-				break;
-			case LEFT: jugador.mover(Player.DIRO);
-				break;
-			case RIGHT: jugador.mover(Player.DIRE);
-				break;
-			case FIRE: nuevoDisparo();	
-				break;
-			case GAME_A: jugador.aumentarVelocidad();
-				break;
-			case GAME_B: jugador.aumentarEscudo();
-				break;
-			case GAME_C: jugador.aumentarPotencia();
-				break;
-			case GAME_D: jugador.aumentarCristales();
-				break;
-			default: 
-				break;
-		}
-	}
-	
-	
-	
+	/**
+	 * Prueba colisiones con monedas y disparos.
+	 * @see DisparoEnemigo
+	 * @see Moneda
+	 * @see Player::colisionar()
+	 * @see Player::incrementarMoneda()
+	 */
 	public void colisionar(){
 		for(int i = 0; i < disparos.size(); i++){
 			DisparoEnemigo de = (DisparoEnemigo) disparos.elementAt(i);
@@ -489,46 +559,106 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 	}
 	
-	
+	/**
+	 * Inicia el juego
+	 * @see BatallaEspacial
+	 */
 	public void start(){
 		midlet.display.setCurrent(this);
 		new Thread(this).start();
 	}
+	
+	/**
+	 * Asigna los datos del jugador, creando el objeto jugador
+	 * @param _id : Id a asignarle al jugador
+	 * @see Player
+	 */
 	public void setDatosJugador(int _id){
 		jugador = new Player(this,_id, xiniciales[_id], yiniciales[_id], this.nombreJugador);
 	}	
 	
+	/**
+	 * Asigna los datos del jugador, creando el objeto jugador e imponiendole una X e Y iniciales.
+	 * @param _id : Id del jugador
+	 * @param _x : Posición X inicial
+	 * @param _y : Posición Y inicial
+	 * @see Player
+	 */
 	public void setDatosJugadorXY(int _id, int _x, int _y){
 		jugador = new Player(this,_id, _x, _y, this.nombreJugador);
 	}
 	
+	/**
+	 * Llama a las funciones de creación de mapa. Si es servidor, llama a Mapa::crearComoServer().
+	 * Si es cliente, llama a Mapa::crearComoCliente()
+	 * @param _mapa : Mapa en formato String
+	 * @see Mapa
+	 * @see Mapa::crearComoServer()
+	 * @see Mapa::crearComoCliente()
+	 */
 	public void crearMapa(String _mapa){
 		if(esServidor == true)
 			mapa.crearComoServer();
 		else
 			mapa.crearComoCliente(_mapa);
 	}
+	
+	/**
+	 * Cambia el estado del juego
+	 * @param _state : Nuevo estado
+	 */
 	public void setGameState(int _state){
 		this.gameState = _state;
 	}
+	
+	/**
+	 * Obtiene el estado del juego
+	 * @return Estado actual del juego
+	 */
 	public int getGameState(){
 		return this.gameState;
 	}
+	
+	/**
+	 * Cambia el nombre del jugador.
+	 * @param _nombre : Nombre a asignar
+	 * @see Player
+	 */
 	public void setNombreJugador(String _nombre){
 		_nombre.getChars(0, _nombre.length(), this.jugador.nombre, 0);
 	}
+	
+	/**
+	 * Llama a Player::generarMensaje()
+	 * @return Mensaje generado
+	 */
 	public String generarMensaje(){
 		return jugador.generarMensaje();
 	}
-	public int generarMoneda(int _x, int _y, int _valor){ // pone una moneda en la posicion x,y
+	
+	/**
+	 * Genera una moneda en la posición indicada y con el valor indicado.
+	 * @param _x : Posición X
+	 * @param _y : Posición Y
+	 * @param _valor : Valor. 
+	 * @return True si se pudo crear, False si no.
+	 * @see Moneda
+	 */
+	public boolean generarMoneda(int _x, int _y, int _valor){ // pone una moneda en la posicion x,y
 		Moneda m = new Moneda(this, idMonedaNueva,_x,_y,_valor);
+		if(m.s_moneda.collidesWith(mapa.backgroundL2, true)) 
+				return false;
 		monedas.addElement(m);
 		lm.insert(m.s_moneda,0);
-		
 		idMonedaNueva++;
-		return idMonedaNueva-1; //devuelve el id generado
+		return true;
 	}
 	
+	/**
+	 * Llamada cuando el jugador presiona el botón de disparar.
+	 * Llama a Player::disparar()
+	 * @see Player::disparar()
+	 */
 	public void nuevoDisparo(){//el jugador QUIERE disparar
 		jugador.disparar();
 	}

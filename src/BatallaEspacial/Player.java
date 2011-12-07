@@ -274,21 +274,27 @@ public class Player {
 		boolean rollback = false;
 		this.s_player.setPosition(x,y);
 		cambiarFrame();
-		if( this.s_player.collidesWith(juego.mapa.backgroundL2, false)){
+		if( this.s_player.collidesWith(juego.mapa.backgroundL2, true)){
 			//si colisiona, hago rollback
 			rollback = true;
 		}
 		else{ //si ya colisione, ni pruebo con otra cosa
 			for(int i = 0; i < juego.broadcaster.cantidadJugadores; i++){
 				Enemy e = (Enemy) juego.naves.elementAt(i);
-				if(e.id == this.identificador) continue; //no debo colisionar conmigo mismo
-				if(e.s_enemy.isVisible() & this.s_player.collidesWith(e.s_enemy,true)){ 
-					rollback = true;
-					break;
+				if(e.id == this.identificador) 
+					continue; //no debo colisionar conmigo mismo
+				if(e.s_enemy.isVisible()) {
+					if(this.s_player.collidesWith(e.s_enemy,false)) {
+							if (this.s_player.collidesWith(e.s_enemy,true)){ 
+								rollback = true;
+								break;
+							}
+					}
+		
 				}
 			}
 		}
-		if(rollback == true){
+		if(rollback == true) {
 			this.x = t_x;
 			this.y = t_y;
 			s_player.setPosition(t_x,t_y);
@@ -306,11 +312,17 @@ public class Player {
 	}
 	
 	public boolean colisionar(DisparoEnemigo de){
-		return (this.s_player.collidesWith(de.s_disparoenemigo,true));
+		if(this.s_player.collidesWith(de.s_disparoenemigo, false))
+			return (this.s_player.collidesWith(de.s_disparoenemigo,true));
+		else 
+			return false;
 	}
 	
 	public boolean colisionar(Moneda m){
-		return (this.s_player.collidesWith(m.s_moneda, true));
+		if(this.s_player.collidesWith(m.s_moneda, false))
+			return (this.s_player.collidesWith(m.s_moneda, true));
+		else
+			return false;
 	}
 	
 	//funciones que aumentan los stats

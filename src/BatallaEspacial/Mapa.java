@@ -1,6 +1,5 @@
 package BatallaEspacial;
 import java.io.IOException;
-
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
 
@@ -86,7 +85,7 @@ public class Mapa {
 	public Mapa(){
 		try {
 			i_bg1 = Image.createImage("/tileset1solo.png");
-			i_bg2 = Image.createImage("/tileset22.png");
+			i_bg2 = Image.createImage("/tileset2.png");
 		} catch (IOException e) { 
 			System.out.println("No se pudo leer el tilemap");
 		};
@@ -123,7 +122,7 @@ public class Mapa {
 	 */
 	public void crearComoCliente(String _map){ //solo crea el mapa 2
 		
-		//esta parte es igual al server, reveer una forma de organizarlo mejor :S
+		
 		backgroundL1 = new TiledLayer(Mapa.MAPSIDE,Mapa.MAPSIDE,i_bg1,Mapa.TILESIZE,Mapa.TILESIZE);
 		mapa1EnString = "";
 		

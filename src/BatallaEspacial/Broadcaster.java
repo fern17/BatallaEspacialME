@@ -565,7 +565,7 @@ public class Broadcaster implements CommandListener{
 		 String deviceNames[] = new String[rDevices.length];
 	     for(int k = 0; k < rDevices.length; k++) {
 	        try {
-	            deviceNames[k] = rDevices[k].getFriendlyName(false) + "(" + rDevices[k].getBluetoothAddress() + ")";
+	            deviceNames[k] = k + " " + rDevices[k].getFriendlyName(false) + "(" + rDevices[k].getBluetoothAddress() + ")";
 	        } catch(IOException ioe) {}
 	     }
 	     for(int l = 0; l < deviceNames.length; l++) {

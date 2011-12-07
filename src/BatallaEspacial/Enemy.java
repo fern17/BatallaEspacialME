@@ -42,7 +42,6 @@ public class Enemy {
 		this.x		= _x;
 		this.y 		= _y;
 		this.dir	= _dir;
-		
 		this.s_enemy = new Sprite(juego.im.getImgNaveEnemy(), 48, 48);
 		s_enemy.setRefPixelPosition(24, 24);
 		s_enemy.setPosition(this.x, this.y);

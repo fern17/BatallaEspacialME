@@ -35,7 +35,9 @@ public class ImageManager {
 			img_nave_enemy = Image.createImage("/nave_enemy.png");
 			
 		}
-		catch(IOException e){ }
+		catch(IOException e){ 
+			e.printStackTrace();
+		}
 	}
 	
 	/**
