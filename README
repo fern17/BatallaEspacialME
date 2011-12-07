@@ -1,9 +1,16 @@
-Batalla Espacial ME es un juego para celulares bajo J2ME en el que hasta 4 jugadores batallan en un mismo campo, cada uno con su propia nave espacial. Cada jugador tiene acceso a mejoras, que las puede comprar conforme consiga dinero, recolectandolo desde el escenario. 
+Batalla Espacial ME es un juego para celulares bajo J2ME en el que hasta 4 jugadores por Bluetooth, utilizando la tecnología SPP, batallan en un mismo campo, cada uno con su propia nave espacial. Cada jugador tiene acceso a mejoras, que las puede comprar conforme consiga dinero, recolectandolo desde el escenario o al eliminar a otros jugadores. Las mejoras disponibles son:
+* Escudo: hace a la nave más resistente a los disparos, otorgándole mayor resistencia antes de ser destruída
+* Velocidad: hace que tanto la nave como los disparos se muevan más rápido
+* Potencia: hace los disparos mas fuertes, lo que ocasiona que resten más escudo a los enemigos al golpearlos.
+* Cristales: influyen tanto en el rango de visión de la nave como en el alcance que tienen los disparos.
+
+Serás el último en quedar en pie?
 
 Creador: Fernando Nellmeldin
 E-Mail: fernando.nellmeldin@gmail.com
 about.me/fern17
 
+Trabajo hecho en el marco de la asignatura Programación para Dispositivos Móviles con tecnología JavaME.
 Universidad Nacional del Litoral
 Facultad de Ingenieria y Ciencias Hidricas
 Santa Fe, Santa Fe, Argentina
