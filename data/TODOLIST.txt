@@ -1,3 +1,0 @@
-COSAS QUE FALTAN:
-* ver como calcular la velocidad por frame
-* ver que no se generen monedas donde hay otras cosas
