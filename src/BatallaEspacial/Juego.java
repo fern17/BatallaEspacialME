@@ -1,6 +1,8 @@
 package BatallaEspacial;
 import java.util.Random;
 import java.util.Vector;
+
+import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
@@ -59,7 +61,7 @@ public class Juego extends GameCanvas implements Runnable {
 	 * @see Mapa
 	 */
 	public Juego(BatallaEspacial _m, Broadcaster _bc){
-		super(true);
+		super(false);
 		setFullScreenMode(true);
 		this.midlet = _m;
 		this.broadcaster = _bc;
@@ -525,6 +527,20 @@ public class Juego extends GameCanvas implements Runnable {
 		}
 
 		getKeyStates();
+	}
+	
+	
+	protected void keyPressed(int keyCode) {
+		switch(keyCode){
+			case Canvas.KEY_POUND: {
+				jugador.sacudir(Player.DERECHA);
+				break; 
+			}
+			case Canvas.KEY_STAR: { 
+				jugador.sacudir(Player.IZQUIERDA);
+				break;
+			}
+		}
 	}
 	
 	/**

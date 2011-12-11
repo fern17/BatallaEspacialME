@@ -88,6 +88,7 @@ Métodos públicos</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#ac8f285c2930d6829e6a7b1504a02334d">setDisparar</a> (boolean _d)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#a24a754f0d64ec08f6a46cf251489e7b1">incrementarPuntos</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#ad6bf1fe70a5e9b7d34b4fd0d53f1cc5f">mover</a> (int _direccion)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#a7ecc97713ca9db2e2f7125245fc3be7e">sacudir</a> (int _dir)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#afa4c502ba9ce6f7dbf2fd4dfa3a8c900">disparar</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#aab96d078b1a578175cb4b31f3c4a6ab3">colisionar</a> (<a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a> de)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#aa0232bdde5b15f840b17e531417f2d24">colisionar</a> (<a class="el" href="classBatallaEspacial_1_1Moneda.html">Moneda</a> m)</td></tr>
@@ -159,9 +160,16 @@ static final int&#160;</td><td class="memItemRight" valign="bottom"><b>DIRSO</b>
 static final int&#160;</td><td class="memItemRight" valign="bottom"><b>DIRO</b> = 6</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b21c346a0ac52bbe0e55995608f7346"></a><!-- doxytag: member="BatallaEspacial::Player::DIRNO" ref="a2b21c346a0ac52bbe0e55995608f7346" args="" -->
 static final int&#160;</td><td class="memItemRight" valign="bottom"><b>DIRNO</b> = 7</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b2d731b7b70b6267e30e5904ccd43e6"></a><!-- doxytag: member="BatallaEspacial::Player::DERECHA" ref="a2b2d731b7b70b6267e30e5904ccd43e6" args="" -->
+static final int&#160;</td><td class="memItemRight" valign="bottom"><b>DERECHA</b> = 1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa6ecb2a40ad190f06c9a87467abdf19"></a><!-- doxytag: member="BatallaEspacial::Player::IZQUIERDA" ref="aaa6ecb2a40ad190f06c9a87467abdf19" args="" -->
+static final int&#160;</td><td class="memItemRight" valign="bottom"><b>IZQUIERDA</b> = 0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96f1fce28a03d9c3d99a7ad4bdd5471d"></a><!-- doxytag: member="BatallaEspacial::Player::DELTA" ref="a96f1fce28a03d9c3d99a7ad4bdd5471d" args="" -->
+static final int&#160;</td><td class="memItemRight" valign="bottom"><b>DELTA</b> = 3</td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Métodos privados</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#ad836348d00fc448ab0be4e58abc5ff0b">cambiarFrame</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBatallaEspacial_1_1Player.html#aa43e642d83e8f20689d5a3070245986c">confirmarMovimiento</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Atributos privados</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6896a384f41c574fa71ca02976de2ad"></a><!-- doxytag: member="BatallaEspacial::Player::xinicio" ref="ab6896a384f41c574fa71ca02976de2ad" args="" -->
@@ -353,6 +361,32 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>mejoraCristales</b> = 
 
 </div>
 </div>
+<a class="anchor" id="aab96d078b1a578175cb4b31f3c4a6ab3"></a><!-- doxytag: member="BatallaEspacial::Player::colisionar" ref="aab96d078b1a578175cb4b31f3c4a6ab3" args="(DisparoEnemigo de)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean BatallaEspacial.Player.colisionar </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a>&#160;</td>
+          <td class="paramname"><em>de</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Prueba si el jugador colisiona con un <a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a>. </p>
+<dl><dt><b>Parámetros:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">de</td><td>: <a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a> con el cual colisionar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Devuelve:</b></dt><dd>True si colisiona, False si no. </dd></dl>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aa0232bdde5b15f840b17e531417f2d24"></a><!-- doxytag: member="BatallaEspacial::Player::colisionar" ref="aa0232bdde5b15f840b17e531417f2d24" args="(Moneda m)" -->
 <div class="memitem">
 <div class="memproto">
@@ -379,29 +413,24 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>mejoraCristales</b> = 
 
 </div>
 </div>
-<a class="anchor" id="aab96d078b1a578175cb4b31f3c4a6ab3"></a><!-- doxytag: member="BatallaEspacial::Player::colisionar" ref="aab96d078b1a578175cb4b31f3c4a6ab3" args="(DisparoEnemigo de)" -->
+<a class="anchor" id="aa43e642d83e8f20689d5a3070245986c"></a><!-- doxytag: member="BatallaEspacial::Player::confirmarMovimiento" ref="aa43e642d83e8f20689d5a3070245986c" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">boolean BatallaEspacial.Player.colisionar </td>
+          <td class="memname">boolean BatallaEspacial.Player.confirmarMovimiento </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a>&#160;</td>
-          <td class="paramname"><em>de</em></td><td>)</td>
-          <td></td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [private]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Prueba si el jugador colisiona con un <a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a>. </p>
-<dl><dt><b>Parámetros:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">de</td><td>: <a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a> con el cual colisionar. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Devuelve:</b></dt><dd>True si colisiona, False si no. </dd></dl>
-<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a> </dd></dl>
+<p>Es llamada luego de efectuar algún movimiento. Verifica que no se haya colisionado con nada </p>
+<dl class="return"><dt><b>Devuelve:</b></dt><dd>True si se pudo mover. False si no. </dd></dl>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Enemy.html">Enemy</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1Mapa.html">Mapa</a> </dd></dl>
 
 </div>
 </div>
@@ -595,11 +624,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>mejoraCristales</b> = 
   </table>
   </dd>
 </dl>
-<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Enemy.html">Enemy</a> </dd>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Player.html#ad836348d00fc448ab0be4e58abc5ff0b">Player.cambiarFrame()</a> </dd>
 <dd>
-<a class="el" href="classBatallaEspacial_1_1Mapa.html">Mapa</a> </dd>
-<dd>
-<a class="el" href="classBatallaEspacial_1_1Player.html#ad836348d00fc448ab0be4e58abc5ff0b">Player.cambiarFrame()</a> </dd></dl>
+<a class="el" href="classBatallaEspacial_1_1Player.html#aa43e642d83e8f20689d5a3070245986c">Player.confirmarMovimiento()</a> </dd></dl>
 
 </div>
 </div>
@@ -646,6 +673,33 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>mejoraCristales</b> = 
 <dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1DisparoEnemigo.html">DisparoEnemigo</a> </dd>
 <dd>
 <a class="el" href="classBatallaEspacial_1_1Player.html#ab8b0469d9c6b6c9d4d73e57d832f188f">Player.decrementarVida()</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7ecc97713ca9db2e2f7125245fc3be7e"></a><!-- doxytag: member="BatallaEspacial::Player::sacudir" ref="a7ecc97713ca9db2e2f7125245fc3be7e" args="(int _dir)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BatallaEspacial.Player.sacudir </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>_dir</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Se encarga de mover la nave unos pixeles al costado </p>
+<dl><dt><b>Parámetros:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_dir</td><td>: Direccion a donde moverse, izquierda o derecha. Siempre se toma como referencia la trompa de la nave, independientemente de su orientación. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>Ver también:</b></dt><dd><a class="el" href="classBatallaEspacial_1_1Player.html#aa43e642d83e8f20689d5a3070245986c">Player.confirmarMovimiento()</a> </dd>
+<dd>
+<a class="el" href="classBatallaEspacial_1_1Player.html#ad836348d00fc448ab0be4e58abc5ff0b">Player.cambiarFrame()</a> </dd></dl>
 
 </div>
 </div>
@@ -708,7 +762,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>mejoraCristales</b> = 
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generado el Miércoles, 7 de Diciembre de 2011 01:52:52 para 'BatallaEspacialME' por&#160;
+<hr class="footer"/><address class="footer"><small>Generado el Domingo, 11 de Diciembre de 2011 03:51:42 para 'BatallaEspacialME' por&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

@@ -18,6 +18,12 @@ public class Player {
 	public static final int DIRO 	= 6; //Oeste
 	public static final int DIRNO 	= 7; //NorOeste
 	
+	//Constantes para sacudir
+	public static final int DERECHA = 1;
+	public static final int IZQUIERDA = 0;
+	public static final int DELTA = 3;
+	
+	
 	//identificador
 	public int identificador ;
 	public char[] nombre = new char[BatallaEspacial.MAX_NAME_LENGTH]; 
@@ -276,9 +282,8 @@ public class Player {
 	 * Mueve al jugador. Luego de moverlo, se fija si colisiona con un enemigo o con
 	 * el TiledLayer capa 2, de ser así, vuelve a la posición, haciendo nulo el movimiento. 
 	 * @param _direccion : Dirección en la cual moverse
-	 * @see Enemy
-	 * @see Mapa
 	 * @see Player::cambiarFrame()
+	 * @see Player::confirmarMovimiento()
 	 */
 	public void mover(int _direccion){
 		dir = _direccion;
@@ -325,9 +330,25 @@ public class Player {
 				break;
 			}
 		}
-		boolean rollback = false;
+		
 		this.s_player.setPosition(x,y);
 		cambiarFrame();
+		boolean rollback = confirmarMovimiento();
+		if(rollback == true) {
+			this.x = t_x;
+			this.y = t_y;
+			s_player.setPosition(t_x,t_y);
+		}
+	}
+
+	/**
+	 * Es llamada luego de efectuar algún movimiento. Verifica que no se haya colisionado con nada
+	 * @return  True si se pudo mover. False si no.
+	 * @see Enemy
+	 * @see Mapa
+	 */
+	private boolean confirmarMovimiento(){
+		boolean rollback = false;
 		if( this.s_player.collidesWith(juego.mapa.backgroundL2, true)){
 			//si colisiona, hago rollback
 			rollback = true;
@@ -347,6 +368,77 @@ public class Player {
 				}
 			}
 		}
+		return rollback;
+	}
+	
+	/**
+	 * Se encarga de mover la nave unos pixeles al costado
+	 * @param _dir : Direccion a donde moverse, izquierda o derecha. Siempre se toma como referencia la trompa de la nave, independientemente de su orientación.
+	 * @see Player::confirmarMovimiento()
+	 * @see Player::cambiarFrame()
+	 */
+	
+	public void sacudir(int _dir){
+		int t_x = this.x;
+		int t_y = this.y;
+		
+		int sentidox = 0;
+		int sentidoy = 0;
+		
+		switch(this.dir){
+			case Player.DIRN:{
+				sentidox = 1;
+				break;
+			}
+			case Player.DIRNE:{
+				sentidox = 1;
+				sentidoy = 1;
+				break;
+			}
+			case Player.DIRE:{
+				sentidoy = 1;
+				break;
+			}
+			case Player.DIRSE:{
+				sentidox = -1;
+				sentidoy = 1;
+				break;
+			}
+			case Player.DIRS:{
+				sentidox = -1;
+				break;
+			}
+			case Player.DIRSO:{
+				sentidox = -1;
+				sentidoy = -1;
+				break;
+			}
+			case Player.DIRO:{
+				sentidoy = -1;
+				break;
+			}
+			case Player.DIRNO:{
+				sentidox = 1;
+				sentidoy = -1;
+				break;
+			}
+		}
+		switch(_dir){
+			case Player.DERECHA:{
+				this.x = this.x + sentidox*Player.DELTA;
+				this.y = this.y + sentidoy*Player.DELTA;
+				break;
+			}
+			case Player.IZQUIERDA:{
+				this.x = this.x - sentidox*Player.DELTA;
+				this.y = this.y - sentidoy*Player.DELTA;
+				break;
+			}
+		}
+		
+		this.s_player.setPosition(x,y);
+		cambiarFrame();
+		boolean rollback = confirmarMovimiento();
 		if(rollback == true) {
 			this.x = t_x;
 			this.y = t_y;
