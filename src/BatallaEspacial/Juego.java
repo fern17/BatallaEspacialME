@@ -304,11 +304,11 @@ public class Juego extends GameCanvas implements Runnable {
 			g.setColor(0x990000);
 			g.drawString ("$: " + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
 			g.drawString ("VEL: " + jugador.velocidad + " [9] ($" + jugador.costoVelocidad() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
-			g.drawString ("POT: " + jugador.potencia + " [3] ($" + jugador.costoPotencia() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
-			g.drawString ("Puntos: " + jugador.puntos, 0, l_h-40, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("ESC: " + jugador.escudo + " [1] ($" + jugador.costoEscudo() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("CRI: " + jugador.cristales + " [7] ($" + jugador.costoCristales() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("Vidas: " + jugador.vidas, l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("POT: " + jugador.potencia + " [3] ($" + jugador.costoPotencia() + ")", l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("Puntos: " + jugador.puntos, l_w, 0, Graphics.RIGHT | Graphics.TOP);
+			g.drawString ("ESC: " + jugador.escudo + " [1] ($" + jugador.costoEscudo() + ")", 0, l_h-60, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("CRI: " + jugador.cristales + " [7] ($" + jugador.costoCristales() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("Vidas: " + jugador.vidas, l_w/2, 20, Graphics.TOP | Graphics.HCENTER);
 		}
 		flushGraphics();
 	}
