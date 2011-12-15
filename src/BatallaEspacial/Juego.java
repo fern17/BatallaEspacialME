@@ -17,8 +17,10 @@ import javax.microedition.lcdui.game.Sprite;
  */
 public class Juego extends GameCanvas implements Runnable {
 	//Posiciones iniciales de todos los jugadores
-	public static final int[] xiniciales = {50,900,900,50};
-	public static final int[] yiniciales = {50,900,50,900};
+	//public static final int[] xiniciales = {50,900,900,50};
+	//public static final int[] yiniciales = {50,900,50,900};
+	public static final int[] xiniciales = {50,100,200,50};
+	public static final int[] yiniciales = {50,50,50,900};
 	public int fpsDesdeServer = 30;
 	public int milisegundosEnDibujar = 33;
 	public static final int FRAMESAT30 = 33;
@@ -281,17 +283,7 @@ public class Juego extends GameCanvas implements Runnable {
 		//dibuja
 		lm.setViewWindow(jugador.x - l_w/2 + 16,jugador.y - l_h/2 + 16,l_w,l_h);
 		lm.paint(g,0,0);
-		//Dibuja el nombre del jugador
-		/*
-		g.setFont(fuenteJugadores);
-		g.setColor(0x000088);
-		for(int i = 0; i < broadcaster.cantidadJugadores; i++){
-			Enemy e = (Enemy) naves.elementAt(i);
-			if(enPantalla(e.s_enemy.getX(), e.s_enemy.getY(),
-					jugador.x-l_w/2, jugador.y-l_h/2, l_w, l_h))
-				if(e.id != jugador.identificador)
-					g.drawString (new String(e.nombre).trim(), e.x, e.y,Graphics.LEFT | Graphics.TOP);
-		}*/
+		
 
 		//dibujo la interfaz solo si esta vivo
 		if(jugador.estaVivo){
@@ -304,10 +296,10 @@ public class Juego extends GameCanvas implements Runnable {
 			g.setColor(0x990000);
 			g.drawString ("$: " + jugador.dinero, 0, 0, Graphics.LEFT | Graphics.TOP);
 			g.drawString ("VEL: " + jugador.velocidad + " [9] ($" + jugador.costoVelocidad() + ")", l_w, l_h, Graphics.RIGHT | Graphics.BOTTOM);
-			g.drawString ("POT: " + jugador.potencia + " [3] ($" + jugador.costoPotencia() + ")", l_w, l_h-40, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawString ("POT: " + jugador.potencia + " [3] ($" + jugador.costoPotencia() + ")", l_w, l_h-20, Graphics.RIGHT | Graphics.BOTTOM);
 			g.drawString ("Puntos: " + jugador.puntos, l_w, 0, Graphics.RIGHT | Graphics.TOP);
-			g.drawString ("ESC: " + jugador.escudo + " [1] ($" + jugador.costoEscudo() + ")", 0, l_h-60, Graphics.LEFT | Graphics.BOTTOM);
-			g.drawString ("CRI: " + jugador.cristales + " [7] ($" + jugador.costoCristales() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("ESC: " + jugador.escudo + " [1] ($" + jugador.costoEscudo() + ")", 0, l_h-20, Graphics.LEFT | Graphics.BOTTOM);
+			g.drawString ("CRI: " + jugador.cristales + " [7] ($" + jugador.costoCristales() + ")", 0, l_h, Graphics.LEFT | Graphics.BOTTOM);
 			g.drawString ("Vidas: " + jugador.vidas, l_w/2, 20, Graphics.TOP | Graphics.HCENTER);
 		}
 		flushGraphics();
@@ -667,6 +659,8 @@ public class Juego extends GameCanvas implements Runnable {
 		monedas.addElement(m);
 		lm.insert(m.s_moneda,0);
 		idMonedaNueva++;
+		if(idMonedaNueva > 9999) //reinicia contador de monedas
+			idMonedaNueva = 0;
 		return true;
 	}
 	

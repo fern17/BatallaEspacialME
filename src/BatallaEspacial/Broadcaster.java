@@ -414,7 +414,7 @@ public class Broadcaster implements CommandListener{
 			    				DataInputStream in = (DataInputStream) dataInput.elementAt(i);
 			    				int gs = midlet.getState();
 			    				
-		                    	if(in.available() != 0) {
+		                    	while(in.available() != 0) {
 		                    		if( gs == GameState.WAITING_PLAYERS){
 				    					String message = in.readUTF();
 				    					if(message.length() <= BatallaEspacial.MAX_NAME_LENGTH 
@@ -455,12 +455,13 @@ public class Broadcaster implements CommandListener{
 					                    	 }
 				    					}
 			                    	}
-			                    }
-			                    if(gs == GameState.RUNNING){ //recibe la informacion de algun jugador
-			                    	String message = in.readUTF();
-			                    	 int i_id = Integer.parseInt(message.substring(Broadcaster.dataPosId,Broadcaster.dataPosNombre).trim()); //extrae el id
-			                    	 mensajeAJugadores.setElementAt(message, i_id); //almaceno el mensaje
-			                     }
+			                    
+				                    if(gs == GameState.RUNNING){ //recibe la informacion de algun jugador
+				                    	String message = in.readUTF();
+				                    	 int i_id = Integer.parseInt(message.substring(Broadcaster.dataPosId,Broadcaster.dataPosNombre).trim()); //extrae el id
+				                    	 mensajeAJugadores.setElementAt(message, i_id); //almaceno el mensaje
+				                     }
+		                    	}
 							} catch(IOException ioe4) {}
 						}
 			        
